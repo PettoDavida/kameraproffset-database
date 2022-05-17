@@ -1,0 +1,84 @@
+.product-info-container {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6rem;
+  padding: 0 4rem;
+  background-color: #ffffff;
+  height: calc(100vh - 9rem);
+}
+
+.back-arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 7rem 1rem;
+  z-index: 10;
+  color: black;
+}
+
+.right-product-container {
+  width: 50%;
+}
+.left-product-container {
+  width: 50%;
+  margin-right: 2rem;
+}
+
+.product-info-title {
+  font-size: 2rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.product-info-description {
+  margin: 1rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+.product-info-price {
+  font-size: 1.5rem;
+  margin: 1rem 3rem;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+
+@media (max-width: 1155px) {
+  .product-info-container {
+    flex-direction: column;
+    height: unset;
+  }
+  .right-product-container {
+    width: 100%;
+  }
+  .left-product-container {
+    width: 100%;
+  }
+}
+
+@media (max-height: 1100) {
+  .product-info-container {
+    height: 100%;
+  }
+}
+
+@media (max-width: 800px) {
+  .product-info-container {
+    padding: 0 2rem;
+  }
+  .product-info-title {
+    font-size: 1.3rem;
+    margin: 0.8rem 0;
+    display: flex;
+    justify-content: center;
+  }
+  .product-info-description {
+    font-size: 0.8rem;
+    margin: 0rem;
+  }
+  .product-info-price {
+    margin: 1rem 0;
+  }
+}

@@ -1,0 +1,17 @@
+.cardContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  margin-bottom: 0.7rem;
+  height: 8rem;
+}
+
+.productInfo {
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+}
+.img {
+  width: 20%;
+}

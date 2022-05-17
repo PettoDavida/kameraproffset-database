@@ -1,0 +1,73 @@
+.ProductContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-basis: max-content;
+  background-color: white;
+  margin-top: 5rem;
+  min-height: calc(100vh - 8rem);
+}
+
+.price {
+  padding-top: 1rem;
+}
+.price p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: black;
+}
+
+.ImageContainer {
+  height: 20rem;
+}
+
+.InfoContainer {
+  height: 12rem;
+  color: black;
+}
+
+.buttons {
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.storeCardStyle {
+  max-width: 345px;
+  margin: 2rem;
+  padding: 0 2rem;
+}
+
+@media (max-width: 480px) {
+  .ImageContainer {
+    height: 100%;
+  }
+
+  .item-short-info {
+    display: none;
+  }
+
+  .InfoContainer {
+    height: auto;
+    color: black;
+  }
+
+  .InfoContainer > h2 {
+    font-size: 1.2rem;
+  }
+
+  .buttons button {
+    margin: 0.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .buttons button {
+    margin: 0.1rem;
+  }
+  .buttons button span {
+    font-size: 0.7rem;
+  }
+}

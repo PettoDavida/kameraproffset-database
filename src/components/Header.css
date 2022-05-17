@@ -1,0 +1,104 @@
+header {
+  background-color: #333333;
+  opacity: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  color: #fbf7f5;
+  z-index: 10;
+  height: 100vh;
+}
+
+.icon {
+  color: #fffadd;
+}
+
+header .title {
+  height: 100%;
+}
+
+header img {
+  height: 30rem;
+}
+
+.show-products {
+  animation: showProducts 1s ease-in-out forwards;
+  animation-delay: 1s;
+}
+
+.show-products #logo {
+  animation: LogoShrink 1s ease-in-out forwards;
+  animation-delay: 0.7s;
+}
+
+@keyframes LogoShrink {
+  0% {
+    height: 30rem;
+  }
+
+  100% {
+    height: 4rem;
+    opacity: 0;
+    display: none;
+  }
+}
+
+.show-products .icon {
+  animation: showCart 1s ease-in-out forwards;
+  animation-delay: 1.8s;
+}
+
+.show-products #smallLogo {
+  animation: smalllogo 1s ease-in-out forwards;
+  animation-delay: 1.8s;
+  height: 7rem;
+  width: 12rem;
+  position: absolute;
+  top: -1px;
+  right: calc(50vw - 6rem);
+  opacity: 0;
+}
+
+@keyframes smalllogo {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes showCart {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes showProducts {
+  0% {
+    height: 100vh;
+  }
+
+  100% {
+    height: 6rem;
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 350px) {
+  .show-products #smallLogo {
+    top: 1.4rem;
+    left: calc(50vw - 3.5rem);
+    height: 3.5rem;
+    width: 7rem;
+  }
+}

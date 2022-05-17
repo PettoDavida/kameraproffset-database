@@ -1,0 +1,51 @@
+.checkoutPageContainer {
+  margin: 2rem;
+}
+
+.DeliveryForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.info p {
+  margin: 0 0.5rem;
+}
+
+.info p:nth-child(2) {
+  color: gray;
+}
+
+.product-checkout-container {
+  display: flex;
+}
+
+.product-checkout-container h1 {
+  margin-left: 2rem;
+  font-size: 1.5rem;
+}
+
+.product-checkout-width {
+  width: 100%;
+}
+
+.shipper-img {
+  width: 10rem;
+  height: 3.5rem;
+  padding-left: 3rem;
+}
+
+.image-checkout-container img {
+  height: 5rem;
+}
+
+.image-checkout-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-bottom: 1px solid black;
+}

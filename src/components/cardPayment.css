@@ -1,0 +1,6 @@
+.inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1rem;
+  column-gap: 0.5rem;
+}
