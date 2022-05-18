@@ -1,5 +1,19 @@
-import express from 'express';
-let router = express.Router();
+import express from "express";
 
+import {
+  addProduct,
+  editProduct,
+  getAllProducts,
+  getProduct,
+  getProductsByCategory,
+} from "../controllers/productController";
 
-export default router;
+export const productRouter = express
+  .Router()
+  .get("/products", getAllProducts)
+  .get("products/:id", getProduct)
+  .get("products/categories", getProductsByCategory)
+  .post("products", addProduct)
+  .put("/products/:id", editProduct);
+
+export default productRouter;
