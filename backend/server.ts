@@ -29,11 +29,11 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
-app.use('/users', userRouter);
-app.use('/deliveryMethods', deliveryRouter);
-app.use('/orders', orderRouter);
-app.use('/paymentMethods', paymentRouter);
-app.use('/products', productRouter);
+app.use('/api', userRouter);
+app.use('/api', deliveryRouter);
+app.use('/api', orderRouter);
+app.use('/api', paymentRouter);
+app.use('/api', productRouter);
 
 
 
