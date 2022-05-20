@@ -5,7 +5,7 @@ import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { useContext, useState } from "react";
 import { ProductContext } from "../contexts/ProductContext";
 import { Product } from "../interfaces/interfaces";
-import "./AdminPage.css";
+import "../CSS/AdminPage.css";
 import AdminPageForm from "./AdminPageForm";
 
 const theme = createTheme({

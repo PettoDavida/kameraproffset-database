@@ -158,8 +158,6 @@
   margin: 1rem;
 }
 
-
-
 @media (max-width: 500px) {
   .cart {
     display: flex;

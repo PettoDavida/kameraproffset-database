@@ -1,10 +1,10 @@
 import mongoose from 'mongoose'
 
 export interface User {
-    email: string
-    hash: string
-    salt: string
-    isAdmin: boolean
+    email: String
+    hash: String
+    salt: String
+    isAdmin: Boolean
 }
 
 const userSchema = new mongoose.Schema<User>(

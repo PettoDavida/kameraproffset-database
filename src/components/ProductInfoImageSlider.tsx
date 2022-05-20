@@ -9,7 +9,8 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { Product } from "../interfaces/interfaces";
-import "./imgslider.css";
+import "../CSS/imgslider.css";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const AutoPlaySwipeableViews = SwipeableViews;
