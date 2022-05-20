@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import userRouter from './user/routes/userRoutes'
 import deliveryRouter from './delivery/routes/deliveryRoutes'
 import orderRouter from './order/routes/orderRoutes'
-import paymentRouter from './payment/routes/paymentRoutes'
 import productRouter from './product/routes/productRoutes'
 
 dotenv.config({ path: __dirname+'/.env'})
