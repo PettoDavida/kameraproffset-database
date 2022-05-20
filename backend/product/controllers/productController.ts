@@ -9,5 +9,3 @@ export const getProductsByCategory = async (req: Request, res: Response) => {};
 export const addProduct = async (req: Request, res: Response) => {};
 
 export const editProduct = async (req: Request, res: Response) => {};
-
-export const deleteProduct = async (req: Request, res: Response) => {};
