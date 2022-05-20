@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useUser } from "../contexts/confirmationContext";
-import "./confirmationPage.css";
+import "../CSS/confirmationPage.css";
 
 function Confirmation() {
   const { customerName } = useParams();

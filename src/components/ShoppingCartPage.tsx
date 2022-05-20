@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import CartItem from "./CartItem";
-import "./ShoppingCart.css";
+import "../CSS/ShoppingCart.css";
 
 const theme = createTheme({
   palette: {

@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import React, { ChangeEvent, useState } from "react";
-import "./cardPayment.css";
+import "../CSS/cardPayment.css";
 
 interface Props {
   triggerNextAccordion(): void;

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { ShoppingCartContext, useCart } from "../contexts/ShoppingCartContext";
-import "./ShoppingCart.css";
+import "../CSS/ShoppingCart.css";
 
 const theme = createTheme({
   palette: {

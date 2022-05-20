@@ -4,7 +4,8 @@ import { Badge } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
-import "./Header.css";
+import "../CSS/Header.css";
+
 import "./ShoppingCartPage.tsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
