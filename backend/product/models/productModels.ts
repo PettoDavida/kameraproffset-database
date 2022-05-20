@@ -1,35 +1,31 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { ObjectId, Schema, Types } from "mongoose";
 
 export interface Product {
   user: Types.ObjectId;
   title: String;
   price: Number;
-  image: File;
+  images: [];
   longinfo: String;
   info: String[];
-  discount: Number;
-  actualPrice: Number;
-  isLegacy: Boolean;
-  category: String[];
+  category: ObjectId[];
   createdAt: Date;
   updatedAt: Date;
   quantity: number;
+  stock: number;
 }
 
 const productSchema = new mongoose.Schema({
   user: { type: Schema.Types.ObjectId, ref: "user", required: true },
   title: { type: String },
   price: { type: Number },
-  image: { data: Buffer },
+  images: { type: [] },
   longInfo: { type: String },
   info: { type: [String] },
-  discount: { type: Number },
-  actualPrice: { type: Number },
-  isLegacy: { type: Boolean },
   category: { type: [String] },
   createdAt: { type: Date },
   updatedAt: { type: Date },
   quantity: { type: Number },
+  stock: { type: Number },
 });
 
 export const productModel = mongoose.model<Product>("product", productSchema);
