@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
-import "./Productcard.css";
+import "../CSS/Productcard.css";
 
 export default function ImgMediaCard(): JSX.Element {
   const { products } = useContext(ProductContext);

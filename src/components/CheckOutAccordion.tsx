@@ -26,7 +26,8 @@ import {
   ShipperSelection,
 } from "../interfaces/interfaces";
 import CardPayment from "./CardPayment";
-import "./checkOutAccordion.css";
+import "../CSS/checkOutAccordion.css";
+
 import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";

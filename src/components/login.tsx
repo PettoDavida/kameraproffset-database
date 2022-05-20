@@ -1,0 +1,85 @@
+import { useState } from "react";
+import { string } from "yup";
+
+interface Props {
+  handleOnSubmit(): void;
+  email: string;
+  password: string;
+}
+
+export default function CreateUser(props: Props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleOnSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let result = await fetch("/user", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (result.ok) {
+      result = await result.json();
+      setPassword("");
+      setEmail("");
+      return alert("User Created");
+    }
+    return alert("Something went wrong");
+  };
+
+  return (
+    <div className="login-container">
+      <div className="row d-flex justify-content-center flex-column align-items-center">
+        <div className="login-form">
+          <form action="" id="loginform">
+            <div className="form-group">
+              <h1>Skapa användare</h1>
+              <label>Användarnamn</label>
+              <input
+                type="text"
+                className="form-control"
+                id="userNameInput"
+                name="userNameInput"
+                aria-describedby="userNameHelp"
+                placeholder="Ange användarnamn"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <small
+                id="userNameHelp"
+                className="text-danger form-text"
+              ></small>
+            </div>
+            <div className="form-group">
+              <label>Lösenord</label>
+              <input
+                type="password"
+                className="form-control"
+                id="exampleInputPassword1"
+                placeholder="Ange lösenord"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <small
+                id="passworderror"
+                className="text-danger form-text"
+              ></small>
+            </div>
+            <div className="login-buttons">
+              <button
+                type="submit"
+                onClick={handleOnSubmit}
+                className="btn btn-primary"
+              >
+                Skapa användare
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

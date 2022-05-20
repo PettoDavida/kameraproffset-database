@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import "./CheckOutPage.css";
+import "../CSS/CheckOutPage.css";
 
 interface Props {
   email: string;
