@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose, { Types } from 'mongoose'
 
 export interface User {
+    id: Types.ObjectId
     email: String
     hash: String
     salt: String
@@ -36,7 +37,13 @@ const userSchema = new mongoose.Schema<User>(
     }
 )
 
-
+userSchema.set("toJSON", {
+    transform: (doc, ret, opt) => {
+        delete ret["salt"];
+        delete ret["hash"];
+        return ret;
+    }
+})
 
 
 export const UserModel = mongoose.model('user', userSchema)
