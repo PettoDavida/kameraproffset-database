@@ -1,0 +1,25 @@
+# Get all products
+GET http://localhost:3000/api/products
+###
+
+# Get a single product
+GET http://localhost:3000/api/products/:id
+###
+
+
+POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+    "user": "Adrian",
+    "title": "Kamera",
+    "price": 24950,
+    "images": "image_url",
+    "longInfo": "bla bla bla",
+    "info": ["Info1", "Info2", "Info3"],
+    "category": "Digital Kamera",
+    "createdAt": "{{$localDatetime iso8601}}",
+    "updatedAt": "{{$localDatetime iso8601}}",
+    "quantity": "product.quantity",
+    "stock": "product.stock"
+}
