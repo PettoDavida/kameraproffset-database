@@ -7,7 +7,9 @@ import deliveryRouter from './delivery/routes/deliveryRoutes'
 import orderRouter from './order/routes/orderRoutes'
 import productRouter from './product/routes/productRoutes'
 
-dotenv.config({ path: __dirname+'/.env'})
+ dotenv.config({ path: __dirname+'/.env'}) 
+
+
 
 const app = express();
 const port = 3000;
