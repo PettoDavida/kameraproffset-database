@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { UserModel } from "../models/userModels";
 import * as crypto from "crypto";
 import { generateToken, RequestWithUser } from "../../jwt.utils";
