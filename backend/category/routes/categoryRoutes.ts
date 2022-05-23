@@ -1,12 +1,16 @@
-import express from 'express'
-import {getAllCategories, getSingleCategory, createCategory, editCategory, deleteCategory} from '../controller/categoryController'
+import express from "express";
+import {
+  getAllCategories,
+  getSingleCategory,
+  createCategory,
+  editCategory,
+  deleteCategory,
+} from "../controller/categoryController";
 
-let categoryRouter = express
-        .Router()
-        .get('/category', getAllCategories)
-        .get('/category/:id', getSingleCategory)
-        .post('/category', createCategory)
-        .put('/category/:id', editCategory)
-        .delete('/category/:id', deleteCategory)
-
-export default categoryRouter;
+export const categoryRouter = express
+  .Router()
+  .get("/category", getAllCategories)
+  .get("/category/:id", getSingleCategory)
+  .post("/category", /* checkAdmin */ createCategory)
+  .put("/category/:id", /* checkAdmin */ editCategory)
+  .delete("/category/:id", /* checkAdmin */ deleteCategory);
