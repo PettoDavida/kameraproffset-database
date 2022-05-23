@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { productModel } from "../models/productModels";
+ 
+// Get all products
+
+var ObjectId = require('mongoose').Types.ObjectId;
 
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -10,6 +14,8 @@ export const getAllProducts = async (req: Request, res: Response, next: NextFunc
         next(err);
     }
 };
+
+// Get a single product
 
 export const getProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,9 +28,19 @@ export const getProduct = async (req: Request, res: Response, next: NextFunction
 
 };
 
-export const getProductsByCategory = async (req: Request, res: Response, next: NextFunction) => {
+// Get products from a category
 
+export const getProductsByCategory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const productByCategory = await productModel.findById({_id: ObjectId(req.params.id)});
+        res.status(200).json(productByCategory);
+    } catch (err) {
+        res.status(404).json("Category was not found")
+        next(err)
+    }
 };
+
+// Add a product
 
 export const addProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -36,6 +52,8 @@ export const addProduct = async (req: Request, res: Response, next: NextFunction
         next(err);
     }
 };
+
+// Edit a product
 
 export const editProduct = async (req: Request, res: Response, next: NextFunction) => {
     try {

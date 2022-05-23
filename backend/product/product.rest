@@ -7,19 +7,39 @@ GET http://localhost:3000/api/products/:id
 ###
 
 
+GET http://localhost:3000/api/products/categories/628a970744f4a48145b62121
+###
+
 POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-    "user": "Adrian",
     "title": "Kamera",
     "price": 24950,
-    "images": "image_url",
+    "images": "[image_url]",
     "longInfo": "bla bla bla",
     "info": ["Info1", "Info2", "Info3"],
-    "category": "Digital Kamera",
+    "category": "628a970744f4a48145b62121",
     "createdAt": "{{$localDatetime iso8601}}",
     "updatedAt": "{{$localDatetime iso8601}}",
-    "quantity": "product.quantity",
-    "stock": "product.stock"
+    "quantity": 1,
+    "stock": 1
+}
+###
+
+PUT http://localhost:3000/api/products/628b6da1f274ce912d496c40
+Content-Type: application/json
+
+{
+    "user": "Erik",
+    "title": "Kamera",
+    "price": 20000,
+    "images": "[image_url]",
+    "longInfo": "bla bla bla",
+    "info": ["Info1", "Info2", "Info3"],
+    "category": "[Digital Kamera]",
+    "createdAt": "{{$localDatetime iso8601}}",
+    "updatedAt": "{{$localDatetime iso8601}}",
+    "quantity": 1,
+    "stock": 1
 }

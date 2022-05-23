@@ -1,13 +1,12 @@
 import mongoose, { ObjectId, Schema, Types } from "mongoose";
 
 export interface Product {
-  user: Types.ObjectId;
   title: String;
   price: Number;
   images: [];
   longInfo: String;
   info: String[];
-  category: ObjectId[];
+  category: mongoose.Schema.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
   quantity: number;
@@ -15,13 +14,12 @@ export interface Product {
 }
 
 const productSchema = new mongoose.Schema<Product>({
-  user: { type: Schema.Types.ObjectId, ref: "user", required: true },
   title: { type: String },
   price: { type: Number },
   images: { type: [] },
   longInfo: { type: String },
   info: { type: [String] },
-  category: { type: [String] },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "category", required: true },
   createdAt: { type: Date },
   updatedAt: { type: Date },
   quantity: { type: Number },
