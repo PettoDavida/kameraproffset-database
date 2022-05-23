@@ -9,10 +9,26 @@ export interface User {
 
 const userSchema = new mongoose.Schema<User>(
     {
-        email: { type: String, required: true },
-        hash: { type: String, required: true },
-        salt: { type: String, required: true },
-        isAdmin: { type: Boolean, required: true, default: false },
+        email: { 
+            type: String, 
+            required: true 
+        },
+
+        hash: { 
+            type: String, 
+            required: true 
+        },
+
+        salt: { 
+            type: String, 
+            required: true 
+        },
+
+        isAdmin: { 
+            type: Boolean, 
+            required: true, 
+            default: false 
+        },
     },
     {
         toJSON: { virtuals: true},
