@@ -4,7 +4,7 @@ GET http://localhost:3000/api/orders
 POST http://localhost:3000/api/order Content-Type: application/json
 
 {
-"title": "String", "price": 100, "info": "String", "image": "string", "expectedArrival": "string"
+"title": "DHL", "price": 100, "info": "Postombud", "image": "URL", "expectedArrival": "2022-05-28"
 }
 
 ###
