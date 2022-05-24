@@ -6,6 +6,7 @@ export interface Order {
     deliveryAddress: Address
     deliveryOption: String
     sent: Boolean
+    createdAt: Date;
 }
 
 const orderSchema = new mongoose.Schema<Order>(
