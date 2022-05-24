@@ -1,0 +1,30 @@
+GET http://localhost:3000/api/category
+###
+
+
+GET http://localhost:3000/api/category/628a98e5457ee23da0b87d41
+
+
+###
+POST http://localhost:3000/api/category
+Content-Type: application/json
+
+{
+ "title": "Systemkameror",
+ "description": "kameror"
+  }
+
+
+###
+
+PUT http://localhost:3000/api/category/628a98e5457ee23da0b87d41
+Content-Type: application/json
+
+{
+ "title": "ändrad",
+ "description": "kameror"
+  }
+
+###
+
+DELETE  http://localhost:3000/api/category/628a971044f4a48145b62124
