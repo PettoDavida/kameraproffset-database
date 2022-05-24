@@ -1,0 +1,22 @@
+.signUpFormContainer{
+    display: grid;
+    place-content: center;
+    height: 100vh;
+    background-color: white;
+}
+
+.signUpForm{
+    padding: 0 2rem;   
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    height: 12rem;
+    justify-content: space-between;
+}
+
+
+@media only screen and (min-width: 600px) {
+    .signUpForm {
+        width: 40vw;
+    }
+  }
