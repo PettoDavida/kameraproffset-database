@@ -4,6 +4,7 @@ import { ProductContext } from "../contexts/ProductContext";
 import AdminPage from "./AdminPage";
 import CheckOut from "./CheckOutPage";
 import Confirmation from "./confirmationPage";
+import LogInPage from "./login";
 import ProductInfo from "./Productinfo";
 import ShoppingCartPage from "./ShoppingCartPage";
 import SignUpPage from "./SignUp";
@@ -18,7 +19,8 @@ function Main() {
         <Route path="/AdminPage" element={<AdminPage />} />
         <Route path="/ShoppingCartPage" element={<ShoppingCartPage />} />
         <Route path="/SignUp" element={<SignUpPage />} />
-        
+        <Route path="/LogIn" element={<LogInPage />} />
+
         <Route path="/CheckOut" element={<CheckOut />} />
         <Route
           path="/ConfirmationPage/:customerName"
