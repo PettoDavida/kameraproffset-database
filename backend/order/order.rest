@@ -1,0 +1,33 @@
+### Get all orders
+GET http://localhost:3000/api/order
+
+###Gets a specific order
+
+GET http://localhost:3000/api/order/:id
+
+### CREATE ORDER
+POST http://localhost:3000/api/order
+Content-Type: application/json
+
+{
+
+  "deliveryAddress": {
+
+  },
+  "deliveryOption": {
+
+  },
+  "products": [{
+
+  }]
+
+}
+
+
+
+###
+
+PUT http://localhost:3000/api/order/62878f2ab155b83835486ad7
+Content-Type: application/json
+
+###
