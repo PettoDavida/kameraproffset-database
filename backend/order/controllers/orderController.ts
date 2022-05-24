@@ -6,6 +6,7 @@ const getAllOrders = async (req: Request, res: Response) => {
   const orders = await OrderModel.find({}).populate<{ customer: User }>(
     "customer"
   );
+  console.log({orders});
   if (!orders) throw Error("Not found.");
   res.status(200).json(orders);
 };
