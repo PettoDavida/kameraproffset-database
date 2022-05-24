@@ -6,6 +6,7 @@ import CheckOut from "./CheckOutPage";
 import Confirmation from "./confirmationPage";
 import ProductInfo from "./Productinfo";
 import ShoppingCartPage from "./ShoppingCartPage";
+import SignUpPage from "./SignUp";
 import Store from "./Store";
 
 function Main() {
@@ -16,7 +17,8 @@ function Main() {
         <Route path="/" element={<Store />} />
         <Route path="/AdminPage" element={<AdminPage />} />
         <Route path="/ShoppingCartPage" element={<ShoppingCartPage />} />
-
+        <Route path="/SignUp" element={<SignUpPage />} />
+        
         <Route path="/CheckOut" element={<CheckOut />} />
         <Route
           path="/ConfirmationPage/:customerName"
