@@ -1,6 +1,5 @@
 import { Button, createTheme, TextField, ThemeProvider } from "@mui/material";
 import * as yup from "yup";
-import React from "react";
 import { useFormik } from "formik";
 import "../CSS/SignUp.css";
 import { useNavigate } from "react-router-dom";
@@ -92,7 +91,7 @@ function SignUpPage() {
             helperText={formik.touched.password && formik.errors.password}
           />
           <Button color="primary" variant="contained" type="submit">
-            Submit
+            Registrera
           </Button>
         </form>
       </div>
