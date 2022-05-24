@@ -31,12 +31,31 @@ function Header() {
   return (
     <ThemeProvider theme={theme}>
       <header id="header" className="show-products">
-        <Link to="/AdminPage">
+        <Link to="/SignUp">
+          <Badge
+            className="icon"
+            sx={{ paddingLeft: "1rem", opacity: "0" }}
+            color="secondary"
+          >
+            <Login sx={{ fontSize: "2rem" }} />
+          </Badge>
+        </Link>
+        <Link to="/LogIn">
+          <Badge
+            className="icon"
+            sx={{ color: "green", opacity: "0" }}
+            color="secondary"
+          >
+            <Login sx={{ fontSize: "2rem" }} />
+          </Badge>
+        </Link>
+
+        {/* <Link to="/AdminPage">
           <AdminPanelSettingsIcon
             className="icon"
             sx={{ paddingLeft: "1rem", fontSize: "2rem", opacity: "0" }}
           />
-        </Link>
+        </Link> */}
 
         <img id={"logo"} src={require("../assets/img/logo.png")} alt="logo" />
 
@@ -56,16 +75,6 @@ function Header() {
               color="secondary"
             >
               <ShoppingCartIcon sx={{ fontSize: "2rem" }} />
-            </Badge>
-          </Link>
-
-          <Link to="/SignUp">
-            <Badge
-              className="icon"
-              sx={{ marginRight: "1rem", opacity: "0" }}
-              color="secondary"
-            >
-              <Login sx={{ fontSize: "2rem" }} />
             </Badge>
           </Link>
         </div>
