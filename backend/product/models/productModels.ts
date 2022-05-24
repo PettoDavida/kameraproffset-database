@@ -14,7 +14,7 @@ export interface Product {
   stock: number;
 }
 
-const productSchema = new mongoose.Schema<Product>({
+export const ProductSchema = new mongoose.Schema<Product>({
   user: { type: Schema.Types.ObjectId, ref: "user", required: true },
   title: { type: String },
   price: { type: Number },
@@ -28,4 +28,4 @@ const productSchema = new mongoose.Schema<Product>({
   stock: { type: Number },
 });
 
-export const productModel = mongoose.model("product", productSchema);
+export const productModel = mongoose.model("product", ProductSchema);
