@@ -8,6 +8,7 @@ import orderRouter from "./order/routes/orderRoutes";
 import productRouter from "./product/routes/productRoutes";
 import { categoryRouter } from "./category/routes/categoryRoutes";
 
+
 dotenv.config({ path: __dirname + "/.env" });
 
 const app = express();
@@ -15,7 +16,15 @@ const port = 3000;
 
 app.use(express.json());
 
-mongoose.connect(`${process.env.MONGO_CONNECT}`, { dbName: "kameraproffset" });
+function err(message: string) {
+  throw new Error(message);
+}
+
+const MONGO_URI =
+  process.env.MONGO_CONNECT ||
+  err("No 'MONGO_CONNECT' in enviroment variables");
+
+mongoose.connect(`${MONGO_URI}`, { dbName: "kameraproffset" });
 const db = mongoose.connection;
 
 db.on("error", (err) => {
