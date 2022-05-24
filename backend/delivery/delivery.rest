@@ -1,0 +1,36 @@
+GET http://localhost:3000/api/delivery
+###
+
+
+GET http://localhost:3000/api/delivery/
+
+
+###
+POST http://localhost:3000/api/delivery
+Content-Type: application/json
+
+{
+ "title": "Postnord",
+ "price": "79",
+"info": "Hemleverans",
+ "expectedArrival": "2022-05-28",
+  "image": "URL"
+  }
+
+
+###
+
+PUT http://localhost:3000/api/delivery/628ab6211ae4c7c35a0bf5d5
+Content-Type: application/json
+
+{
+ "title": "DHL",
+ "price": "39",
+"info": "Postombud",
+ "expectedArrival": "2022-05-30",
+  "image": "URL"
+  }
+
+###
+
+DELETE http://localhost:3000/api/delivery/628ab57e8ffbc95c72c43f2d
