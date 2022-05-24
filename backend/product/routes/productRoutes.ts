@@ -11,9 +11,9 @@ import {
 export const productRouter = express
   .Router()
   .get("/products", getAllProducts)
-  .get("products/:id", getProduct)
-  .get("products/categories", getProductsByCategory)
-  .post("products", addProduct)
+  .get("/products/:id", getProduct)
+  .get("/products/categories/:id", getProductsByCategory)
+  .post("/products", addProduct)
   .put("/products/:id", editProduct);
 
 export default productRouter;
