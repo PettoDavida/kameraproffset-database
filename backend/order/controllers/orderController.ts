@@ -10,7 +10,10 @@ const getAllOrders = async (req: Request, res: Response) => {
   res.status(200).json(orders);
 };
 
-const getOrderByID = async (req: Request, res: Response) => {};
+const getOrderByID = async (req: Request, res: Response) => {
+  const order = await OrderModel.findById(req.params.id);
+  res.status(200).json(order);
+};
 
 const getOrderByUserID = async (req: Request, res: Response) => {};
 
