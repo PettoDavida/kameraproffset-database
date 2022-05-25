@@ -8,6 +8,7 @@ import deliveryRouter from "./delivery/routes/deliveryRoutes";
 import orderRouter from "./order/routes/orderRoutes";
 import productRouter from "./product/routes/productRoutes";
 import { categoryRouter } from "./category/routes/categoryRoutes";
+import { mediaRouter } from "./media/routes/mediaRouter";
 
 dotenv.config({ path: __dirname + "/.env" });
 
@@ -44,6 +45,7 @@ app.use("/api", deliveryRouter);
 app.use("/api", orderRouter);
 app.use("/api", productRouter);
 app.use("/api", categoryRouter);
+app.use("/api", mediaRouter);
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
