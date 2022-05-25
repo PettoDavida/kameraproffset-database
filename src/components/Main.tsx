@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
-import AdminPage from "./AdminPage";
 import CheckOut from "./CheckOutPage";
 import Confirmation from "./confirmationPage";
 import LogInPage from "./login";
 import ProductInfo from "./Productinfo";
+import ProfileOrAdminPage from "./profile/ProfileOrAdminPage";
 import ShoppingCartPage from "./ShoppingCartPage";
 import SignUpPage from "./SignUp";
 import Store from "./Store";
@@ -16,7 +16,7 @@ function Main() {
     <main>
       <Routes>
         <Route path="/" element={<Store />} />
-        <Route path="/AdminPage" element={<AdminPage />} />
+        <Route path="/ProfileOrAdminPage" element={<ProfileOrAdminPage />} />
         <Route path="/ShoppingCartPage" element={<ShoppingCartPage />} />
         <Route path="/SignUp" element={<SignUpPage />} />
         <Route path="/LogIn" element={<LogInPage />} />
