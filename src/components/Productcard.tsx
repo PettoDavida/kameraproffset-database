@@ -17,17 +17,13 @@ import { PromiseProvider } from "mongoose";
 export default function ImgMediaCard(): JSX.Element {
   const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
-  // const [dataFromDb, setDataFromDb] = useState([]);
-  let productArray: Product[] = [];
+  const [dataFromDb, setDataFromDb] = useState<Product[]>([]);
 
   const getData = async () => {
     await fetch("http://localhost:3000/api/products/")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        productArray = data;
-        // setDataFromDb(data);
-        console.log(productArray);
+        setDataFromDb(data);
       });
   };
 
@@ -37,8 +33,8 @@ export default function ImgMediaCard(): JSX.Element {
 
   return (
     <div className="ProductContainer">
-      {productArray.map((item) => (
-        <Card className="storeCardStyle" key={undefined}>
+      {dataFromDb.map((item, i) => (
+        <Card className="storeCardStyle" key={i}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
               <div className="ImageContainer">
