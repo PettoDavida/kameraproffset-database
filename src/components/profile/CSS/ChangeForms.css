@@ -1,0 +1,8 @@
+.changeContainer{
+    width: 20rem;
+}
+
+.changeForm{
+    display: flex;
+    flex-direction: column;
+}
