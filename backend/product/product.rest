@@ -16,7 +16,7 @@ Content-Type: application/json
 {
     "title": "Kamera",
     "price": 24950,
-    "images": "[image_url]",
+    "images": ["628a970744f4a48145b62121"],
     "longInfo": "bla bla bla",
     "info": ["Info1", "Info2", "Info3"],
     "category": "628a970744f4a48145b62121",
