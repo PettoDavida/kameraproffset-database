@@ -3,10 +3,10 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="media"; filename="camera.jpg"
+Content-Disposition: form-data; name="media"; filename="SonyA7-3.webp"
 Content-Type: image/jpeg
 
-< ./camera.jpg
+< ./images/SonyA7-3.webp
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###

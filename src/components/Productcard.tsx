@@ -5,31 +5,50 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
+import { Product } from "../../backend/product/models/productModels";
+import { PromiseProvider } from "mongoose";
 
 export default function ImgMediaCard(): JSX.Element {
   const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
+  // const [dataFromDb, setDataFromDb] = useState([]);
+  let productArray: Product[] = [];
+
+  const getData = async () => {
+    await fetch("http://localhost:3000/api/products/")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        productArray = data;
+        // setDataFromDb(data);
+        console.log(productArray);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className="ProductContainer">
-      {products.map((item) => (
-        <Card className="storeCardStyle" key={item.id}>
+      {productArray.map((item) => (
+        <Card className="storeCardStyle" key={undefined}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
               <div className="ImageContainer">
-                <CardMedia
+                {/* <CardMedia
                   component="img"
                   alt={item.title}
                   height="auto"
                   image={item.image}
                   title={item.title}
-                />
+                /> */}
               </div>
               <CardContent>
                 <div className="InfoContainer">
@@ -42,8 +61,8 @@ export default function ImgMediaCard(): JSX.Element {
                     component="ul"
                     className="item-short-info"
                   >
-                    <li>{item.info1}</li>
-                    <li>{item.info2}</li> <li>{item.info3}</li>
+                    <li>{item.info[0]}</li>
+                    <li>{item.info[1]}</li> <li>{item.info[2]}</li>
                   </Typography>
                 </div>
                 <div className="price">
@@ -54,11 +73,11 @@ export default function ImgMediaCard(): JSX.Element {
               </CardContent>
             </CardActionArea>
           </Link>
-          <ProductAccordion info={item.longinfo} />
+          <ProductAccordion info={item.longInfo.toString()} />
           <CardActions>
             <div className="buttons">
               <Button
-                onClick={() => handleAddProduct(item)}
+                // onClick={() => handleAddProduct(item)}
                 variant="contained"
                 color="secondary"
                 size="small"
