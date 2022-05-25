@@ -1,4 +1,4 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export interface Product {
   title: String;

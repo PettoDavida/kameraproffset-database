@@ -7,17 +7,13 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
 import { Product } from "../../backend/product/models/productModels";
-import { PromiseProvider } from "mongoose";
 
 export default function ImgMediaCard(): JSX.Element {
-  const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
-  // const [dataFromDb, setDataFromDb] = useState([]);
   let productArray: Product[] = [];
 
   const getData = async () => {
