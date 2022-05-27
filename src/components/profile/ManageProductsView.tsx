@@ -12,17 +12,26 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
   ThemeProvider,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Product } from "../../../backend/product/models/productModels";
 import "../../CSS/AdminPage.css";
 import AddIcon from "@mui/icons-material/Add";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import NewProductForm from "./NewProductForm";
 import { Close } from "@mui/icons-material";
+
+interface Product {
+  _id: String;
+  title: String;
+  price: Number;
+  images: String[];
+  longInfo: String;
+  info: String[];
+  category: String[];
+  stock?: number;
+}
 
 const theme = createTheme({
   palette: {
@@ -52,7 +61,7 @@ function ManageProductsView() {
     setOpen(false);
   };
 
-  useEffect(() => {
+  const getProductFromBackend = async () => {
     let headers: RequestInit = {
       method: "GET",
     };
@@ -62,6 +71,10 @@ function ManageProductsView() {
       })
       .then((data) => setProducts(data))
       .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getProductFromBackend();
   }, []);
 
   return (
@@ -114,7 +127,17 @@ function ManageProductsView() {
                   <Button
                     color="secondary"
                     variant="contained"
-                    onClick={() => console.log(item)}
+                    onClick={() => {
+                      let headers: RequestInit = {
+                        method: "DELETE",
+                      };
+                      fetch(
+                        `http://localhost:3000/api/products/${item._id}`,
+                        headers
+                      ).then(() => {
+                        getProductFromBackend();
+                      });
+                    }}
                     startIcon={<DeleteForeverIcon />}
                   >
                     Remove
