@@ -31,18 +31,19 @@ export default function ImgMediaCard(): JSX.Element {
 
   return (
     <div className="ProductContainer">
-      {dataFromDb.map((item, i) => (
-        <Card className="storeCardStyle" key={i}>
+      {dataFromDb.map((item) => (
+        <Card className="storeCardStyle" key={item._id}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
               <div className="ImageContainer">
-                {/* <CardMedia
-                  component="img"
-                  alt={item.title}
-                  height="auto"
-                  image={item.image}
-                  title={item.title}
-                /> */}
+                {
+                  <CardMedia
+                    component="img"
+                    height="auto"
+                    src={item.imageURL}
+                    title={item.title}
+                  />
+                }
               </div>
               <CardContent>
                 <div className="InfoContainer">

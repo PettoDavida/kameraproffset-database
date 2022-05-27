@@ -16,12 +16,13 @@ Content-Type: application/json
 {
     "title": "Leica M-10R svart",
     "price": 89900,
-    "images": ["628ce13b7cf6edafccd9c908"],
+    "images": "6290d221651a5fc114d7ad9c",
     "longInfo": "bla bla bla",
     "info": ["Info1", "Info2", "Info3"],
     "category": ["628a970744f4a48145b62121"],
     "createdAt": "{{$localDatetime iso8601}}",
     "updatedAt": "{{$localDatetime iso8601}}"
+    
 }
 ###
 
@@ -29,7 +30,6 @@ PUT http://localhost:3000/api/products/628b6da1f274ce912d496c40
 Content-Type: application/json
 
 {
-    "user": "Erik",
     "title": "Kamera",
     "price": 20000,
     "images": "[image_url]",
