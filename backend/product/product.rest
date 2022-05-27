@@ -43,3 +43,7 @@ Content-Type: application/json
     "quantity": 1,
     "stock": 1
 }
+
+###
+
+DELETE http://localhost:3000/api/products/6290d259651a5fc114d7ad9f
