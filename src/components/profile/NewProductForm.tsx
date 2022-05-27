@@ -1,12 +1,23 @@
-import { Formik, Form, Field, FormikProps } from "formik";
+import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { Button, MenuItem } from "@mui/material";
-import { Select, TextField } from "formik-mui";
-import { display } from "@mui/system";
+import { Button, FormControlLabel } from "@mui/material";
+import { TextField, Checkbox } from "formik-mui";
+import { useEffect, useState } from "react";
 
 interface Product {
   title: String;
   price: Number;
+  images: String[];
+  longInfo: String;
+  info: String[];
+  category: String[];
+  stock?: number;
+}
+
+interface Category {
+  _id: string;
+  title: string;
+  description: string;
 }
 
 // const yupValidate = Yup.object().shape({
@@ -19,18 +30,58 @@ interface Product {
 //   productAbout: Yup.string().required("Produkten måste ha en beskrivning"),
 // });
 
+export async function getCategoriesFromBackend() {
+  let headers: RequestInit = {
+    method: "GET",
+  };
+  return fetch("http://localhost:3000/api/category", headers);
+}
+
 export default function NewProductForm(props: any) {
-  const addProduct = (values: any) => {};
+  const [categories, setCategories] = useState<Category[]>([]);
+  const sendProductToBackend = (product: Product) => {
+    // TODO: Send to backend
+    console.log(product);
+  };
+
+  const updateCategories = async () => {
+    let categories = await getCategoriesFromBackend();
+    let data = await categories.json();
+    setCategories(data);
+  };
+
+  useEffect(() => {
+    updateCategories();
+  }, []);
+
+  let initCategories = [];
+  for (let i = 0; i < categories.length; i++) {
+    initCategories.push(false);
+  }
 
   const initialValues: any = {
     title: "",
+    price: 0,
     images: [],
+    longInfo: "",
+    infos: [""],
+    categories: initCategories,
+    stock: 0,
   };
+
   return (
     <div>
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         onSubmit={(values, actions) => {
+          let categoryIds: string[] = [];
+          for (let i = 0; i < values.categories.length; i++) {
+            if (values.categories[i]) {
+              categoryIds.push(categories[i]._id);
+            }
+          }
+
           let array = [];
           for (let i = 0; i < values.images.length; i++) {
             let uploadImg = uploadImage(values.images[i]);
@@ -42,18 +93,29 @@ export default function NewProductForm(props: any) {
               array.push(data[i].json());
             }
             Promise.all(array).then((data) => {
-              let array = [];
+              let imageIds = [];
               for (let i = 0; i < data.length; i++) {
-                array.push(data[i]._id);
+                imageIds.push(data[i]._id);
               }
-              console.log(array);
+
+              let product: Product = {
+                title: values.title,
+                price: values.price,
+                images: imageIds,
+                longInfo: values.longInfo,
+                info: values.infos,
+                category: categoryIds,
+                stock: values.stock,
+              };
+
+              sendProductToBackend(product);
             });
           });
         }}
 
         // validationSchema={yupValidate}
       >
-        {(props: FormikProps<any>) => (
+        {({ values, setFieldValue }) => (
           <Form>
             <Field
               component={TextField}
@@ -69,26 +131,7 @@ export default function NewProductForm(props: any) {
               label="Price"
               margin="dense"
             />
-            <input
-              accept="image/*"
-              style={{ display: "none" }}
-              id="raised-button-file"
-              multiple
-              type="file"
-              onChange={(event) => {
-                let images = [];
-                let files = event.currentTarget.files!;
-                for (let i = 0; i < files.length; i++) {
-                  const element = files[i];
-                  images.push(element);
-                  console.log(element);
-                }
-                props.setFieldValue("images", images);
-              }}
-            />
-            <label htmlFor="raised-button-file">
-              <Button component="span">Upload</Button>
-            </label>
+
             <Field
               component={TextField}
               multiline
@@ -100,11 +143,93 @@ export default function NewProductForm(props: any) {
             <Field
               component={TextField}
               multiline
-              name="productAbout"
-              type="productAbout"
-              label="About"
+              name="stock"
+              type="stock"
+              label="Stock"
               margin="dense"
             />
+
+            <FieldArray name="categories">
+              {() =>
+                categories.map((category: Category, i: number) => {
+                  return (
+                    <FormControlLabel
+                      key={i}
+                      control={
+                        <Field
+                          component={Checkbox}
+                          type="checkbox"
+                          name={`categories.${i}`}
+                          margin="dense"
+                          checked={values.categories[i] || false}
+                          onChange={(e: any) => {
+                            setFieldValue(`categories.${i}`, e.target.checked);
+                          }}
+                        />
+                      }
+                      label={category.title}
+                    />
+                  );
+                })
+              }
+            </FieldArray>
+
+            <FieldArray name="infos">
+              {() =>
+                values.infos.map((info: string, i: number) => {
+                  return (
+                    <Field
+                      key={i}
+                      component={TextField}
+                      multiline
+                      name={`infos.${i}`}
+                      type={`infos.${i}`}
+                      label="Info"
+                      margin="dense"
+                    />
+                  );
+                })
+              }
+            </FieldArray>
+            <Button
+              onClick={() => {
+                let infos = values.infos;
+                infos.push("");
+                setFieldValue("infos", infos);
+              }}
+            >
+              Add Info
+            </Button>
+            <Button
+              onClick={() => {
+                let infos = values.infos;
+                infos.pop();
+                setFieldValue("infos", infos);
+              }}
+            >
+              Remove Info
+            </Button>
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="image-file-picker"
+              multiple
+              type="file"
+              onChange={(event) => {
+                let images = [];
+                let files = event.currentTarget.files!;
+                for (let i = 0; i < files.length; i++) {
+                  const element = files[i];
+                  images.push(element);
+                  console.log(element);
+                }
+
+                setFieldValue("images", images);
+              }}
+            />
+            <label htmlFor="image-file-picker">
+              <Button component="span">Upload</Button>
+            </label>
             <Button type="submit">Submit</Button>
           </Form>
         )}
@@ -113,7 +238,7 @@ export default function NewProductForm(props: any) {
   );
 }
 
-function uploadImage(image: File) {
+export function uploadImage(image: File) {
   var formData = new FormData();
   formData.append("media", image, image.name);
   let headers: RequestInit = {
