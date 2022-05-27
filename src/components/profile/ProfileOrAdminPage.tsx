@@ -42,8 +42,8 @@ export default function ProfileOrAdminPage() {
   };
 
   return (
-    <Box sx={{ width: "100%", height: "100vh", paddingTop: "5rem" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+    <Box sx={{ width: "100%", height: "100vh" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", paddingTop: "5rem" }}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Profile" {...a11yProps(0)} />
           <Tab label="Admin" {...a11yProps(1)} />
