@@ -13,13 +13,17 @@ export interface Product {
   stock?: number;
 }
 
-const productSchema = new mongoose.Schema<Product>({
+export const productSchema = new mongoose.Schema<Product>({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   images: { type: [mongoose.Schema.Types.ObjectId], required: true },
   longInfo: { type: String, required: true },
   info: { type: [String], required: true },
-  category: { type: [mongoose.Schema.Types.ObjectId], ref: "category", required: true },
+  category: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "category",
+    required: true,
+  },
   createdAt: { type: Date },
   updatedAt: { type: Date },
   quantity: { type: Number },
