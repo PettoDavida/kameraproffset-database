@@ -1,18 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { Address, addressSchema } from "../../common";
+import { Delivery, deliverySchema } from "../../delivery/models/deliveryModel";
+import { Product, productSchema } from "../../product/models/productModels";
 
 export interface Order {
-  products: [];
+  userID: ObjectId;
+  products: Product[];
   deliveryAddress: Address;
-  deliveryOption: String;
+  deliveryMethod: Delivery;
   sent: Boolean;
 }
 
 const orderSchema = new mongoose.Schema<Order>(
   {
-    products: { type: [], required: true },
+    userID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    products: { type: [productSchema], required: true },
     deliveryAddress: { type: addressSchema, required: true },
-    deliveryOption: { type: String, required: true },
+    deliveryMethod: { type: deliverySchema, required: true },
     sent: { type: Boolean, required: true, default: false },
   },
   {
