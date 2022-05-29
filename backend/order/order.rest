@@ -5,6 +5,10 @@ GET http://localhost:3000/api/order
 
 GET http://localhost:3000/api/order/:id
 
+###Gets a specific users orders
+
+GET http://localhost:3000/api/order/user/628b647f7c47939723a339c0
+
 ### CREATE ORDER
 POST http://localhost:3000/api/order
 Content-Type: application/json
@@ -12,7 +16,7 @@ Content-Type: application/json
 {
   "userID": "628b647f7c47939723a339c0",
   "products": [{
-    "title": "Leica M-10R svart",
+    "title": "Leica M-10R svart 222",
     "price": 89900,
     "images": [
       "6290d221651a5fc114d7ad9c"
