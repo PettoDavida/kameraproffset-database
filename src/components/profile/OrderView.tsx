@@ -4,10 +4,10 @@ import {
   AccordionSummary,
   Typography,
   AccordionDetails,
-  Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import getTokenData from "./GetIDFromToken";
+import "./CSS/OrderView.css";
 
 interface Address {
   street: String;
@@ -74,23 +74,21 @@ export default function OrderView() {
   }, []);
 
   return (
-    <div>
-      <div>
-        {orders.map((item: Order, i: number) => (
-          <Accordion key={i} sx={{ width: "100%" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>{item.userID}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>{item.products[0].title}</Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </div>
+    <div className="viewOwnOrders">
+      {orders.map((item: Order, i: number) => (
+        <Accordion key={i} sx={{ width: "100%" }}>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>{item.userID}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>{item.products[0].title}</Typography>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </div>
   );
 }
