@@ -1,25 +1,9 @@
-import { Button, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import getTokenData from "./GetIDFromToken";
 import "./CSS/ChangeForms.css";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#333333",
-      contrastText: "#FBF7F5", //button text white instead of black
-    },
-    background: {
-      default: "#333333",
-    },
-
-    secondary: {
-      main: "#DA344D",
-    },
-  },
-});
 
 const validationSchema = yup.object({
   oldEmail: yup.string().required("oldEmail is required"),
@@ -62,6 +46,7 @@ function ChangeEmail() {
         })
         .then(() => {
           navigate("/");
+          localStorage.removeItem("loginToken");
         })
         .catch((err) => {
           console.log(err);
@@ -70,34 +55,34 @@ function ChangeEmail() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="changeContainer">
-        <form className="changeForm" onSubmit={formik.handleSubmit}>
-          <TextField
-            id="oldEmail"
-            name="oldEmail"
-            label="oldEmail"
-            value={formik.values.oldEmail}
-            onChange={formik.handleChange}
-            error={formik.touched.oldEmail && Boolean(formik.errors.oldEmail)}
-            helperText={formik.touched.oldEmail && formik.errors.oldEmail}
-          />
-          <TextField
-            id="newEmail"
-            name="newEmail"
-            label="newEmail"
-            type="newEmail"
-            value={formik.values.newEmail}
-            onChange={formik.handleChange}
-            error={formik.touched.newEmail && Boolean(formik.errors.newEmail)}
-            helperText={formik.touched.newEmail && formik.errors.newEmail}
-          />
-          <Button color="primary" variant="contained" type="submit">
-            Byt Email
-          </Button>
-        </form>
-      </div>
-    </ThemeProvider>
+    <div className="changeContainer">
+      <form className="changeForm" onSubmit={formik.handleSubmit}>
+        <TextField
+          className="textField"
+          id="oldEmail"
+          name="oldEmail"
+          label="oldEmail"
+          value={formik.values.oldEmail}
+          onChange={formik.handleChange}
+          error={formik.touched.oldEmail && Boolean(formik.errors.oldEmail)}
+          helperText={formik.touched.oldEmail && formik.errors.oldEmail}
+        />
+        <TextField
+          className="textField"
+          id="newEmail"
+          name="newEmail"
+          label="newEmail"
+          type="newEmail"
+          value={formik.values.newEmail}
+          onChange={formik.handleChange}
+          error={formik.touched.newEmail && Boolean(formik.errors.newEmail)}
+          helperText={formik.touched.newEmail && formik.errors.newEmail}
+        />
+        <Button variant="contained" type="submit">
+          Byt Email
+        </Button>
+      </form>
+    </div>
   );
 }
 

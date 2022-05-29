@@ -1,25 +1,9 @@
-import { Button, createTheme, TextField, ThemeProvider } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import getTokenData from "./GetIDFromToken";
 import "./CSS/ChangeForms.css";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#333333",
-      contrastText: "#FBF7F5", //button text white instead of black
-    },
-    background: {
-      default: "#333333",
-    },
-
-    secondary: {
-      main: "#DA344D",
-    },
-  },
-});
 
 const validationSchema = yup.object({
   oldPassword: yup.string().required("oldPassword is required"),
@@ -62,6 +46,7 @@ function ChangePassword() {
         })
         .then(() => {
           navigate("/");
+          localStorage.removeItem("loginToken");
         })
         .catch((err) => {
           console.log(err);
@@ -70,38 +55,38 @@ function ChangePassword() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="changeContainer">
-        <form className="changeForm" onSubmit={formik.handleSubmit}>
-          <TextField
-            id="oldPassword"
-            name="oldPassword"
-            label="oldPassword"
-            value={formik.values.oldPassword}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.oldPassword && Boolean(formik.errors.oldPassword)
-            }
-            helperText={formik.touched.oldPassword && formik.errors.oldPassword}
-          />
-          <TextField
-            id="newPassword"
-            name="newPassword"
-            label="newPassword"
-            type="newPassword"
-            value={formik.values.newPassword}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.newPassword && Boolean(formik.errors.newPassword)
-            }
-            helperText={formik.touched.newPassword && formik.errors.newPassword}
-          />
-          <Button color="primary" variant="contained" type="submit">
-            Byt Lösenord
-          </Button>
-        </form>
-      </div>
-    </ThemeProvider>
+    <div className="changeContainer">
+      <form className="changeForm" onSubmit={formik.handleSubmit}>
+        <TextField
+          className="textField"
+          id="oldPassword"
+          name="oldPassword"
+          label="oldPassword"
+          value={formik.values.oldPassword}
+          onChange={formik.handleChange}
+          error={
+            formik.touched.oldPassword && Boolean(formik.errors.oldPassword)
+          }
+          helperText={formik.touched.oldPassword && formik.errors.oldPassword}
+        />
+        <TextField
+          className="textField"
+          id="newPassword"
+          name="newPassword"
+          label="newPassword"
+          type="newPassword"
+          value={formik.values.newPassword}
+          onChange={formik.handleChange}
+          error={
+            formik.touched.newPassword && Boolean(formik.errors.newPassword)
+          }
+          helperText={formik.touched.newPassword && formik.errors.newPassword}
+        />
+        <Button variant="contained" type="submit">
+          Byt Lösenord
+        </Button>
+      </form>
+    </div>
   );
 }
 
