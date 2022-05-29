@@ -66,6 +66,7 @@ export const addProduct = async (
     console.log(newProduct);
     res.status(200).json(newProduct);
   } catch (err) {
+    res.status(400).json("Not very nice request. I need more stuff");
     next(err);
   }
 };
