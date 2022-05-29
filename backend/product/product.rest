@@ -14,15 +14,12 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-    "title": "Kamera",
+    "title": "Kamera123",
     "price": 24950,
-    "images": ["628a970744f4a48145b62121"],
+    "images": ["629139371c1d0d8e2e6fa449"],
     "longInfo": "bla bla bla",
     "info": ["Info1", "Info2", "Info3"],
-    "category": "628a970744f4a48145b62121",
-    "createdAt": "{{$localDatetime iso8601}}",
-    "updatedAt": "{{$localDatetime iso8601}}",
-    "quantity": 1,
+    "category": ["628a98e5457ee23da0b87d41", "628a970744f4a48145b62121"],
     "stock": 1
 }
 ###
@@ -38,9 +35,6 @@ Content-Type: application/json
     "longInfo": "bla bla bla",
     "info": ["Info1", "Info2", "Info3"],
     "category": "[Digital Kamera]",
-    "createdAt": "{{$localDatetime iso8601}}",
-    "updatedAt": "{{$localDatetime iso8601}}",
-    "quantity": 1,
     "stock": 1
 }
 
