@@ -7,6 +7,7 @@ import userRouter from "./user/routes/userRoutes";
 import deliveryRouter from "./delivery/routes/deliveryRoutes";
 import orderRouter from "./order/routes/orderRoutes";
 import productRouter from "./product/routes/productRoutes";
+import requestRouter from "./requests/requestsRoutes";
 import { categoryRouter } from "./category/routes/categoryRoutes";
 import { mediaRouter } from "./media/routes/mediaRouter";
 
@@ -45,6 +46,7 @@ app.use("/api", deliveryRouter);
 app.use("/api", orderRouter);
 app.use("/api", productRouter);
 app.use("/api", categoryRouter);
+app.use("/api", requestRouter);
 app.use("/api", mediaRouter);
 
 app.listen(port, () => {
