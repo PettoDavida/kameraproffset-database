@@ -3,22 +3,19 @@ import * as Yup from "yup";
 import { Button, FormControlLabel } from "@mui/material";
 import { TextField, Checkbox } from "formik-mui";
 import { useEffect, useState } from "react";
-import { getCategoriesFromBackend, uploadImage } from "./NewProductForm";
+import { getCategoriesFromBackend } from "./NewProductForm";
+import {
+  CategoryBackend,
+  ProductBackend,
+  ProductData,
+  uploadImage,
+  uploadMultipleImages,
+  getImageUrl,
+} from "../../utils/backend";
 
-interface Product {
-  title: String;
-  price: Number;
-  images: String[];
-  longInfo: String;
-  info: String[];
-  category: String[];
-  stock?: number;
-}
-
-interface Category {
-  _id: string;
-  title: string;
-  description: string;
+interface Props {
+  product: ProductBackend;
+  close: () => void;
 }
 
 // const yupValidate = Yup.object().shape({
@@ -31,11 +28,35 @@ interface Category {
 //   productAbout: Yup.string().required("Produkten måste ha en beskrivning"),
 // });
 
-export default function EditProductForm(props: any) {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const sendProductToBackend = (product: Product) => {
-    // TODO: Send to backend
-    console.log(product);
+export default function EditProductForm(props: Props) {
+  const [categories, setCategories] = useState<CategoryBackend[]>([]);
+
+  let product = props.product;
+
+  const sendProductToBackend = (data: ProductData) => {
+    const token = localStorage.getItem("loginToken");
+    if (!token) return;
+
+    let headers: RequestInit = {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    };
+    fetch(`http://localhost:3000/api/products/${product._id}`, headers)
+      .then((res: Response) => {
+        if (res.status === 404) {
+          return Promise.reject("Product dosen't not exist");
+        }
+
+        props.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const updateCategories = async () => {
@@ -53,14 +74,32 @@ export default function EditProductForm(props: any) {
     initCategories.push(false);
   }
 
+  for (
+    let productCategoryIndex = 0;
+    productCategoryIndex < product.category.length;
+    productCategoryIndex++
+  ) {
+    for (
+      let categoryIndex = 0;
+      categoryIndex < categories.length;
+      categoryIndex++
+    ) {
+      if (
+        product.category[productCategoryIndex] === categories[categoryIndex]._id
+      ) {
+        initCategories[categoryIndex] = true;
+      }
+    }
+  }
+
   const initialValues: any = {
-    title: "",
-    price: 0,
-    images: [],
-    longInfo: "",
-    infos: [""],
+    title: product.title,
+    price: product.price,
+    images: product.images,
+    longInfo: product.longInfo,
+    infos: product.info,
     categories: initCategories,
-    stock: 0,
+    stock: product.stock,
   };
 
   return (
@@ -76,40 +115,22 @@ export default function EditProductForm(props: any) {
             }
           }
 
-          let array = [];
-          for (let i = 0; i < values.images.length; i++) {
-            let uploadImg = uploadImage(values.images[i]);
-            array.push(uploadImg);
-          }
-          Promise.all(array).then((data) => {
-            let array = [];
-            for (let i = 0; i < data.length; i++) {
-              array.push(data[i].json());
-            }
-            Promise.all(array).then((data) => {
-              let imageIds = [];
-              for (let i = 0; i < data.length; i++) {
-                imageIds.push(data[i]._id);
-              }
+          let product: ProductData = {
+            title: values.title,
+            price: values.price,
+            images: values.images,
+            longInfo: values.longInfo,
+            info: values.infos,
+            category: categoryIds,
+            stock: values.stock,
+          };
 
-              let product: Product = {
-                title: values.title,
-                price: values.price,
-                images: imageIds,
-                longInfo: values.longInfo,
-                info: values.infos,
-                category: categoryIds,
-                stock: values.stock,
-              };
-
-              sendProductToBackend(product);
-            });
-          });
+          sendProductToBackend(product);
         }}
 
         // validationSchema={yupValidate}
       >
-        {({ values, setFieldValue, resetForm }) => (
+        {({ values, setFieldValue }) => (
           <Form>
             <Field
               component={TextField}
@@ -145,7 +166,7 @@ export default function EditProductForm(props: any) {
 
             <FieldArray name="categories">
               {() =>
-                categories.map((category: Category, i: number) => {
+                categories.map((category: CategoryBackend, i: number) => {
                   return (
                     <FormControlLabel
                       key={i}
@@ -185,6 +206,22 @@ export default function EditProductForm(props: any) {
                 })
               }
             </FieldArray>
+            <FieldArray name="oldImages">
+              {() =>
+                values.images.map((imageId: string, i: number) => {
+                  return (
+                    <div key={i}>
+                      <img
+                        src={getImageUrl(imageId)}
+                        alt="productImage"
+                        width="200px"
+                      />
+                      <Button>Delete</Button>
+                    </div>
+                  );
+                })
+              }
+            </FieldArray>
             <Button
               onClick={() => {
                 let infos = values.infos;
@@ -210,19 +247,28 @@ export default function EditProductForm(props: any) {
               multiple
               type="file"
               onChange={(event) => {
-                let images = [];
                 let files = event.currentTarget.files!;
-                for (let i = 0; i < files.length; i++) {
-                  const element = files[i];
-                  images.push(element);
-                  console.log(element);
-                }
-
-                setFieldValue("images", images);
+                uploadMultipleImages(files)
+                  .then((data) => {
+                    let array = [];
+                    for (let i = 0; i < data.length; i++) {
+                      array.push(data[i].json());
+                    }
+                    Promise.all(array)
+                      .then((newImageObjs) => {
+                        let images = values.images;
+                        for (let i = 0; i < newImageObjs.length; i++) {
+                          images.push(newImageObjs[i]._id);
+                        }
+                        setFieldValue("images", images);
+                      })
+                      .catch((err) => console.log(err));
+                  })
+                  .catch((err) => console.log(err));
               }}
             />
             <label htmlFor="image-file-picker">
-              <Button component="span">Upload</Button>
+              <Button component="span">Upload new image</Button>
             </label>
             <Button type="submit">Submit</Button>
           </Form>

@@ -2,14 +2,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, createTheme, ThemeProvider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
-import { Product } from "../interfaces/interfaces";
 import "../CSS/Productinfo.css";
+import { ProductBackend } from "../utils/backend";
 
 import ProductInfoImageSlider from "./ProductInfoImageSlider";
 import ProductTab from "./ProductTab";
 
 interface Props {
-  product: Product;
+  product: ProductBackend;
 }
 
 const theme = createTheme({
@@ -42,7 +42,7 @@ function ProductInfo(props: Props) {
 
         <ProductInfoImageSlider product={product} />
 
-        <div className="right-product-container" key={product.id}>
+        <div className="right-product-container">
           <h2 className="product-info-title">{product.title}</h2>
           <ProductTab product={product} />
 

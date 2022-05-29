@@ -20,28 +20,23 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import NewProductForm from "./NewProductForm";
 import { Close } from "@mui/icons-material";
 import EditProductForm from "./EditProductForm";
-
-interface Product {
-  _id: String;
-  title: String;
-  price: Number;
-  images: String[];
-  longInfo: String;
-  info: String[];
-  category: String[];
-  stock?: number;
-}
+import { ProductBackend } from "../../utils/backend";
 
 function ManageProductsView() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [open, setOpen] = useState(false);
+  const [products, setProducts] = useState<ProductBackend[]>([]);
+  const [open, setOpen] = useState<String>("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (id: String) => {
+    setOpen(id);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen("");
+    getProductFromBackend();
+  };
+
+  const isOpen = (id: String) => {
+    return open === id;
   };
 
   const getProductFromBackend = async () => {
@@ -63,10 +58,14 @@ function ManageProductsView() {
   return (
     <div className="admin-top-container">
       <div className="admin-edit-button">
-        <Button onClick={handleClickOpen} variant="contained" size="large">
+        <Button
+          onClick={() => handleClickOpen("ADD_PRODUCT")}
+          variant="contained"
+          size="large"
+        >
           <AddIcon /> Lägg till produkt
         </Button>
-        <Dialog open={open} onClose={handleClose}>
+        <Dialog open={isOpen("ADD_PRODUCT")} onClose={handleClose}>
           <DialogActions>
             <Button onClick={handleClose}>
               <Close />
@@ -77,12 +76,12 @@ function ManageProductsView() {
             <DialogContentText>
               If a field has * it's required
             </DialogContentText>
-            <NewProductForm />
+            <NewProductForm close={handleClose} />
           </DialogContent>
         </Dialog>
       </div>
       <div className="admin-container">
-        {products.map((item: Product, i: number) => (
+        {products.map((item: ProductBackend, i: number) => (
           <Accordion key={i} sx={{ width: "100%" }}>
             <AccordionSummary
               expandIcon={<ExpandMore />}
@@ -95,14 +94,14 @@ function ManageProductsView() {
               <Typography>{item.longInfo}</Typography>
               <ButtonGroup>
                 <Button
-                  onClick={handleClickOpen}
+                  onClick={() => handleClickOpen(item._id)}
                   variant="contained"
                   size="large"
                   startIcon={<EditIcon />}
                 >
                   Edit
                 </Button>
-                <Dialog open={open} onClose={handleClose}>
+                <Dialog open={isOpen(item._id)} onClose={handleClose}>
                   <DialogActions>
                     <Button onClick={handleClose}>
                       <Close />
@@ -113,7 +112,7 @@ function ManageProductsView() {
                     <DialogContentText>
                       If a field has * it's required
                     </DialogContentText>
-                    <EditProductForm {...item} />
+                    <EditProductForm product={item} close={handleClose} />
                   </DialogContent>
                 </Dialog>
                 <Button

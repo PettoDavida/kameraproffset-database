@@ -7,6 +7,7 @@ import {
   Button,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { ProductBackend } from "../../utils/backend";
 
 interface Address {
   street: String;
@@ -24,21 +25,10 @@ interface Delivery {
   image: String;
 }
 
-interface Product {
-  title: String;
-  price: Number;
-  images: String[];
-  longInfo: String;
-  info: String[];
-  category: String[];
-  _id: String;
-  quantity?: Number;
-}
-
 interface Order {
   _id: String;
   userID: String;
-  products: Product[];
+  products: ProductBackend[];
   deliveryAddress: Address;
   deliveryMethod: Delivery;
   sent: Boolean;

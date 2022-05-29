@@ -3,21 +3,10 @@ import * as Yup from "yup";
 import { Button, FormControlLabel } from "@mui/material";
 import { TextField, Checkbox } from "formik-mui";
 import { useEffect, useState } from "react";
+import { CategoryBackend, ProductData, uploadImage } from "../../utils/backend";
 
-interface Product {
-  title: String;
-  price: Number;
-  images: String[];
-  longInfo: String;
-  info: String[];
-  category: String[];
-  stock?: number;
-}
-
-interface Category {
-  _id: string;
-  title: string;
-  description: string;
+interface Props {
+  close: () => void;
 }
 
 // const yupValidate = Yup.object().shape({
@@ -37,11 +26,33 @@ export async function getCategoriesFromBackend() {
   return fetch("http://localhost:3000/api/category", headers);
 }
 
-export default function NewProductForm(props: any) {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const sendProductToBackend = (product: Product) => {
-    // TODO: Send to backend
-    console.log(product);
+export default function NewProductForm(props: Props) {
+  const [categories, setCategories] = useState<CategoryBackend[]>([]);
+  const sendProductToBackend = (data: ProductData) => {
+    const token = localStorage.getItem("loginToken");
+    if (!token) return;
+
+    let headers: RequestInit = {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    };
+    fetch("http://localhost:3000/api/products", headers)
+      .then((res: Response) => {
+        if (res.status === 400) {
+          return Promise.reject("Bad");
+        }
+
+        props.close();
+      })
+      .catch((err) => {
+        props.close();
+        console.log(err);
+      });
   };
 
   const updateCategories = async () => {
@@ -82,35 +93,17 @@ export default function NewProductForm(props: any) {
             }
           }
 
-          let array = [];
-          for (let i = 0; i < values.images.length; i++) {
-            let uploadImg = uploadImage(values.images[i]);
-            array.push(uploadImg);
-          }
-          Promise.all(array).then((data) => {
-            let array = [];
-            for (let i = 0; i < data.length; i++) {
-              array.push(data[i].json());
-            }
-            Promise.all(array).then((data) => {
-              let imageIds = [];
-              for (let i = 0; i < data.length; i++) {
-                imageIds.push(data[i]._id);
-              }
+          let product: ProductData = {
+            title: values.title,
+            price: values.price,
+            images: values.images,
+            longInfo: values.longInfo,
+            info: values.infos,
+            category: categoryIds,
+            stock: values.stock,
+          };
 
-              let product: Product = {
-                title: values.title,
-                price: values.price,
-                images: imageIds,
-                longInfo: values.longInfo,
-                info: values.infos,
-                category: categoryIds,
-                stock: values.stock,
-              };
-
-              sendProductToBackend(product);
-            });
-          });
+          sendProductToBackend(product);
         }}
 
         // validationSchema={yupValidate}
@@ -151,7 +144,7 @@ export default function NewProductForm(props: any) {
 
             <FieldArray name="categories">
               {() =>
-                categories.map((category: Category, i: number) => {
+                categories.map((category: CategoryBackend, i: number) => {
                   return (
                     <FormControlLabel
                       key={i}
@@ -191,6 +184,22 @@ export default function NewProductForm(props: any) {
                 })
               }
             </FieldArray>
+            <FieldArray name="oldImages">
+              {() =>
+                values.images.map((imageId: string, i: number) => {
+                  return (
+                    <div key={i}>
+                      <img
+                        src={`http://localhost:3000/api/media/${imageId}`}
+                        alt="productImage"
+                        width="200px"
+                      />
+                      <Button>Delete</Button>
+                    </div>
+                  );
+                })
+              }
+            </FieldArray>
             <Button
               onClick={() => {
                 let infos = values.infos;
@@ -216,15 +225,31 @@ export default function NewProductForm(props: any) {
               multiple
               type="file"
               onChange={(event) => {
-                let images = [];
+                let imageHandles = [];
                 let files = event.currentTarget.files!;
                 for (let i = 0; i < files.length; i++) {
-                  const element = files[i];
-                  images.push(element);
-                  console.log(element);
+                  const file = files[i];
+                  let image = uploadImage(file);
+                  imageHandles.push(image);
                 }
 
-                setFieldValue("images", images);
+                Promise.all(imageHandles)
+                  .then((data) => {
+                    let array = [];
+                    for (let i = 0; i < data.length; i++) {
+                      array.push(data[i].json());
+                    }
+                    Promise.all(array)
+                      .then((newImageObjs) => {
+                        let images = values.images;
+                        for (let i = 0; i < newImageObjs.length; i++) {
+                          images.push(newImageObjs[i]._id);
+                        }
+                        setFieldValue("images", images);
+                      })
+                      .catch((err) => console.log(err));
+                  })
+                  .catch((err) => console.log(err));
               }}
             />
             <label htmlFor="image-file-picker">
@@ -236,14 +261,4 @@ export default function NewProductForm(props: any) {
       </Formik>
     </div>
   );
-}
-
-export function uploadImage(image: File) {
-  var formData = new FormData();
-  formData.append("media", image, image.name);
-  let headers: RequestInit = {
-    method: "POST",
-    body: formData,
-  };
-  return fetch("http://localhost:3000/api/media", headers);
 }
