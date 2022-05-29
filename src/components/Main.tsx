@@ -27,9 +27,9 @@ function Main() {
           element={<Confirmation />}
         />
 
-        {products.map((item) => (
+        {products.map((item, i: number) => (
           <Route
-            key={item.id}
+            key={i}
             path={item.title.replaceAll(" ", "-")}
             element={<ProductInfo product={item} />}
           />
