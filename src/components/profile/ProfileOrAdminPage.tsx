@@ -4,6 +4,9 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import AdminPage from "./AdminPage";
 import ProfilePage from "./ProfilePage";
+import NotAdmin from "./NotAdmin";
+import { getLoginToken, getTokenData } from "../../utils/token";
+import { useNavigate } from "react-router-dom";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,10 +39,17 @@ function a11yProps(index: number) {
 
 export default function ProfileOrAdminPage() {
   const [value, setValue] = React.useState(0);
+  let navigate = useNavigate();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  let token = getLoginToken();
+  if (!token) {
+    navigate("/");
+  }
+  let tokenData = getTokenData(token!);
 
   return (
     <Box sx={{}}>
@@ -53,7 +63,7 @@ export default function ProfileOrAdminPage() {
         <ProfilePage />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <AdminPage />
+        {tokenData.isAdmin ? <AdminPage /> : <NotAdmin />}
       </TabPanel>
     </Box>
   );
