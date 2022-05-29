@@ -2,8 +2,8 @@ import { Button, TextField } from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import getTokenData from "./GetIDFromToken";
 import "./CSS/ChangeForms.css";
+import { getTokenData } from "../../utils/token";
 
 const validationSchema = yup.object({
   oldPassword: yup.string().required("oldPassword is required"),
