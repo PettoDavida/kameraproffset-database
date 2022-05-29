@@ -5,4 +5,11 @@
 .changeForm{
     display: flex;
     flex-direction: column;
+    height: 15rem;
+    justify-content: space-around;
+}
+
+.textField{
+    border-radius: 5px;
+    background-color: white;
 }
