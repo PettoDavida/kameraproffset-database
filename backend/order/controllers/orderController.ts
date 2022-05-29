@@ -33,7 +33,15 @@ const getOrderByUserID = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  try {
+    const ordersByUserID = await OrderModel.find({ userID: req.params.userID });
+    res.status(200).json(ordersByUserID);
+  } catch (err) {
+    res.status(404).json("No order has this userID");
+    next(err);
+  }
+};
 
 const addOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
