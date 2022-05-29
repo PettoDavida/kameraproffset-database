@@ -1,4 +1,4 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export interface Product {
   title: String;
@@ -7,8 +7,8 @@ export interface Product {
   longInfo: String;
   info: String[];
   category: ObjectId[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   quantity?: number;
   stock?: number;
 }
