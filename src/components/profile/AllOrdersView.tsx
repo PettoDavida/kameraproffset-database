@@ -36,6 +36,7 @@ interface Product {
 }
 
 interface Order {
+  _id: String;
   userID: String;
   products: Product[];
   deliveryAddress: Address;
@@ -64,23 +65,78 @@ export default function AllOrdersView() {
 
   return (
     <div>
-      <div>
-        {orders.map((item: Order, i: number) => (
-          <Accordion key={i} sx={{ width: "100%" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMore />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
+      {orders.map((item: Order, i: number) => (
+        <Accordion key={i} sx={{ width: "100%" }}>
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography>{item.userID}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>{item.products[0].title}</Typography>
+            <Typography>
+              Order#{item._id} has
+              {item.sent ? " been sent" : " not been sent"}
+            </Typography>
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => {
+                const token = localStorage.getItem("loginToken");
+                if (!token) return;
+
+                let headers: RequestInit = {
+                  method: "PUT",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                };
+                fetch(`http://localhost:3000/api/order/${item._id}`, headers)
+                  .then((res: Response) => {
+                    return res.json();
+                  })
+                  .then(() => {
+                    getOrdersFromBackend();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
             >
-              <Typography>{item.userID}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>{item.products[0].title}</Typography>
-              <Button>Change Order To Sent</Button>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </div>
+              Change Order To Sent
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                const token = localStorage.getItem("loginToken");
+                if (!token) return;
+
+                let headers: RequestInit = {
+                  method: "DELETE",
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                };
+                fetch(`http://localhost:3000/api/order/${item._id}`, headers)
+                  .then((res: Response) => {
+                    return res.json();
+                  })
+                  .then(() => {
+                    getOrdersFromBackend();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            >
+              Remove Order
+            </Button>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </div>
   );
 }
