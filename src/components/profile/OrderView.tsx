@@ -6,8 +6,9 @@ import {
   AccordionDetails,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import getTokenData from "./GetIDFromToken";
 import "./CSS/OrderView.css";
+import { ProductBackend } from "../../utils/backend";
+import { getTokenData } from "../../utils/token";
 
 interface Address {
   street: String;
@@ -25,20 +26,9 @@ interface Delivery {
   image: String;
 }
 
-interface Product {
-  title: String;
-  price: Number;
-  images: String[];
-  longInfo: String;
-  info: String[];
-  category: String[];
-  _id: String;
-  quantity?: Number;
-}
-
 interface Order {
   userID: String;
-  products: Product[];
+  products: ProductBackend[];
   deliveryAddress: Address;
   deliveryMethod: Delivery;
   sent: Boolean;
