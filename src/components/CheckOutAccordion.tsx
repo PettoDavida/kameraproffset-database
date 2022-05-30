@@ -18,7 +18,6 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import {
   mockedPay,
@@ -31,12 +30,7 @@ import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
-import {
-  ProductBackend,
-  Delivery,
-  ShipperSelection,
-  getImageUrl,
-} from "../utils/backend";
+import { ProductBackend, Delivery, getImageUrl } from "../utils/backend";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
