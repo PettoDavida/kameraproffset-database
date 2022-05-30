@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Delivery {
   title: String;
@@ -8,7 +8,7 @@ export interface Delivery {
   image: String;
 }
 
-const deliverySchema = new mongoose.Schema<Delivery>(
+export const deliverySchema = new mongoose.Schema<Delivery>(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
