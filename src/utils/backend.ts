@@ -13,6 +13,19 @@ export interface ProductBackend {
   quantity?: number;
 }
 
+export interface Delivery {
+  title: String;
+  price: Number;
+  info: String;
+  expectedArrival: Date;
+  image: String;
+  _id: String;
+}
+export interface ShipperSelection {
+  shipper: Delivery;
+  checked: boolean;
+}
+
 // Interface for just product data
 export interface ProductData {
   title: String;

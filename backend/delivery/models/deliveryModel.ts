@@ -6,6 +6,7 @@ export interface Delivery {
   info: String;
   expectedArrival: Date;
   image: String;
+  _id: String;
 }
 
 export const deliverySchema = new mongoose.Schema<Delivery>(
