@@ -11,6 +11,7 @@ import {
   getRequestsFromBackend,
   approveRequest,
   RequestBackend,
+  denyRequest,
 } from "../../utils/backend";
 
 export default function UserRequestsView() {
@@ -46,7 +47,19 @@ export default function UserRequestsView() {
                 ? "Approve password reset"
                 : "Approve admin request"}
             </Button>
-            <Button variant="contained" color="error" onClick={() => {}}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => {
+                denyRequest(item._id).then(() => {
+                  getRequestsFromBackend()
+                    .then((data) => data.json())
+                    .then((requests) => {
+                      setRequests(requests);
+                    });
+                });
+              }}
+            >
               Deny Request
             </Button>
           </AccordionDetails>
