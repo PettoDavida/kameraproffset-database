@@ -129,16 +129,16 @@ export default function CheckOutAccordion() {
       });
   };
 
-  useEffect(() => {
-    getDeliveryData();
-  }, []);
-
   const defaultShipperState: ShipperSelection[] = deliveryFromDb.map(
     (shipper) => ({ shipper, checked: false })
   );
 
   const [checkboxes, setCheckboxes] =
     React.useState<ShipperSelection[]>(defaultShipperState);
+
+  useEffect(() => {
+    getDeliveryData();
+  }, []);
 
   return (
     <div className="checkoutPageContainer">
