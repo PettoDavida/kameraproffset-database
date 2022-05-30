@@ -19,7 +19,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import {
-  Delivery,
   mockedPay,
   mockedShipping,
   PaySelection,
@@ -28,7 +27,7 @@ import {
 } from "../interfaces/interfaces";
 import CardPayment from "./CardPayment";
 import "../CSS/checkOutAccordion.css";
-
+import { Delivery } from "../utils/backend";
 import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
@@ -76,17 +75,10 @@ export default function CheckOutAccordion() {
   const { cartItems } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
-  const defaultShipperState: ShipperSelection[] = mockedShipping.map(
-    (shipper) => ({ shipper, checked: false })
-  );
-
   const totalCost = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity!,
     0
   );
-
-  const [checkboxes, setCheckboxes] =
-    React.useState<ShipperSelection[]>(defaultShipperState);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -125,7 +117,7 @@ export default function CheckOutAccordion() {
     } else return true;
   };
 
-  const [deliveryFromDb, setDeliveryFromDb] = useState<Delivery>([]);
+  const [deliveryFromDb, setDeliveryFromDb] = useState<Delivery[]>([]);
 
   const getDeliveryData = async () => {
     await fetch("http://localhost:3000/api/delivery")
@@ -139,6 +131,13 @@ export default function CheckOutAccordion() {
   useEffect(() => {
     getDeliveryData();
   }, []);
+
+  const defaultShipperState: ShipperSelection[] = deliveryFromDb.map(
+    (shipper) => ({ shipper, checked: false })
+  );
+
+  const [checkboxes, setCheckboxes] =
+    React.useState<ShipperSelection[]>(defaultShipperState);
 
   return (
     <div className="checkoutPageContainer">
@@ -271,8 +270,8 @@ export default function CheckOutAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={"div"} className="DeliveryForm">
-            {checkboxes.map((checkbox) => (
-              <div key={checkbox.shipper.id}>
+            {checkboxes.map((delivery, i) => (
+              <div key={i}>
                 <FormGroup
                   sx={{
                     display: "flex",
@@ -291,7 +290,7 @@ export default function CheckOutAccordion() {
                           });
 
                           const currentBoxIndex = mockedShipping.findIndex(
-                            (item) => item.id === checkbox.shipper.id
+                            (item) => item.id === checkboxes.shipper.id
                           );
 
                           checkboxListToUpdate[currentBoxIndex].checked = true;
@@ -301,18 +300,12 @@ export default function CheckOutAccordion() {
                         checked={checkbox.checked}
                       />
                     }
-                    label={
-                      <img
-                        className="shipper-img"
-                        src={checkbox.shipper.image}
-                        alt=""
-                      />
-                    }
+                    label={<img className="shipper-img" src={} alt="" />}
                   />
 
-                  <div className="info" key={checkbox.shipper.id}>
-                    <p>{checkbox.shipper.price}:-</p>
-                    <p>{checkbox.shipper.info}</p>
+                  <div className="info" key={i}>
+                    <p>{delivery.price}:-</p>
+                    <p>{delivery.info}</p>
                   </div>
                 </FormGroup>
               </div>

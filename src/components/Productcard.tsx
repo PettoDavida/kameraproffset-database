@@ -5,17 +5,31 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
-import { getImageUrl, ProductBackend } from "../utils/backend";
+import { getImageUrl, ProductBackend, ProductData } from "../utils/backend";
 
 export default function ImgMediaCard(): JSX.Element {
-  const { products } = useContext(ProductContext);
+  // const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
+
+  const [product, setProduct] = useState<ProductData[]>([]);
+
+  const getProductFromDb = async () => {
+    await fetch("http://localhost:3000/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+      });
+  };
+
+  useEffect(() => {
+    getDeliveryData();
+  }, []);
 
   return (
     <div className="ProductContainer">
