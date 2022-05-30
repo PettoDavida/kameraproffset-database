@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import {
   Button,
@@ -20,19 +19,21 @@ import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import {
   mockedPay,
-  mockedShipping,
   PaySelection,
   PersonalData,
-  ShipperSelection,
 } from "../interfaces/interfaces";
 import CardPayment from "./CardPayment";
 import "../CSS/checkOutAccordion.css";
-import { Delivery } from "../utils/backend";
 import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
-import { getImageUrl, ProductBackend } from "../utils/backend";
+import {
+  ProductBackend,
+  Delivery,
+  ShipperSelection,
+  getImageUrl,
+} from "../utils/backend";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -270,7 +271,7 @@ export default function CheckOutAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={"div"} className="DeliveryForm">
-            {checkboxes.map((delivery, i) => (
+            {checkboxes.map((checkbox, i) => (
               <div key={i}>
                 <FormGroup
                   sx={{
@@ -289,8 +290,8 @@ export default function CheckOutAccordion() {
                             tempCheckbox.checked = false;
                           });
 
-                          const currentBoxIndex = mockedShipping.findIndex(
-                            (item) => item.id === checkboxes.shipper.id
+                          const currentBoxIndex = deliveryFromDb.findIndex(
+                            (item) => item._id === checkbox.shipper._id
                           );
 
                           checkboxListToUpdate[currentBoxIndex].checked = true;
@@ -300,12 +301,12 @@ export default function CheckOutAccordion() {
                         checked={checkbox.checked}
                       />
                     }
-                    label={<img className="shipper-img" src={} alt="" />}
+                    label={<p></p>}
                   />
 
                   <div className="info" key={i}>
-                    <p>{delivery.price}:-</p>
-                    <p>{delivery.info}</p>
+                    <p>{checkbox.shipper.price}:-</p>
+                    <p>{checkbox.shipper.info}</p>
                   </div>
                 </FormGroup>
               </div>

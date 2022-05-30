@@ -11,13 +11,12 @@ import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
-import { getImageUrl, ProductBackend, ProductData } from "../utils/backend";
+import { getImageUrl, ProductBackend } from "../utils/backend";
 
 export default function ImgMediaCard(): JSX.Element {
   // const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
-
-  const [product, setProduct] = useState<ProductData[]>([]);
+  const [product, setProduct] = useState<ProductBackend[]>([]);
 
   const getProductFromDb = async () => {
     await fetch("http://localhost:3000/api/products")
@@ -28,12 +27,12 @@ export default function ImgMediaCard(): JSX.Element {
   };
 
   useEffect(() => {
-    getDeliveryData();
+    getProductFromDb();
   }, []);
 
   return (
     <div className="ProductContainer">
-      {products.map((item: ProductBackend, i: number) => (
+      {product.map((item: ProductBackend, i: number) => (
         <Card className="storeCardStyle" key={i}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
@@ -51,18 +50,17 @@ export default function ImgMediaCard(): JSX.Element {
                   <Typography gutterBottom variant="h5" component="h2">
                     {item.title}
                   </Typography>
-                  {/*
-                  // TODO: Fixme
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="ul"
-                    className="item-short-info"
-                  >
-                    <li>{item.info1}</li>
-                    <li>{item.info2}</li> <li>{item.info3}</li>
-                  </Typography>
-                */}
+                  {
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="ul"
+                      className="item-short-info"
+                    >
+                      <li>{item.info[0]}</li>
+                      <li>{item.info[1]}</li> <li>{item.info[2]}</li>
+                    </Typography>
+                  }
                 </div>
                 <div className="price">
                   <Typography variant="body2" component="p">

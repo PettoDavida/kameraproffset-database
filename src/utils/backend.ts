@@ -15,7 +15,7 @@ export interface ProductBackend {
 
 export interface Delivery {
   title: String;
-  price: Number;
+  price: number;
   info: String;
   expectedArrival: Date;
   image: String;
@@ -29,13 +29,13 @@ export interface ShipperSelection {
 // Interface for just product data
 export interface ProductData {
   title: String;
-  price: Number;
+  price: number;
   images: String[];
   longInfo: String;
   info: String[];
   category: String[];
   stock?: number;
-  quantity?: Number;
+  quantity?: number;
 }
 
 // Interface for category data from the backend
