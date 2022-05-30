@@ -1,4 +1,3 @@
-import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -7,9 +6,10 @@ import ProfilePage from "./ProfilePage";
 import NotAdmin from "./NotAdmin";
 import { getLoginToken, getTokenData } from "../../utils/token";
 import { useNavigate } from "react-router-dom";
+import { ReactNode, SyntheticEvent, useState } from "react";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   index: number;
   value: number;
 }
@@ -38,17 +38,15 @@ function a11yProps(index: number) {
 }
 
 export default function ProfileOrAdminPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   let navigate = useNavigate();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
   let token = getLoginToken();
-  if (!token) {
-    navigate("/");
-  }
+
   let tokenData = getTokenData(token!);
 
   return (
