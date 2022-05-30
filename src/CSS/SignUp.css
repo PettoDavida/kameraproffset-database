@@ -1,7 +1,7 @@
 .signUpFormContainer{
     display: grid;
     place-content: center;
-    height: 100vh;
+    height: calc(100vh - 3rem);
     background-color: white;
 }
 
