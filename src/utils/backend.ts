@@ -110,6 +110,20 @@ export async function approveRequest(requestId: String) {
   return fetch(`http://localhost:3000/api/requests/${requestId}`, headers);
 }
 
+export async function denyRequest(requestId: String) {
+  let token = getLoginToken();
+  if (!token) return;
+
+  let headers: RequestInit = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return fetch(`http://localhost:3000/api/requests/${requestId}`, headers);
+}
+
 export async function getRequestsFromBackend() {
   let token = getLoginToken();
   if (!token) return Promise.reject("Not logged in");
