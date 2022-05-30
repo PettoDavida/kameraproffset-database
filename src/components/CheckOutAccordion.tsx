@@ -31,6 +31,7 @@ import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
 import { ProductBackend, Delivery, getImageUrl } from "../utils/backend";
+import { isTemplateExpression } from "typescript";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -277,7 +278,7 @@ export default function CheckOutAccordion() {
                   key={i}
                   value={i}
                   control={<Radio />}
-                  label={item.title.toString()}
+                  label={item.title.toString() + "  " + item.price + ":-"}
                 />
               ))}
             </RadioGroup>
@@ -358,34 +359,17 @@ export default function CheckOutAccordion() {
                 ))}
               </div>
               <hr />
-              Totalpris: kr
+              Totalpris: {totalCost} kr
               <div>Moms: {totalCost * 0.25} kr</div>
             </div>
             <br />
-            {/* If shipping and payment has not been choosen, the button is disabled. If they have been choosen
-            the button will not be disabled and the "Link-to" will work. */}
-            {/* Commented out this if because i removed checkboxes from page */}
-            {/* {checkboxes.find((item) => item.checked === true) &&
-            checkboxesPay.find((item) => item.paychecked === true) ? (
-              <Link to={`/ConfirmationPage/${personalInfo.name}`}>
-                <Button
-                  onClick={confirm}
-                  variant="contained"
-                  sx={{ width: "100%" }}
-                >
-                  Slutför köp
-                </Button>
-              </Link>
-            ) : (
-              <Button
-                disabled={true}
-                onClick={confirm}
-                variant="contained"
-                sx={{ width: "100%" }}
-              >
-                Slutför köp
-              </Button>
-            )} */}
+            <Button
+              onClick={confirm}
+              variant="contained"
+              sx={{ width: "100%" }}
+            >
+              Slutför köp
+            </Button>
           </Typography>
         </AccordionDetails>
       </Accordion>
