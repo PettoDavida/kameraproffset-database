@@ -15,10 +15,11 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import { styled } from "@mui/material/styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import {
+  Delivery,
   mockedPay,
   mockedShipping,
   PaySelection,
@@ -122,6 +123,21 @@ export default function CheckOutAccordion() {
       return false;
     } else return true;
   };
+
+  const [deliveryFromDb, setDeliveryFromDb] = useState<Delivery>([]);
+
+  const getDeliveryData = async () => {
+    await fetch("http://localhost:3000/api/delivery")
+      .then((res) => res.json())
+      .then((data) => {
+        setDeliveryFromDb(data);
+        console.log(deliveryFromDb);
+      });
+  };
+
+  useEffect(() => {
+    getDeliveryData();
+  }, []);
 
   return (
     <div className="checkoutPageContainer">
