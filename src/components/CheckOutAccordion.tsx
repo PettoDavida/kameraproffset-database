@@ -4,8 +4,11 @@ import {
   Card,
   CardActions,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
@@ -75,6 +78,7 @@ export default function CheckOutAccordion() {
   const { confirm } = useUser();
   const { cartItems } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
+  const [deliveryIndex, setDeliveryIndex] = useState(0);
 
   const totalCost = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity!,
@@ -125,16 +129,8 @@ export default function CheckOutAccordion() {
       .then((res) => res.json())
       .then((data) => {
         setDeliveryFromDb(data);
-        console.log(deliveryFromDb);
       });
   };
-
-  const defaultShipperState: ShipperSelection[] = deliveryFromDb.map(
-    (shipper) => ({ shipper, checked: false })
-  );
-
-  const [checkboxes, setCheckboxes] =
-    React.useState<ShipperSelection[]>(defaultShipperState);
 
   useEffect(() => {
     getDeliveryData();
@@ -270,54 +266,31 @@ export default function CheckOutAccordion() {
           <Typography>Leveransuppgifter</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography component={"div"} className="DeliveryForm">
-            {checkboxes.map((checkbox, i) => (
-              <div key={i}>
-                <FormGroup
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    padding: "1rem 0",
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() => {
-                          let checkboxListToUpdate = checkboxes;
-
-                          checkboxListToUpdate.forEach((tempCheckbox) => {
-                            tempCheckbox.checked = false;
-                          });
-
-                          const currentBoxIndex = deliveryFromDb.findIndex(
-                            (item) => item._id === checkbox.shipper._id
-                          );
-
-                          checkboxListToUpdate[currentBoxIndex].checked = true;
-
-                          setCheckboxes([...checkboxListToUpdate]);
-                        }}
-                        checked={checkbox.checked}
-                      />
-                    }
-                    label={<p></p>}
-                  />
-
-                  <div className="info" key={i}>
-                    <p>{checkbox.shipper.price}:-</p>
-                    <p>{checkbox.shipper.info}</p>
-                  </div>
-                </FormGroup>
-              </div>
-            ))}
-          </Typography>
+          <FormControl>
+            <RadioGroup
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                padding: "1rem 0",
+              }}
+              onChange={(e, value) => {
+                let index = parseInt(value);
+                setDeliveryIndex(index);
+              }}
+            >
+              {deliveryFromDb.map((item, i) => (
+                <FormControlLabel
+                  key={i}
+                  value={i}
+                  control={<Radio />}
+                  label={item.title.toString()}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
           <Button
             sx={{ width: "100%" }}
             variant="contained"
-            disabled={
-              checkboxes.find((item) => item.checked === true) ? false : true
-            }
             onClick={() => setExpanded("panel5")}
           >
             Bekräfta
@@ -345,26 +318,13 @@ export default function CheckOutAccordion() {
               <div>
                 <hr />
                 <h3>Leveranssätt</h3>
-                {/* {checkboxes.map((checked) => (<div>{checked.findIndex() === true}</div>))} */}
-                <p>
-                  {
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .title
-                  }{" "}
-                </p>
-                <p>
-                  {
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .info
-                  }
-                </p>{" "}
-                <p>
-                  Fraktkostnad:
-                  {" " +
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .price}
-                  :-
-                </p>{" "}
+                {deliveryFromDb.length > 0
+                  ? deliveryFromDb[deliveryIndex].title
+                  : "loading..."}
+                <br />
+                {deliveryFromDb.length > 0
+                  ? deliveryFromDb[deliveryIndex].price + " :-"
+                  : "loading..."}
                 <hr />
                 <h3>Betalning</h3>
                 <p>
@@ -404,19 +364,14 @@ export default function CheckOutAccordion() {
                 ))}
               </div>
               <hr />
-              Totalpris:{" "}
-              {totalCost +
-                checkboxesPay.find((item) => item.paychecked === true)
-                  ?.paymethod.price! +
-                checkboxes.find((item) => item.checked === true)?.shipper
-                  .price!}{" "}
-              kr
+              Totalpris: kr
               <div>Moms: {totalCost * 0.25} kr</div>
             </div>
             <br />
             {/* If shipping and payment has not been choosen, the button is disabled. If they have been choosen
             the button will not be disabled and the "Link-to" will work. */}
-            {checkboxes.find((item) => item.checked === true) &&
+            {/* Commented out this if because i removed checkboxes from page */}
+            {/* {checkboxes.find((item) => item.checked === true) &&
             checkboxesPay.find((item) => item.paychecked === true) ? (
               <Link to={`/ConfirmationPage/${personalInfo.name}`}>
                 <Button
@@ -436,7 +391,7 @@ export default function CheckOutAccordion() {
               >
                 Slutför köp
               </Button>
-            )}
+            )} */}
           </Typography>
         </AccordionDetails>
       </Accordion>
