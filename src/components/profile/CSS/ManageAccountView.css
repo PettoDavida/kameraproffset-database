@@ -1,0 +1,12 @@
+.manageAccountViewContainer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: #333333;
+}
+
+@media (max-width: 470px) {
+    .manageAccountViewContainer{
+        width: 60%;
+    }
+  }

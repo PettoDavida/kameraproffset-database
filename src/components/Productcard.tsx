@@ -11,6 +11,7 @@ import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
+import { getImageUrl, ProductBackend } from "../utils/backend";
 
 export default function ImgMediaCard(): JSX.Element {
   const { products } = useContext(ProductContext);
@@ -18,17 +19,17 @@ export default function ImgMediaCard(): JSX.Element {
 
   return (
     <div className="ProductContainer">
-      {products.map((item) => (
-        <Card className="storeCardStyle" key={item.id}>
+      {products.map((item: ProductBackend, i: number) => (
+        <Card className="storeCardStyle" key={i}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
               <div className="ImageContainer">
                 <CardMedia
                   component="img"
-                  alt={item.title}
+                  alt="image"
                   height="auto"
-                  image={item.image}
-                  title={item.title}
+                  image={getImageUrl(item.images[0])}
+                  title={item.title.toString()}
                 />
               </div>
               <CardContent>
@@ -36,6 +37,8 @@ export default function ImgMediaCard(): JSX.Element {
                   <Typography gutterBottom variant="h5" component="h2">
                     {item.title}
                   </Typography>
+                  {/*
+                  // TODO: Fixme
                   <Typography
                     variant="body2"
                     color="textSecondary"
@@ -45,6 +48,7 @@ export default function ImgMediaCard(): JSX.Element {
                     <li>{item.info1}</li>
                     <li>{item.info2}</li> <li>{item.info3}</li>
                   </Typography>
+                */}
                 </div>
                 <div className="price">
                   <Typography variant="body2" component="p">
@@ -54,7 +58,7 @@ export default function ImgMediaCard(): JSX.Element {
               </CardContent>
             </CardActionArea>
           </Link>
-          <ProductAccordion info={item.longinfo} />
+          <ProductAccordion info={item.longInfo.toString()} />
           <CardActions>
             <div className="buttons">
               <Button

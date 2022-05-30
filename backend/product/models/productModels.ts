@@ -1,4 +1,4 @@
-import mongoose, { ObjectId, Schema, Types } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 export interface Product {
   title: String;
@@ -7,19 +7,23 @@ export interface Product {
   longInfo: String;
   info: String[];
   category: ObjectId[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   quantity?: number;
   stock?: number;
 }
 
-const productSchema = new mongoose.Schema<Product>({
+export const productSchema = new mongoose.Schema<Product>({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   images: { type: [mongoose.Schema.Types.ObjectId], required: true },
   longInfo: { type: String, required: true },
   info: { type: [String], required: true },
-  category: { type: [mongoose.Schema.Types.ObjectId], ref: "category", required: true },
+  category: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "category",
+    required: true,
+  },
   createdAt: { type: Date },
   updatedAt: { type: Date },
   quantity: { type: Number },
