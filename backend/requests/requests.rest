@@ -1,25 +1,25 @@
 ### Get all User Requests
 
 GET http://localhost:3000/api/requests
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI2NDdmN2M0NzkzOTcyM2EzMzljMCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MzY1NzE3OX0.JO0F_6Pr65-TXwGM3SHmkZ3eVOYTpiCvSV_Wxm_K7fA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGNkZDhlNmJhMGQ1NzRmYTk3ODE1ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MzkyNzAxN30.aV6ik1GT990cKPEZ3SUfD922GYBEdClqtzLIfJAPZCE
 
 
 ###
 POST http://localhost:3000/api/requests/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI2NDdmN2M0NzkzOTcyM2EzMzljMCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MzY1NzE3OX0.JO0F_6Pr65-TXwGM3SHmkZ3eVOYTpiCvSV_Wxm_K7fA
 
 {
     "title": "Admin Privileges",
-    "requestingUserId": "628cdd8e6ba0d574fa97815f",
 }
 
 ###
 POST http://localhost:3000/api/requests/
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGNkZDhlNmJhMGQ1NzRmYTk3ODE1ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MzkyNzAxN30.aV6ik1GT990cKPEZ3SUfD922GYBEdClqtzLIfJAPZCE
 
 {
     "title": "Password Reset",
-    "requestingUserId": "628cdd8e6ba0d574fa97815f",
     "passwordRequest": true
 
 }
