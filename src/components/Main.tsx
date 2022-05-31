@@ -26,14 +26,7 @@ function Main() {
           path="/ConfirmationPage/:customerName"
           element={<Confirmation />}
         />
-
-        {products.map((item, i: number) => (
-          <Route
-            key={i}
-            path={item.title.replaceAll(" ", "-")}
-            element={<ProductInfo product={item} />}
-          />
-        ))}
+        <Route path="/:id" element={<ProductInfo />} />
       </Routes>
     </main>
   );
