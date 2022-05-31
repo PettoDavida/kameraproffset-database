@@ -7,7 +7,6 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
-import { ProductBackend, getImageUrl } from "../utils/backend";
 import "./CheckoutItems.css";
 import "./ShoppingCart.css";
 
@@ -17,18 +16,18 @@ export default function CheckOutItems(): JSX.Element {
   return (
     <div>
       <div>
-        {cartItems.map((item: ProductBackend, i: number) => (
+        {cartItems.map((item) => (
           <div>
-            <Card className="cardContainer" key={i}>
+            <Card className="cardContainer" key={item.id}>
               <div className="image">
                 <h1>{item.title}</h1>
                 <CardMedia
                   className="Img"
                   component="img"
-                  alt="image"
+                  alt={item.title}
                   height="auto"
-                  image={getImageUrl(item.images[0])}
-                  title={item.title.toString()}
+                  image={item.image}
+                  title={item.title}
                 />
               </div>
 
@@ -37,7 +36,7 @@ export default function CheckOutItems(): JSX.Element {
                 <CardActions>
                   <Typography>{item.quantity} st</Typography>
                 </CardActions>
-                <Typography>{item.quantity! * item.price}:- </Typography>
+                <Typography>{item.quantity * item.price}:- </Typography>
               </div>
             </Card>
           </div>

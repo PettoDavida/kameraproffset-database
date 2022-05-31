@@ -1,9 +1,0 @@
-.menuPlacement{
-    display: block;
-}
-
-@media (min-width: 768px) {
-    .menuPlacement{
-        display: flex;
-    }
-}

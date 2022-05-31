@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { ChangeEvent, useEffect, useState } from "react";
+import { PersonalData } from "../interfaces/interfaces";
 import "../CSS/CheckOutPage.css";
-import { PersonalData } from "../utils/old";
 
 interface Props {
   sendPersonalData: (data: PersonalData) => void;

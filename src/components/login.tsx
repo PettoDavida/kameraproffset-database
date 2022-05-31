@@ -1,115 +1,85 @@
-import {
-  Button,
-  createTheme,
-  TextField,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import "../CSS/SignUp.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { string } from "yup";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#333333",
-      contrastText: "#FBF7F5", //button text white instead of black
-    },
-    background: {
-      default: "#333333",
-    },
-
-    secondary: {
-      main: "#DA344D",
-    },
-  },
-});
-
-const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup.string().required("Password is required"),
-});
-
-function LogInPage() {
-  const navigate = useNavigate();
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      let headers: RequestInit = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      };
-      fetch("http://localhost:3000/api/user/login", headers)
-        .then((res: Response) => {
-          if (res.status === 403) {
-            return Promise.reject("Email or Password incorrect");
-          } else if (res.status === 500) {
-            return Promise.reject("Internal server error");
-          } else if (res.status === 400) {
-            return Promise.reject("Email and Password required");
-          }
-
-          return res.json();
-        })
-        .then((data) => {
-          localStorage.setItem("loginToken", data.token);
-          navigate("/");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  });
-
-  return (
-    <ThemeProvider theme={theme}>
-      <div className="signUpFormContainer">
-        <form className="signUpForm" onSubmit={formik.handleSubmit}>
-          <TextField
-            id="email"
-            name="email"
-            label="Email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <Button color="primary" variant="contained" type="submit">
-            Login
-          </Button>
-        </form>
-        <br />
-        <div className="center">
-          <Typography>
-            Don't have an account? <Link to="/SignUp">Register here</Link>
-          </Typography>
-        </div>
-      </div>
-    </ThemeProvider>
-  );
+interface Props {
+  handleOnSubmit(): void;
+  email: string;
+  password: string;
 }
 
-export default LogInPage;
+export default function CreateUser(props: Props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleOnSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    let result = await fetch("/user", {
+      method: "post",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+    if (result.ok) {
+      result = await result.json();
+      setPassword("");
+      setEmail("");
+      return alert("User Created");
+    }
+    return alert("Something went wrong");
+  };
+
+  return (
+    <div className="login-container">
+      <div className="row d-flex justify-content-center flex-column align-items-center">
+        <div className="login-form">
+          <form action="" id="loginform">
+            <div className="form-group">
+              <h1>Skapa användare</h1>
+              <label>Användarnamn</label>
+              <input
+                type="text"
+                className="form-control"
+                id="userNameInput"
+                name="userNameInput"
+                aria-describedby="userNameHelp"
+                placeholder="Ange användarnamn"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <small
+                id="userNameHelp"
+                className="text-danger form-text"
+              ></small>
+            </div>
+            <div className="form-group">
+              <label>Lösenord</label>
+              <input
+                type="password"
+                className="form-control"
+                id="exampleInputPassword1"
+                placeholder="Ange lösenord"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <small
+                id="passworderror"
+                className="text-danger form-text"
+              ></small>
+            </div>
+            <div className="login-buttons">
+              <button
+                type="submit"
+                onClick={handleOnSubmit}
+                className="btn btn-primary"
+              >
+                Skapa användare
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}

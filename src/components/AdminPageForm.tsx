@@ -7,7 +7,6 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { title } from "process";
 import React, { ChangeEvent, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
@@ -150,69 +149,68 @@ export default function AdminPageForm(props?: Props) {
     });
   };
 
-  // TODO: Fixme
-  // /*
-  // const product: Product = {
-  //   /**
-  //    * If you are editing an existing product, the ID will be the same as the products' original ID.
-  //    *
-  //    * If we add a new product and the products-array contains at least one product, we check for the largest ID number of the products in
-  //    * the products-array, and set the new products' ID number to that number + 1. So if the largest ID number of the exisiting products is 10,
-  //    * we set the new product ID to 11.
-  //    *
-  //    * If we add a new product and we dont have any existing products. We set the ID to 1.
-  //    */
-  //   id: props?.product
-  //     ? props.product.id
-  //     : products.length > 0
-  //     ? Math.max.apply(
-  //         Math,
-  //         products.map((item) => {
-  //           return item.id + 1;
-  //         })
-  //       )
-  //     : 1,
-  //   title: value.title!,
-  //   longinfo: value.longInfo!,
-  //   info1: value.info1!,
-  //   info2: value.info2!,
-  //   info3: value.info3!,
-  //   price: Number(value.price),
-  //   quantity: 1,
-  //   image: value.image!,
-  //   image2: value.image2!,
-  //   image3: value.image3!,
-  //   specs: [
-  //     {
-  //       spectitle: value.spec[0].spectitle!,
-  //       spec: value.spec[0].specinfo!,
-  //       id: 1,
-  //     },
-  //     {
-  //       spectitle: value.spec[1].spectitle!,
-  //       spec: value.spec[1].specinfo!,
-  //       id: 2,
-  //     },
-  //     {
-  //       spectitle: value.spec[2].spectitle!,
-  //       spec: value.spec[2].specinfo!,
-  //       id: 3,
-  //     },
-  //     {
-  //       spectitle: value.spec[3].spectitle!,
-  //       spec: value.spec[3].specinfo!,
-  //       id: 4,
-  //     },
-  //     {
-  //       spectitle: value.spec[4].spectitle!,
-  //       spec: value.spec[4].specinfo!,
-  //       id: 5,
-  //     },
-  //   ],
-  // TODO: Fixme
-  // handleAddProduct(product);
-  // addedProductMessage();
-  //};
+  const sendToAddProduct = () => {
+    const product: Product = {
+      /**
+       * If you are editing an existing product, the ID will be the same as the products' original ID.
+       *
+       * If we add a new product and the products-array contains at least one product, we check for the largest ID number of the products in
+       * the products-array, and set the new products' ID number to that number + 1. So if the largest ID number of the exisiting products is 10,
+       * we set the new product ID to 11.
+       *
+       * If we add a new product and we dont have any existing products. We set the ID to 1.
+       */
+      id: props?.product
+        ? props.product.id
+        : products.length > 0
+        ? Math.max.apply(
+            Math,
+            products.map((item) => {
+              return item.id + 1;
+            })
+          )
+        : 1,
+      title: value.title!,
+      longinfo: value.longInfo!,
+      info1: value.info1!,
+      info2: value.info2!,
+      info3: value.info3!,
+      price: Number(value.price),
+      quantity: 1,
+      image: value.image!,
+      image2: value.image2!,
+      image3: value.image3!,
+      specs: [
+        {
+          spectitle: value.spec[0].spectitle!,
+          spec: value.spec[0].specinfo!,
+          id: 1,
+        },
+        {
+          spectitle: value.spec[1].spectitle!,
+          spec: value.spec[1].specinfo!,
+          id: 2,
+        },
+        {
+          spectitle: value.spec[2].spectitle!,
+          spec: value.spec[2].specinfo!,
+          id: 3,
+        },
+        {
+          spectitle: value.spec[3].spectitle!,
+          spec: value.spec[3].specinfo!,
+          id: 4,
+        },
+        {
+          spectitle: value.spec[4].spectitle!,
+          spec: value.spec[4].specinfo!,
+          id: 5,
+        },
+      ],
+    };
+    handleAddProduct(product);
+    addedProductMessage();
+  };
 
   const areAllFieldsFilled = () => {
     if (
@@ -413,7 +411,7 @@ export default function AdminPageForm(props?: Props) {
         </div>
         <Link to="/AdminPage">
           <Button
-            onClick={() => {} /*sendToAddProduct*/}
+            onClick={sendToAddProduct}
             variant="contained"
             disabled={Boolean(areAllFieldsFilled())}
             size="medium"

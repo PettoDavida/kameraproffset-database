@@ -1,25 +1,21 @@
 import { useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ProductContext } from "../contexts/ProductContext";
+import AdminPage from "./AdminPage";
 import CheckOut from "./CheckOutPage";
 import Confirmation from "./confirmationPage";
-import LogInPage from "./login";
 import ProductInfo from "./Productinfo";
-import ProfileOrAdminPage from "./profile/ProfileOrAdminPage";
 import ShoppingCartPage from "./ShoppingCartPage";
-import SignUpPage from "./SignUp";
 import Store from "./Store";
 
 function Main() {
   const { products } = useContext(ProductContext);
   return (
-    <main style={{ height: "calc(100vh - 3rem)" }}>
+    <main>
       <Routes>
         <Route path="/" element={<Store />} />
-        <Route path="/ProfileOrAdminPage" element={<ProfileOrAdminPage />} />
+        <Route path="/AdminPage" element={<AdminPage />} />
         <Route path="/ShoppingCartPage" element={<ShoppingCartPage />} />
-        <Route path="/SignUp" element={<SignUpPage />} />
-        <Route path="/LogIn" element={<LogInPage />} />
 
         <Route path="/CheckOut" element={<CheckOut />} />
         <Route
@@ -27,9 +23,9 @@ function Main() {
           element={<Confirmation />}
         />
 
-        {products.map((item, i: number) => (
+        {products.map((item) => (
           <Route
-            key={i}
+            key={item.id}
             path={item.title.replaceAll(" ", "-")}
             element={<ProductInfo product={item} />}
           />
