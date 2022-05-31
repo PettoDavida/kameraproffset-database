@@ -8,7 +8,7 @@ export interface Delivery {
   image: String;
 }
 
-const deliverySchema = new mongoose.Schema<Delivery>(
+export const DeliverySchema = new mongoose.Schema<Delivery>(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
@@ -22,4 +22,4 @@ const deliverySchema = new mongoose.Schema<Delivery>(
   }
 );
 
-export const deliveryModel = mongoose.model("delivery", deliverySchema);
+export const deliveryModel = mongoose.model("delivery", DeliverySchema);
