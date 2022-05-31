@@ -26,16 +26,17 @@ const getOrderByID = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 const getOrderByUserID = async (req: Request, res: Response, next: NextFunction) => {
+
+
        try {
-              const userID = req.body;
-              const orders = await OrderModel.getOrderByUserID(userID.id);
-              res.status(200).send(orders)
-              console.log(orders);
+              const {userID} = req.params;
+              await OrderModel.findById(userID, req.body)
+              console.log(userID, req.body)
        } catch (err) {
-              res.status(404).json("An order with that user ID was not found")
+              res.status(404).json("No orders found on this user");
               next(err)
        }
-      
+
 };
 
 const addOrder = async (req: Request, res: Response, next: NextFunction) => {

@@ -4,7 +4,7 @@ import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent,
 
 let orderRouter = express
                  .Router()
-                 .get('/order', getAllOrders)
+                 .get('/order', checkAdmin, getAllOrders)
                  .get('/order/:id', getOrderByID)
                  .get('/order/:userID', getOrderByUserID)
                  .post('/order', addOrder)

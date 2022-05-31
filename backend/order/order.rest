@@ -1,7 +1,7 @@
 ### Get all orders
 GET http://localhost:3000/api/order
 
-###Gets a specific order
+### Gets a specific order
 
 GET http://localhost:3000/api/order/:id
 
@@ -47,7 +47,10 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/api/order/62878f2ab155b83835486ad7
+PUT http://localhost:3000/api/order/628c989144b83cf236c0f49d
 Content-Type: application/json
+###
 
+### Delete order by ID
+DELETE http://localhost:3000/api/order/628c989144b83cf236c0f49d
 ###
