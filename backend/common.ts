@@ -8,6 +8,7 @@ export interface Address {
   lastName: String;
 }
 
+
 export const addressSchema = new mongoose.Schema<Address>({
   street: { type: String, required: true },
   zipcode: { type: Number, required: true },
@@ -17,3 +18,4 @@ export const addressSchema = new mongoose.Schema<Address>({
 }, { _id: false });
 
 export const AddressModel = mongoose.model("address", addressSchema);
+
