@@ -21,7 +21,7 @@ interface Specs {
   spec: string;
 }
 
-const productSchema = new mongoose.Schema<Product>(
+const ProductSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
@@ -42,8 +42,8 @@ const productSchema = new mongoose.Schema<Product>(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-productSchema.virtual("imageURL").get(function () {
+ProductSchema.virtual("imageURL").get(function () {
   return "/api/media/" + this.images;
 });
 
-export const productModel = mongoose.model("product", productSchema);
+export const productModel = mongoose.model("product", ProductSchema);

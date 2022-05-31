@@ -1,18 +1,22 @@
 import mongoose from 'mongoose'
-import { Address, AddressModel }from '../../common'
+import { Address, AddressSchema } from '../../common'
+import { Delivery, DeliverySchema } from '../../delivery/models/deliveryModel'
+import { Product, ProductSchema } from '../../product/models/productModels'
 
 export interface Order {
-    products: []
+    products: Product[]
     deliveryAddress: Address
-    deliveryOption: String
+    deliveryOption: Delivery
     sent: Boolean
+    createdAt: Date;
+    /** VIRTUAL */ totalPrice: number;
 }
 
-const orderSchema = new mongoose.Schema<Order>(
+const OrderSchema = new mongoose.Schema<Order>(
     {
-        products: { type: [], required: true },
-        deliveryAddress: { type: AddressModel, required: true },
-        deliveryOption: { type: String, required: true },
+        products: { type: [ProductSchema], required: true },
+        deliveryAddress: { type: AddressSchema, required: true },
+        deliveryOption: { type: DeliverySchema, required: true },
         sent: { type: Boolean, required: true, default: false },
     },
     {
@@ -22,7 +26,10 @@ const orderSchema = new mongoose.Schema<Order>(
     }
 )
 
+OrderSchema.virtual('totalPrice').get(function() {
+    return 0;
+});
 
 
 
-export const OrderModel = mongoose.model('order', orderSchema)
+export const OrderModel = mongoose.model('order', OrderSchema)

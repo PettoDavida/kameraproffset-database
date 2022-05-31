@@ -7,8 +7,7 @@ let orderRouter = express
                  .get('/order', getAllOrders)
                  .get('/order/:id', getOrderByID)
                  .get('/order/:userID', getOrderByUserID)
-                 .post('/order', addOrder)
-                 .put('/order/:id', setOrderToSent)
+                 .post('/order', addOrder, setOrderToSent)
                  .delete('/order/:id', deleteOrder)
 
 

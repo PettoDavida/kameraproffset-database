@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from "mongoose";
+import mongoose from "mongoose";
 
 export interface Delivery {
   title: String;
@@ -7,11 +7,17 @@ export interface Delivery {
   expectedArrival: Date;
 }
 
-const deliverySchema = new mongoose.Schema<Delivery>({
-  title: { type: String, required: true },
-  price: { type: Number, required: true },
-  info: { type: String, required: true },
-  expectedArrival: { type: Date, required: true },
-});
+export const DeliverySchema = new mongoose.Schema<Delivery>(
+  {
+    title: { type: String, required: true },
+    price: { type: Number, required: true },
+    info: { type: String, required: true },
+    expectedArrival: { type: Date, required: true },
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
-export const deliveryModel = mongoose.model("delivery", deliverySchema);
+export const deliveryModel = mongoose.model("delivery", DeliverySchema);

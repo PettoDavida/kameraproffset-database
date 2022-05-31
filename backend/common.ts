@@ -8,7 +8,7 @@ export interface Address {
     lastName: String
 }
 
-const addressSchema = new mongoose.Schema<Address>(
+export const AddressSchema = new mongoose.Schema<Address>(
     {
         street: { type: String, required: true },
         zipcode: { type: Number, required: true },
@@ -18,4 +18,4 @@ const addressSchema = new mongoose.Schema<Address>(
     }
 )
 
-export const AddressModel = mongoose.model('address', addressSchema)
+export const AddressModel = mongoose.model('address', AddressSchema)
