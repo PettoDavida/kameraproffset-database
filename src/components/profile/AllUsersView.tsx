@@ -90,31 +90,35 @@ export default function AllUsersView() {
                     <AdminChangePassword {...item} />
                   </DialogContent>
                 </Dialog>
-                <Button
-                  color="error"
-                  variant="contained"
-                  onClick={() => {
-                    const token = localStorage.getItem("loginToken");
-                    if (!token) return;
+                {item.isAdmin ? (
+                  ""
+                ) : (
+                  <Button
+                    color="error"
+                    variant="contained"
+                    onClick={() => {
+                      const token = localStorage.getItem("loginToken");
+                      if (!token) return;
 
-                    let headers: RequestInit = {
-                      method: "DELETE",
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                    };
-                    fetch(
-                      `http://localhost:3000/api/user/${item._id}`,
-                      headers
-                    ).then(() => {
-                      getUsersFromBackend();
-                    });
-                  }}
-                  startIcon={<DeleteForeverIcon />}
-                >
-                  Remove User
-                </Button>
+                      let headers: RequestInit = {
+                        method: "DELETE",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${token}`,
+                        },
+                      };
+                      fetch(
+                        `http://localhost:3000/api/user/${item._id}`,
+                        headers
+                      ).then(() => {
+                        getUsersFromBackend();
+                      });
+                    }}
+                    startIcon={<DeleteForeverIcon />}
+                  >
+                    Remove User
+                  </Button>
+                )}
               </ButtonGroup>
             </AccordionDetails>
           </Accordion>

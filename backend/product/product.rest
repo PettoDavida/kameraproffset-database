@@ -3,7 +3,7 @@ GET http://localhost:3000/api/products
 ###
 
 # Get a single product
-GET http://localhost:3000/api/products/:id
+GET http://localhost:3000/api/products/628ce29b7cf6edafccd9c90e
 ###
 
 

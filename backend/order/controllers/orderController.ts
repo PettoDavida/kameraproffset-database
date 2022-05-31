@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { OrderModel } from "../models/orderModels";
 
-const getAllOrders = async (
+export const getAllOrders = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -15,7 +15,7 @@ const getAllOrders = async (
   }
 };
 
-const getOrderByID = async (
+export const getOrderByID = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -29,7 +29,7 @@ const getOrderByID = async (
   }
 };
 
-const getOrderByUserID = async (
+export const getOrderByUserID = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -43,8 +43,13 @@ const getOrderByUserID = async (
   }
 };
 
-const addOrder = async (req: Request, res: Response, next: NextFunction) => {
+export const addOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
+    // Set user and prefferably products here on the server
     const newOrder = new OrderModel(req.body);
     await newOrder.save();
     console.log(newOrder);
@@ -54,7 +59,7 @@ const addOrder = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const setOrderToSent = async (
+export const setOrderToSent = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -73,7 +78,11 @@ const setOrderToSent = async (
   }
 };
 
-const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
+export const deleteOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const deleteOrder = await OrderModel.findByIdAndDelete(
       req.params.id,
@@ -84,13 +93,5 @@ const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
     res.status(404).json("ID was not found");
     next(err);
   }
-};
 
-export {
-  getAllOrders,
-  getOrderByID,
-  getOrderByUserID,
-  addOrder,
-  setOrderToSent,
-  deleteOrder,
 };

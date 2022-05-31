@@ -1,4 +1,3 @@
-import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -7,9 +6,10 @@ import ProfilePage from "./ProfilePage";
 import NotAdmin from "./NotAdmin";
 import { getLoginToken, getTokenData } from "../../utils/token";
 import { useNavigate } from "react-router-dom";
+import { ReactNode, SyntheticEvent, useEffect, useState } from "react";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   index: number;
   value: number;
 }
@@ -38,22 +38,23 @@ function a11yProps(index: number) {
 }
 
 export default function ProfileOrAdminPage() {
-  const [value, setValue] = React.useState(0);
-  let navigate = useNavigate();
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
   let token = getLoginToken();
-  if (!token) {
-    navigate("/");
-  }
-  let tokenData = getTokenData(token!);
 
+  useEffect(() => {
+    if (!token) navigate("/");
+  }, []);
+
+  if (!token) return null;
+
+  let tokenData = getTokenData(token);
   return (
-    <Box sx={{}}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", paddingTop: "5rem" }}>
+    <Box sx={{ minHeight: "80vh" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Profile" {...a11yProps(0)} />
           <Tab label="Admin" {...a11yProps(1)} />

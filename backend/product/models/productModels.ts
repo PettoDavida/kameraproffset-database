@@ -1,7 +1,7 @@
 import mongoose, { ObjectId } from "mongoose";
 
 export interface Product {
-  title: String;
+  title: string;
   price: Number;
   images: ObjectId[];
   longInfo: String;
@@ -19,7 +19,7 @@ export interface Specs {
   spec: string;
 }
 
-export const ProductSchema = new mongoose.Schema<Product>({
+export const productSchema = new mongoose.Schema<Product>({
   title: { type: String, required: true },
   price: { type: Number, required: true },
   images: { type: [mongoose.Schema.Types.ObjectId], required: true },
@@ -41,4 +41,4 @@ export const ProductSchema = new mongoose.Schema<Product>({
   ],
 });
 
-export const productModel = mongoose.model("product", ProductSchema);
+export const ProductModel = mongoose.model("product", productSchema);

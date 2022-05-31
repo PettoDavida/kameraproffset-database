@@ -12,7 +12,7 @@ export interface Order {
   /** VIRTUAL */ totalPrice: number;
 }
 
-const OrderSchema = new mongoose.Schema<Order>(
+const orderSchema = new mongoose.Schema<Order>(
   {
     products: { type: [ProductSchema], required: true },
     deliveryAddress: { type: AddressSchema, required: true },
@@ -30,4 +30,5 @@ OrderSchema.virtual("totalPrice").get(function () {
   return 0;
 });
 
-export const OrderModel = mongoose.model("order", OrderSchema);
+export const OrderModel = mongoose.model("order", orderSchema);
+
