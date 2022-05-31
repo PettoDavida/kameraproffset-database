@@ -41,10 +41,10 @@ const getOrderByUserID = async (
     res.status(404).json("No order has this userID");
     next(err);
   }
-};
 
 const addOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Set user and prefferably products here on the server
     const newOrder = new OrderModel(req.body);
     await newOrder.save();
     console.log(newOrder);
@@ -86,11 +86,14 @@ const deleteOrder = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+
+
+
 export {
   getAllOrders,
   getOrderByID,
   getOrderByUserID,
   addOrder,
   setOrderToSent,
-  deleteOrder,
+  deleteOrder
 };

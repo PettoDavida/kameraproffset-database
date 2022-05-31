@@ -7,6 +7,7 @@ export interface Product {
   longInfo: String;
   info: String[];
   category: ObjectId[];
+
   createdAt: Date;
   updatedAt: Date;
   quantity?: Number;
@@ -42,6 +43,7 @@ export const productSchema = new mongoose.Schema<Product>(
 
 productSchema.virtual("imageURL").get(function () {
   return "/api/media/" + this.images;
+
 });
 
 export const productModel = mongoose.model("product", productSchema);
