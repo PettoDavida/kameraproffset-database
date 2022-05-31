@@ -21,7 +21,7 @@ interface Specs {
   spec: string;
 }
 
-const ProductSchema = new mongoose.Schema<Product>(
+export const ProductSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
