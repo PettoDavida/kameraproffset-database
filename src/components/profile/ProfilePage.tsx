@@ -12,6 +12,7 @@ import {
   SyntheticEvent,
   MouseEvent,
 } from "react";
+import "./CSS/AdminAndProfile.css";
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -45,10 +46,10 @@ function a11yProps(index: number) {
 
 export default function ProfilePage() {
   const [value, setValue] = useState(0);
-  const [isDesktop, setDesktop] = useState(window.innerWidth > 1450);
+  const [isDesktop, setDesktop] = useState(window.innerWidth > 768);
 
   const updateMedia = () => {
-    setDesktop(window.innerWidth > 1450);
+    setDesktop(window.innerWidth > 768);
   };
 
   useEffect(() => {
@@ -70,7 +71,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <Box sx={{}}>
+    <Box className="menuPlacement">
       {isDesktop ? (
         <Box sx={{ borderRight: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} orientation="vertical">
