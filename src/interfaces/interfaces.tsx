@@ -49,7 +49,7 @@ export const mockedProducts: Product[] = [
       },
       {
         spectitle: "Objektivfattning",
-        spec: "Sony E",
+        spec: "Objektivfattning",
         id: 3,
       },
       {
