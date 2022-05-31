@@ -1,8 +1,14 @@
-import { Button, createTheme, TextField, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  TextField,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import "../CSS/SignUp.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -95,6 +101,12 @@ function LogInPage() {
             Login
           </Button>
         </form>
+        <br />
+        <div className="center">
+          <Typography>
+            Don't have an account? <Link to="/SignUp">Register here</Link>
+          </Typography>
+        </div>
       </div>
     </ThemeProvider>
   );
