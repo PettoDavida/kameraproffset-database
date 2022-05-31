@@ -32,6 +32,7 @@ import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
+import { getImageUrl, ProductBackend } from "../utils/backend";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -79,7 +80,7 @@ export default function CheckOutAccordion() {
   );
 
   const totalCost = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.price * item.quantity!,
     0
   );
 
@@ -374,17 +375,19 @@ export default function CheckOutAccordion() {
               <div>
                 <h3>Valda produkter</h3>
 
-                {cartItems.map((item) => (
-                  <div className="product-checkout-container" key={item.id}>
+                {cartItems.map((item: ProductBackend, i: number) => (
+                  <div className="product-checkout-container" key={i}>
                     <Card className="product-checkout-width">
                       <h1>{item.title}</h1>
                       <div className="image-checkout-container">
-                        <img src={item.image} alt="" />
+                        <img src={getImageUrl(item.images[0])} alt="" />
 
                         <CardActions>
                           <Typography>{item.quantity} st</Typography>
                         </CardActions>
-                        <Typography>{item.quantity * item.price}:- </Typography>
+                        <Typography>
+                          {item.quantity! * item.price}:-{" "}
+                        </Typography>
                       </div>
                     </Card>
                   </div>

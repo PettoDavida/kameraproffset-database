@@ -9,6 +9,7 @@ export interface Order {
   deliveryAddress: Address;
   deliveryMethod: Delivery;
   sent: Boolean;
+  /** VIRTUAL */ totalPrice: Number;
 }
 
 const orderSchema = new mongoose.Schema<Order>(
@@ -25,5 +26,9 @@ const orderSchema = new mongoose.Schema<Order>(
     toObject: { virtuals: true },
   }
 );
+
+orderSchema.virtual("totalPrice").get(function () {
+  return 0;
+});
 
 export const OrderModel = mongoose.model("order", orderSchema);

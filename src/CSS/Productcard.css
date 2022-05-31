@@ -4,8 +4,7 @@
   flex-wrap: wrap;
   flex-basis: max-content;
   background-color: white;
-  margin-top: 5rem;
-  min-height: calc(100vh - 8rem);
+  min-height: 100vh;
 }
 
 .price {

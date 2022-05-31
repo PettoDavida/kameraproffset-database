@@ -12,17 +12,15 @@ export interface Product {
   updatedAt: Date;
   quantity?: Number;
   stock?: Number;
-  specs?: Specs[];
-  imageURL: string;
-  _id: string;
+  specs: Specs[];
 }
 
-interface Specs {
+export interface Specs {
   spectitle: string;
   spec: string;
 }
 
-export const ProductSchema = new mongoose.Schema<Product>(
+export const productSchema = new mongoose.Schema<Product>(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
@@ -38,14 +36,14 @@ export const ProductSchema = new mongoose.Schema<Product>(
     updatedAt: { type: Date },
     quantity: { type: Number },
     stock: { type: Number },
-    specs: { type: [String] },
+    specs: { type: [{ spectitle: { type: String }, spec: { type: String } }] },
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-ProductSchema.virtual("imageURL").get(function () {
+productSchema.virtual("imageURL").get(function () {
   return "/api/media/" + this.images;
 
 });
 
-export const productModel = mongoose.model("product", ProductSchema);
+export const productModel = mongoose.model("product", productSchema);

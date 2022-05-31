@@ -6,6 +6,7 @@ import {
   getAllProducts,
   getProduct,
   getProductsByCategory,
+  deleteProduct,
 } from "../controllers/productController";
 
 export const productRouter = express
@@ -14,6 +15,7 @@ export const productRouter = express
   .get("/products/:id", getProduct)
   .get("/products/categories/:id", getProductsByCategory)
   .post("/products", addProduct)
-  .put("/products/:id", editProduct);
+  .put("/products/:id", editProduct)
+  .delete("/products/:id", deleteProduct);
 
 export default productRouter;
