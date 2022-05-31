@@ -3,8 +3,8 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { Product } from "../interfaces/interfaces";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { ProductBackend } from "../utils/backend";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -51,7 +51,7 @@ function a11yProps(index: number) {
 }
 
 interface Props {
-  product: ProductBackend;
+  product: Product;
 }
 
 export default function ProductTab(props: Props) {
@@ -75,12 +75,10 @@ export default function ProductTab(props: Props) {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Typography>{props.product.longInfo}</Typography>
+          <Typography>{props.product.longinfo}</Typography>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ul style={{ padding: "0" }}>
-            {/*
-            // TODO: Fixme
             {props.product.specs.map((test) => (
               <li
                 style={{ display: "flex", justifyContent: "space-between" }}
@@ -93,7 +91,7 @@ export default function ProductTab(props: Props) {
                   {test.spec}
                 </Typography>
               </li>
-            ))}*/}
+            ))}
           </ul>
         </TabPanel>
       </Box>

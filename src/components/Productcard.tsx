@@ -5,55 +5,51 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
-import { getImageUrl, ProductBackend } from "../utils/backend";
+import { Product } from "../../backend/product/models/productModels";
 
 export default function ImgMediaCard(): JSX.Element {
   const { handleAddProduct } = useCart();
 
-  const [products, setProducts] = useState<ProductBackend[]>([]);
+  const [dataFromDb, setDataFromDb] = useState<Product[]>([]);
 
-  const getProducts = async () => {
-    let headers: RequestInit = {
-      method: "GET",
-    };
-    fetch("http://localhost:3000/api/products/", headers)
-      .then((res: Response) => res.json())
+  const getData = async () => {
+    await fetch("http://localhost:3000/api/products/")
+      .then((res) => res.json())
       .then((data) => {
-        setProducts(data);
+        setDataFromDb(data);
       });
   };
 
   useEffect(() => {
-    getProducts();
+    getData();
   }, []);
 
   return (
     <div className="ProductContainer">
-      {products.map((item: ProductBackend, i: number) => (
-        <Card className="storeCardStyle" key={i}>
+      {dataFromDb.map((item) => (
+        <Card className="storeCardStyle" key={item._id}>
           <Link to={item.title.replaceAll(" ", "-")}>
             <CardActionArea>
               <div className="ImageContainer">
-                <CardMedia
-                  component="img"
-                  alt="image"
-                  height="auto"
-                  image={getImageUrl(item.images[0])}
-                  title={item.title.toString()}
-                />
+                {
+                  <CardMedia
+                    component="img"
+                    height="auto"
+                    src={item.imageURL}
+                    title={item.title}
+                  />
+                }
               </div>
               <CardContent>
                 <div className="InfoContainer">
                   <Typography gutterBottom variant="h5" component="h2">
                     {item.title}
                   </Typography>
-                  {/*
-                  // TODO: Fixme
                   <Typography
                     variant="body2"
                     color="textSecondary"
@@ -63,7 +59,6 @@ export default function ImgMediaCard(): JSX.Element {
                     <li>{item.info[0]}</li>
                     <li>{item.info[1]}</li> <li>{item.info[2]}</li>
                   </Typography>
-                */}
                 </div>
                 <div className="price">
                   <Typography variant="body2" component="p">

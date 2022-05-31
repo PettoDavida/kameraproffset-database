@@ -1,13 +1,13 @@
 import { createContext, FC, useContext, useState } from "react";
-import { ProductBackend } from "../utils/backend";
+import { Product } from "../interfaces/interfaces";
 
 export interface ContextValue {
-  cartItems: ProductBackend[];
-  amountOfProducts: Number;
-  handleAddProduct: (product: ProductBackend) => void;
-  handleRemoveProduct: (product: ProductBackend) => void;
+  cartItems: Product[];
+  amountOfProducts: number;
+  handleAddProduct: (product: Product) => void;
+  handleRemoveProduct: (product: Product) => void;
   emptyCart: () => void;
-  totalPrice: Number;
+  totalPrice: number;
 }
 
 export const ShoppingCartContext = createContext<ContextValue>({
@@ -20,7 +20,7 @@ export const ShoppingCartContext = createContext<ContextValue>({
 });
 
 const ShoppingCartProvider: FC = (props) => {
-  const [cartItems, setCartItems] = useState<ProductBackend[]>([]);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
   const [amountOfProducts, setAmountOfProducts] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -29,15 +29,15 @@ const ShoppingCartProvider: FC = (props) => {
    * If the product already exists, the product's quantity increases by one.
    * @param product This is the product we want to add.
    */
-  function handleAddProduct(product: ProductBackend) {
-    const productExists = cartItems.find((item) => item._id === product._id);
+  function handleAddProduct(product: Product) {
+    const productExists = cartItems.find((item) => item.id === product.id);
     // If the product already exist we won't add it to the array again,
     // we will just set its quantity to plus one
     if (productExists) {
       setCartItems(
         cartItems.map((item) =>
-          item._id === product._id
-            ? { ...productExists, quantity: productExists.quantity! + 1 }
+          item.id === product.id
+            ? { ...productExists, quantity: productExists.quantity + 1 }
             : item
         )
       );
@@ -58,17 +58,17 @@ const ShoppingCartProvider: FC = (props) => {
    * If the product's quantity is more than one, the product's quantity decreases by one.
    * @param product This is the product we want to remove.
    */
-  function handleRemoveProduct(product: ProductBackend) {
-    const productExists = cartItems.find((item) => item._id === product._id);
+  function handleRemoveProduct(product: Product) {
+    const productExists = cartItems.find((item) => item.id === product.id);
     if (!productExists) return;
 
     if (productExists.quantity === 1) {
-      setCartItems(cartItems?.filter((item) => item._id !== product._id));
+      setCartItems(cartItems?.filter((item) => item.id !== product.id));
     } else {
       setCartItems(
         cartItems.map((item) => {
-          if (item._id === product._id) {
-            return { ...productExists, quantity: productExists.quantity! - 1 };
+          if (item.id === product.id) {
+            return { ...productExists, quantity: productExists.quantity - 1 };
           }
           return item;
         })

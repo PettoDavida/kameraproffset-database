@@ -66,7 +66,7 @@ export const addProduct = async (
     console.log(newProduct);
     res.status(200).json(newProduct);
   } catch (err) {
-    res.status(400).json("Not very nice request. I need more stuff");
+    res.status(404).json("Something went wrong");
     next(err);
   }
 };
@@ -84,20 +84,6 @@ export const editProduct = async (
       req.body
     );
     res.status(200).json(editProduct);
-  } catch (err) {
-    res.status(404).json("ID was not found");
-    next(err);
-  }
-};
-
-export const deleteProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const deleteProduct = await productModel.findByIdAndDelete(req.params.id);
-    res.status(200).json(deleteProduct);
   } catch (err) {
     res.status(404).json("ID was not found");
     next(err);

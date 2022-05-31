@@ -1,5 +1,6 @@
 .admin-top-container {
-  background-color: #333333;
+  margin-top: 6rem;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,10 +8,13 @@
 
 .admin-container {
   display: flex;
-  background-color: #333333;
+  margin-top: 5rem;
+  background-color: #ffffff;
+  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  min-height: calc(100vh - 19rem);
 }
 
 .admin-edit-button {
@@ -18,12 +22,13 @@
 }
 
 .admin-product-container {
-  background-color: white;
+  position: relative;
+  width: 40rem;
+  height: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   border: 1px solid black;
   border-radius: 10px;
-  width: 100%;
   margin: 1rem;
 }
 

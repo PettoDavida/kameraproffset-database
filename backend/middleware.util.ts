@@ -12,15 +12,3 @@ export async function selfOrAdmin(
     res.status(403).json({ message: "Forbidden'" });
   }
 }
-
-export async function isAdmin(
-  req: RequestWithUser,
-  res: Response,
-  next: NextFunction
-) {
-  if (req.user.isAdmin) {
-    next();
-  } else {
-    res.status(403).json({ message: "Forbidden'" });
-  }
-}

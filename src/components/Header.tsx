@@ -9,7 +9,6 @@ import "../CSS/Header.css";
 
 import "./ShoppingCartPage.tsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { getLoginToken } from "../utils/token";
 
 const theme = createTheme({
   palette: {
@@ -29,41 +28,26 @@ const theme = createTheme({
 
 function Header() {
   const { amountOfProducts } = useContext(ShoppingCartContext);
-  let token = getLoginToken();
   return (
     <ThemeProvider theme={theme}>
       <header id="header" className="show-products">
-        <div className="headerLeft">
-          {token != null ? (
-            <Link to="/ProfileOrAdminPage">
-              <AdminPanelSettingsIcon
-                className="icon"
-                sx={{ paddingLeft: "1rem", fontSize: "2rem", opacity: "0" }}
-              />
-            </Link>
-          ) : (
-            <div>
-              <Link to="/LogIn">
-                <Badge className="icon" sx={{ opacity: "0" }} color="secondary">
-                  <Login sx={{ fontSize: "2rem" }} />
-                </Badge>
-              </Link>
-            </div>
-          )}
-        </div>
+        <Link to="/AdminPage">
+          <AdminPanelSettingsIcon
+            className="icon"
+            sx={{ paddingLeft: "1rem", fontSize: "2rem", opacity: "0" }}
+          />
+        </Link>
 
-        <div className="headerImg">
-          <img id={"logo"} src={require("../assets/img/logo.png")} alt="logo" />
+        <img id={"logo"} src={require("../assets/img/logo.png")} alt="logo" />
 
-          <Link to="/">
-            <img
-              id={"smallLogo"}
-              src={require("../assets/img/smallogo.png")}
-              alt="logo"
-            />
-          </Link>
-        </div>
-        <div className="headerRight">
+        <Link to="/">
+          <img
+            id={"smallLogo"}
+            src={require("../assets/img/smallogo.png")}
+            alt="logo"
+          />
+        </Link>
+        <div>
           <Link to="/ShoppingCartPage">
             <Badge
               className="icon"
@@ -72,6 +56,16 @@ function Header() {
               color="secondary"
             >
               <ShoppingCartIcon sx={{ fontSize: "2rem" }} />
+            </Badge>
+          </Link>
+
+          <Link to="/SignUp">
+            <Badge
+              className="icon"
+              sx={{ marginRight: "1rem", opacity: "0" }}
+              color="secondary"
+            >
+              <Login sx={{ fontSize: "2rem" }} />
             </Badge>
           </Link>
         </div>

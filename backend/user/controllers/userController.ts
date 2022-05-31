@@ -13,18 +13,6 @@ const getUserByID = async (req: Request, res: Response) => {
   res.json(user);
 };
 
-export async function changePassword(id: string, newPassword: string) {
-  let newSalt = crypto.randomBytes(16).toString("hex");
-  let newHashPassword = crypto
-    .pbkdf2Sync(newPassword, newSalt, 1000, 64, "sha512")
-    .toString("hex");
-
-  await UserModel.updateOne(
-    { _id: id },
-    { $set: { hash: newHashPassword, salt: newSalt } }
-  );
-}
-
 const updateUserPassword = async (req: RequestWithUser, res: Response) => {
   if (!req.body.newPassword) {
     res.status(400).json({ message: "Require 'newPassword'" });
@@ -32,7 +20,15 @@ const updateUserPassword = async (req: RequestWithUser, res: Response) => {
   }
 
   const updatePassword = async (newPassword: string) => {
-    changePassword(req.params.id, newPassword);
+    let newSalt = crypto.randomBytes(16).toString("hex");
+    let newHashPassword = crypto
+      .pbkdf2Sync(newPassword, newSalt, 1000, 64, "sha512")
+      .toString("hex");
+
+    await UserModel.updateOne(
+      { _id: req.params.id },
+      { $set: { hash: newHashPassword, salt: newSalt } }
+    );
     res.sendStatus(200);
   };
 

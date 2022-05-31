@@ -8,8 +8,8 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
+import { Product } from "../interfaces/interfaces";
 import "../CSS/imgslider.css";
-import { getImageUrl, ProductBackend } from "../utils/backend";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -32,12 +32,28 @@ const sliderTheme = createTheme({
 });
 
 interface Props {
-  product: ProductBackend;
+  product: Product;
 }
 
 function ProductInfoImageSlider(props: Props) {
   const { product } = props;
-  const images = props.product.images;
+  const images = [
+    {
+      label: product.info1,
+      id: 1,
+      imgPath: product.image,
+    },
+    {
+      label: product.info2,
+      id: 2,
+      imgPath: product.image2,
+    },
+    {
+      label: product.info3,
+      id: 3,
+      imgPath: product.image3,
+    },
+  ];
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -65,14 +81,14 @@ function ProductInfoImageSlider(props: Props) {
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
-            {images.map((imageId, i) => (
-              <div key={i}>
-                {Math.abs(activeStep - i) <= 2 ? (
+            {images.map((step, index) => (
+              <div key={step.id}>
+                {Math.abs(activeStep - index) <= 2 ? (
                   <Box
                     className="img"
                     component="img"
-                    src={getImageUrl(imageId)}
-                    alt="image"
+                    src={step.imgPath}
+                    alt={step.label}
                   />
                 ) : null}
               </div>
@@ -123,7 +139,7 @@ function ProductInfoImageSlider(props: Props) {
               pl: 2,
             }}
           >
-            <Typography>TODO</Typography>
+            <Typography>{images[activeStep].label}</Typography>
           </Paper>
         </Box>
       </div>

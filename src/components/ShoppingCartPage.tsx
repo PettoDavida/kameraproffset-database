@@ -27,7 +27,7 @@ function ShoppingCartPage() {
   const { amountOfProducts } = useContext(ShoppingCartContext);
 
   const totalCost = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity!,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 

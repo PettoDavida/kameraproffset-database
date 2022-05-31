@@ -20,18 +20,19 @@ POST http://localhost:3000/api/user/login
 Content-Type: application/json
 
 {
-    "email": "fobar@example.com",
-    "password": "test123"
+    "email": "",
+    "password": ""
 }
 
 ###
 
-PUT http://localhost:3000/api/user/password/628cdd8e6ba0d574fa97815f
+PUT http://localhost:3000/api/user/password/<idOfUserToChangePassword>
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGI2NDdmN2M0NzkzOTcyM2EzMzljMCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1MzgyNjE1MH0.FpJMKScqTMGIsvlBVFTWQktA8rh1Ip4UPvRk1fEkW2c
+Authorization: Bearer <Token you get from login>
 
 {
-    "newPassword": "test123"
+    "oldPassword": "",
+    "newPassword": ""
 }
 
 ###

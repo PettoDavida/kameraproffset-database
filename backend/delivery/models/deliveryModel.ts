@@ -7,7 +7,9 @@ export interface Delivery {
   expectedArrival: Date;
 }
 
+
 export const deliverySchema = new mongoose.Schema<Delivery>(
+
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
@@ -20,4 +22,4 @@ export const deliverySchema = new mongoose.Schema<Delivery>(
   }
 );
 
-export const DeliveryModel = mongoose.model("delivery", deliverySchema);
+export const deliveryModel = mongoose.model("delivery", DeliverySchema);
