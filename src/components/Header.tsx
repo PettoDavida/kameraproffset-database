@@ -43,21 +43,8 @@ function Header() {
             </Link>
           ) : (
             <div>
-              <Link to="/SignUp">
-                <Badge
-                  className="icon"
-                  sx={{ paddingLeft: "1rem", opacity: "0" }}
-                  color="secondary"
-                >
-                  <Login sx={{ fontSize: "2rem" }} />
-                </Badge>
-              </Link>
               <Link to="/LogIn">
-                <Badge
-                  className="icon"
-                  sx={{ color: "green", opacity: "0" }}
-                  color="secondary"
-                >
+                <Badge className="icon" sx={{ opacity: "0" }} color="secondary">
                   <Login sx={{ fontSize: "2rem" }} />
                 </Badge>
               </Link>
