@@ -5,17 +5,32 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import React, { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../contexts/ProductContext";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
 import { getImageUrl, ProductBackend } from "../utils/backend";
 
 export default function ImgMediaCard(): JSX.Element {
-  const { products } = useContext(ProductContext);
   const { handleAddProduct } = useCart();
+
+  const [products, setProducts] = useState<ProductBackend[]>([]);
+
+  const getProducts = async () => {
+    let headers: RequestInit = {
+      method: "GET",
+    };
+    fetch("http://localhost:3000/api/products/", headers)
+      .then((res: Response) => res.json())
+      .then((data) => {
+        setProducts(data);
+      });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <div className="ProductContainer">
@@ -45,8 +60,8 @@ export default function ImgMediaCard(): JSX.Element {
                     component="ul"
                     className="item-short-info"
                   >
-                    <li>{item.info1}</li>
-                    <li>{item.info2}</li> <li>{item.info3}</li>
+                    <li>{item.info[0]}</li>
+                    <li>{item.info[1]}</li> <li>{item.info[2]}</li>
                   </Typography>
                 */}
                 </div>
@@ -62,7 +77,7 @@ export default function ImgMediaCard(): JSX.Element {
           <CardActions>
             <div className="buttons">
               <Button
-                onClick={() => handleAddProduct(item)}
+                // onClick={() => handleAddProduct(item)}
                 variant="contained"
                 color="secondary"
                 size="small"
