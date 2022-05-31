@@ -1,7 +1,7 @@
 import mongoose, { ObjectId } from "mongoose";
 import { Address, addressSchema } from "../../common";
 import { Delivery, deliverySchema } from "../../delivery/models/deliveryModel";
-import { Product, ProductSchema } from "../../product/models/productModels";
+import { Product, productSchema } from "../../product/models/productModels";
 
 export interface Order {
   userID: ObjectId;
@@ -15,7 +15,7 @@ export interface Order {
 const orderSchema = new mongoose.Schema<Order>(
   {
     userID: { type: mongoose.Schema.Types.ObjectId, required: true },
-    products: { type: [ProductSchema], required: true },
+    products: { type: [productSchema], required: true },
     deliveryAddress: { type: addressSchema, required: true },
     deliveryMethod: { type: deliverySchema, required: true },
     sent: { type: Boolean, required: true, default: false },
