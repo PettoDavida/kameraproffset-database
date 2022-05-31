@@ -13,7 +13,7 @@ import Store from "./Store";
 function Main() {
   const { products } = useContext(ProductContext);
   return (
-    <main>
+    <main style={{ height: "calc(100vh - 3rem)" }}>
       <Routes>
         <Route path="/" element={<Store />} />
         <Route path="/ProfileOrAdminPage" element={<ProfileOrAdminPage />} />
