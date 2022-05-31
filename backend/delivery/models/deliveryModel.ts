@@ -22,4 +22,4 @@ export const deliverySchema = new mongoose.Schema<Delivery>(
   }
 );
 
-export const deliveryModel = mongoose.model("delivery", DeliverySchema);
+export const deliveryModel = mongoose.model("delivery", deliverySchema);

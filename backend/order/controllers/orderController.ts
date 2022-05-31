@@ -47,20 +47,11 @@ const addOrder = async (req: Request, res: Response, next: NextFunction) => {
               console.log(newOrder);
               res.status(200).json(newOrder);
        } catch (err) {
-=======
-      
+              res.status(err)
+              next(err)
+              };
 };
 
-const addOrder = async (req: Request, res: Response, next: NextFunction) => {
-       try {
-              const newOrder = new OrderModel(req.body);
-              await newOrder.save();
-              console.log(newOrder);
-              res.status(200).json(newOrder);
-       } catch (err) {
-              next(err)
-       }
-};
 
 const setOrderToSent = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -75,17 +66,6 @@ const setOrderToSent = async (req: Request, res: Response, next: NextFunction) =
 };
 
 
-const setOrderToSent = async (req: Request, res: Response, next: NextFunction) => {
-
-       try {
-              const orderSent = await OrderModel.findOneAndUpdate({sent: false}, {$set:{sent: true}}, {new: true});
-              console.log(orderSent)
-              res.status(200).json(orderSent)
-       } catch (err) {
-              res.status(err)
-              next(err)
-       }
-};
 
 
 
@@ -95,6 +75,5 @@ export {
   getOrderByID,
   getOrderByUserID,
   addOrder,
-  setOrderToSent,
-
+  setOrderToSent
 };
