@@ -11,6 +11,7 @@ import {
 import { useContext } from "react";
 import { ShoppingCartContext, useCart } from "../contexts/ShoppingCartContext";
 import "../CSS/ShoppingCart.css";
+import { getImageUrl, ProductBackend } from "../utils/backend";
 
 const theme = createTheme({
   palette: {
@@ -46,17 +47,17 @@ export default function CartItem(): JSX.Element {
     <ThemeProvider theme={theme}>
       <div>
         <div className="test-container">
-          {cartItems.map((item) => (
-            <div key={item.id}>
+          {cartItems.map((item: ProductBackend, i: number) => (
+            <div key={i}>
               <Card className="test">
                 <div className="image">
                   <h1>{item.title}</h1>
                   <CardMedia
                     component="img"
-                    alt={item.title}
+                    alt="image"
                     height="auto"
-                    image={item.image}
-                    title={item.title}
+                    image={getImageUrl(item.images[0])}
+                    title={item.title.toString()}
                   />
                 </div>
 
@@ -86,7 +87,7 @@ export default function CartItem(): JSX.Element {
                       +
                     </Button>
                   </CardActions>
-                  <Typography>{item.quantity * item.price}:- </Typography>
+                  <Typography>{item.quantity! * item.price}:- </Typography>
                 </div>
               </Card>
             </div>
