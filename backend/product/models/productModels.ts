@@ -11,6 +11,12 @@ export interface Product {
   updatedAt?: Date;
   quantity?: number;
   stock?: number;
+  specs: Specs[];
+}
+
+export interface Specs {
+  spectitle: string;
+  spec: string;
 }
 
 export const ProductSchema = new mongoose.Schema<Product>({
@@ -26,8 +32,8 @@ export const ProductSchema = new mongoose.Schema<Product>({
   },
   createdAt: { type: Date },
   updatedAt: { type: Date },
-  quantity: { type: Number },
   stock: { type: Number },
+  specs: { type: [String] },
 });
 
 export const productModel = mongoose.model("product", ProductSchema);
