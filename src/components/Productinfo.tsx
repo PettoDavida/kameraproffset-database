@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
 import "../CSS/Productinfo.css";
 import { ProductBackend } from "../utils/backend";
-
 import ProductInfoImageSlider from "./ProductInfoImageSlider";
 import ProductTab from "./ProductTab";
 

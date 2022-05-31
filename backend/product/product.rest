@@ -14,13 +14,13 @@ POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-    "title": "Kamera123",
-    "price": 24950,
-    "images": ["629139371c1d0d8e2e6fa449"],
-    "longInfo": "bla bla bla",
-    "info": ["Info1", "Info2", "Info3"],
+    "title": "Sony A7 III kamerahus",
+    "price": 19990,
+    "images": ["62913a741c1d0d8e2e6fa465", "62913a7c1c1d0d8e2e6fa467", "62913a821c1d0d8e2e6fa469"],
+    "longInfo": "Sony A7 III är försedd med en nyutvecklad, bakbelyst Exmor R CMOS-sensor i fullformat och den har ärvt många funktioner och finesser från modellerna A7R III och A9 såsom bättre batteritid och joystick för att kontrollera autofokusen.",
+    "info": ["Avancerad AF med följande ögonautofokus", "10 bilder per sekund med aktiv autofokus", "Dubbla minneskortsplatser för extra säkerhetskopiering"],
     "category": ["628a98e5457ee23da0b87d41", "628a970744f4a48145b62121"],
-    "stock": 1
+    ""
 }
 ###
 
