@@ -8,7 +8,7 @@ Vi har skapat en webbshop där en kund kan lägga till och ta bort olika produkt
 
 Utöver kundflödet så har vi även skapat en admin-sida där vi kan ändra produkter enligt CRUD-principen. Här kan vi redigera, lägga till och ta bort produkter. Fälten för redigering/tillägg av produkt valideras också enligt våra valideringsregler. Produkter som uppdaterats eller lagts till sparas även i localstorage.
 
-[Link to repo](https://github.com/lovelanai/miniprojekt2-webbshop)
+[Link to repo](https://github.com/PettoDavida/kameraproffset-database)
 
 ## Initiate project 👨‍💻
 
@@ -34,10 +34,10 @@ Click [here](https://mui.com/getting-started/installation/) to read more about _
 
 ---
 
-## William Saar [**Github**](https://github.com/Willen17)
+## Maximilian Widman [**Github**](https://github.com/PettoDavida)
 
 ## Erik Matsegård [**Github**](https://github.com/matsegard)
 
-## Love Lanai [**Github**](https://github.com/lovelanai)
+## Adrian Rydin [**Github**](https://github.com/AdrianRydin)
 
-## Max Andersson [**Github**](https://github.com/frontMAX)
+## Kawan MAjeed [**Github**](https://github.com/Kawium)
