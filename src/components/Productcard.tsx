@@ -5,7 +5,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
@@ -14,6 +14,19 @@ import { getImageUrl, ProductBackend } from "../utils/backend";
 
 export default function ImgMediaCard(): JSX.Element {
   const { handleAddProduct } = useCart();
+  const [product, setProduct] = useState<ProductBackend[]>([]);
+
+  const getProductFromDb = async () => {
+    await fetch("http://localhost:3000/api/products")
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+      });
+  };
+
+  useEffect(() => {
+    getProductFromDb();
+  }, []);
 
   const [products, setProducts] = useState<ProductBackend[]>([]);
 
@@ -34,9 +47,9 @@ export default function ImgMediaCard(): JSX.Element {
 
   return (
     <div className="ProductContainer">
-      {products.map((item: ProductBackend, i: number) => (
+      {product.map((item: ProductBackend, i: number) => (
         <Card className="storeCardStyle" key={i}>
-          <Link to={item.title.replaceAll(" ", "-")}>
+          <Link to={item._id.toString()}>
             <CardActionArea>
               <div className="ImageContainer">
                 <CardMedia
@@ -52,18 +65,17 @@ export default function ImgMediaCard(): JSX.Element {
                   <Typography gutterBottom variant="h5" component="h2">
                     {item.title}
                   </Typography>
-                  {/*
-                  // TODO: Fixme
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="ul"
-                    className="item-short-info"
-                  >
-                    <li>{item.info[0]}</li>
-                    <li>{item.info[1]}</li> <li>{item.info[2]}</li>
-                  </Typography>
-                */}
+                  {
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="ul"
+                      className="item-short-info"
+                    >
+                      <li>{item.info[0]}</li>
+                      <li>{item.info[1]}</li> <li>{item.info[2]}</li>
+                    </Typography>
+                  }
                 </div>
                 <div className="price">
                   <Typography variant="body2" component="p">
@@ -85,7 +97,7 @@ export default function ImgMediaCard(): JSX.Element {
                 Lägg i kundvagn
               </Button>
 
-              <Link to={item.title.replaceAll(" ", "-")}>
+              <Link to={item._id.toString()}>
                 <Button variant="contained" color="primary" size="small">
                   Till produkten
                 </Button>

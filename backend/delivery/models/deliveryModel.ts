@@ -5,6 +5,7 @@ export interface Delivery {
   price: Number;
   info: String;
   expectedArrival: Date;
+  _id: String;
 }
 
 export const deliverySchema = new mongoose.Schema<Delivery>(
@@ -19,6 +20,5 @@ export const deliverySchema = new mongoose.Schema<Delivery>(
     toObject: { virtuals: true },
   }
 );
-
 
 export const DeliveryModel = mongoose.model("delivery", deliverySchema);

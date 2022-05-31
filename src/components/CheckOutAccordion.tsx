@@ -1,12 +1,14 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 import {
   Button,
   Card,
   CardActions,
   Checkbox,
+  FormControl,
   FormControlLabel,
   FormGroup,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
@@ -15,24 +17,21 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
 import { styled } from "@mui/material/styles";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import {
   mockedPay,
-  mockedShipping,
   PaySelection,
   PersonalData,
-  ShipperSelection,
 } from "../interfaces/interfaces";
 import CardPayment from "./CardPayment";
 import "../CSS/checkOutAccordion.css";
-
 import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
-import { getImageUrl, ProductBackend } from "../utils/backend";
+import { ProductBackend, Delivery, getImageUrl } from "../utils/backend";
+import { isTemplateExpression } from "typescript";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -74,18 +73,12 @@ export default function CheckOutAccordion() {
   const { confirm } = useUser();
   const { cartItems } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
-
-  const defaultShipperState: ShipperSelection[] = mockedShipping.map(
-    (shipper) => ({ shipper, checked: false })
-  );
+  const [deliveryIndex, setDeliveryIndex] = useState(0);
 
   const totalCost = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity!,
     0
   );
-
-  const [checkboxes, setCheckboxes] =
-    React.useState<ShipperSelection[]>(defaultShipperState);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -123,6 +116,20 @@ export default function CheckOutAccordion() {
       return false;
     } else return true;
   };
+
+  const [deliveryFromDb, setDeliveryFromDb] = useState<Delivery[]>([]);
+
+  const getDeliveryData = async () => {
+    await fetch("http://localhost:3000/api/delivery")
+      .then((res) => res.json())
+      .then((data) => {
+        setDeliveryFromDb(data);
+      });
+  };
+
+  useEffect(() => {
+    getDeliveryData();
+  }, []);
 
   return (
     <div className="checkoutPageContainer">
@@ -254,60 +261,31 @@ export default function CheckOutAccordion() {
           <Typography>Leveransuppgifter</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography component={"div"} className="DeliveryForm">
-            {checkboxes.map((checkbox) => (
-              <div key={checkbox.shipper.id}>
-                <FormGroup
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    padding: "1rem 0",
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={() => {
-                          let checkboxListToUpdate = checkboxes;
-
-                          checkboxListToUpdate.forEach((tempCheckbox) => {
-                            tempCheckbox.checked = false;
-                          });
-
-                          const currentBoxIndex = mockedShipping.findIndex(
-                            (item) => item.id === checkbox.shipper.id
-                          );
-
-                          checkboxListToUpdate[currentBoxIndex].checked = true;
-
-                          setCheckboxes([...checkboxListToUpdate]);
-                        }}
-                        checked={checkbox.checked}
-                      />
-                    }
-                    label={
-                      <img
-                        className="shipper-img"
-                        src={checkbox.shipper.image}
-                        alt=""
-                      />
-                    }
-                  />
-
-                  <div className="info" key={checkbox.shipper.id}>
-                    <p>{checkbox.shipper.price}:-</p>
-                    <p>{checkbox.shipper.info}</p>
-                  </div>
-                </FormGroup>
-              </div>
-            ))}
-          </Typography>
+          <FormControl>
+            <RadioGroup
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                padding: "1rem 0",
+              }}
+              onChange={(e, value) => {
+                let index = parseInt(value);
+                setDeliveryIndex(index);
+              }}
+            >
+              {deliveryFromDb.map((item, i) => (
+                <FormControlLabel
+                  key={i}
+                  value={i}
+                  control={<Radio />}
+                  label={item.title.toString() + "  " + item.price + ":-"}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
           <Button
             sx={{ width: "100%" }}
             variant="contained"
-            disabled={
-              checkboxes.find((item) => item.checked === true) ? false : true
-            }
             onClick={() => setExpanded("panel5")}
           >
             Bekräfta
@@ -335,26 +313,13 @@ export default function CheckOutAccordion() {
               <div>
                 <hr />
                 <h3>Leveranssätt</h3>
-                {/* {checkboxes.map((checked) => (<div>{checked.findIndex() === true}</div>))} */}
-                <p>
-                  {
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .title
-                  }{" "}
-                </p>
-                <p>
-                  {
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .info
-                  }
-                </p>{" "}
-                <p>
-                  Fraktkostnad:
-                  {" " +
-                    checkboxes.find((item) => item.checked === true)?.shipper
-                      .price}
-                  :-
-                </p>{" "}
+                {deliveryFromDb.length > 0
+                  ? deliveryFromDb[deliveryIndex].title
+                  : "loading..."}
+                <br />
+                {deliveryFromDb.length > 0
+                  ? deliveryFromDb[deliveryIndex].price + " :-"
+                  : "loading..."}
                 <hr />
                 <h3>Betalning</h3>
                 <p>
@@ -394,39 +359,17 @@ export default function CheckOutAccordion() {
                 ))}
               </div>
               <hr />
-              Totalpris:{" "}
-              {totalCost +
-                checkboxesPay.find((item) => item.paychecked === true)
-                  ?.paymethod.price! +
-                checkboxes.find((item) => item.checked === true)?.shipper
-                  .price!}{" "}
-              kr
+              Totalpris: {totalCost} kr
               <div>Moms: {totalCost * 0.25} kr</div>
             </div>
             <br />
-            {/* If shipping and payment has not been choosen, the button is disabled. If they have been choosen
-            the button will not be disabled and the "Link-to" will work. */}
-            {checkboxes.find((item) => item.checked === true) &&
-            checkboxesPay.find((item) => item.paychecked === true) ? (
-              <Link to={`/ConfirmationPage/${personalInfo.name}`}>
-                <Button
-                  onClick={confirm}
-                  variant="contained"
-                  sx={{ width: "100%" }}
-                >
-                  Slutför köp
-                </Button>
-              </Link>
-            ) : (
-              <Button
-                disabled={true}
-                onClick={confirm}
-                variant="contained"
-                sx={{ width: "100%" }}
-              >
-                Slutför köp
-              </Button>
-            )}
+            <Button
+              onClick={confirm}
+              variant="contained"
+              sx={{ width: "100%" }}
+            >
+              Slutför köp
+            </Button>
           </Typography>
         </AccordionDetails>
       </Accordion>

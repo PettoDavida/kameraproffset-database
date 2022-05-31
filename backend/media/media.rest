@@ -3,15 +3,16 @@ Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0g
 
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="media"; filename="Fujifilm-2.webp"
+Content-Disposition: form-data; name="media"; filename="FujifilmxT-30-3.webp"
 Content-Type: image/jpeg
 
-< ./images/Fujifilm-2.webp
+< ./FujifilmxT-30-3.webp
+
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
 
-GET  http://localhost:3000/api/media/629139371c1d0d8e2e6fa449
+GET  http://localhost:3000/api/media/6295f7d833d4ce0c83cc83da
 
 ###
 

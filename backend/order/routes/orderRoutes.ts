@@ -12,9 +12,8 @@ let orderRouter = express
   .Router()
   .get("/order", getAllOrders)
   .get("/order/:id", getOrderByID)
-  .get("/order/user/:userID", getOrderByUserID)
-  .post("/order", addOrder)
-  .put("/order/:id", setOrderToSent)
+  .get("/order/:userID", getOrderByUserID)
+  .post("/order", addOrder, setOrderToSent)
   .delete("/order/:id", deleteOrder);
 
 
