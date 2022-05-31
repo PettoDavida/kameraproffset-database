@@ -24,9 +24,9 @@ Content-Type: application/json
     "specs": [ 
         {
         "spectitle": "Upplösning",
-        "spec": "24.2 Megapixel",
-        },
-      ], 
+        "spec": "24.2 Megapixel"
+        }
+      ]
 }
 
 ###
