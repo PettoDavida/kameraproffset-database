@@ -4,12 +4,12 @@ import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent,
 
 let orderRouter = express
                  .Router()
-                 .get('/order', checkAdmin, getAllOrders)
-                 .get('/order/:id', getOrderByID)
-                 .get('/order/:userID', getOrderByUserID)
+                 .get('/order', /* checkAdmin, */ getAllOrders)
+                 .get('/order/:id',/* checkAdmin, */ getOrderByID)
+                 .get('/order/:userID',/* selfOrAdmin, */ getOrderByUserID)
                  .post('/order', addOrder)
-                 .put('/order/:id', setOrderToSent)
-                 .delete('/order/:id', deleteOrder)
+                 .put('/order/:id',/* checkAdmin, */ setOrderToSent)
+                 .delete('/order/:id',/* checkAdmin, */ deleteOrder)
 
 
 export default orderRouter;
