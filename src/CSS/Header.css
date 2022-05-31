@@ -9,7 +9,7 @@ header {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
-  position: fixed;
+  position: sticky;
   box-sizing: border-box;
   color: #fbf7f5;
   z-index: 10;
