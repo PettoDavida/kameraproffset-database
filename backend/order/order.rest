@@ -10,10 +10,9 @@ POST http://localhost:3000/api/order
 Content-Type: application/json
 
 {
-  "userID": "628b647f7c47939723a339c0",
-  "products": [{
+  "products": [{ 
     "title": "Leica M-10R svart",
-    "price": 89900,
+    "price": 10,
     "images": [
       "6290d221651a5fc114d7ad9c"
     ],
@@ -53,7 +52,7 @@ Content-Type: application/json
 {
   "userID": "628b647f7c47939723a339c0",
   "products": [{
-    "title": "Leica M-10R svart",
+    "title": "Leica M-10R vit",
     "price": 89900,
     "images": [
       "6290d221651a5fc114d7ad9c"

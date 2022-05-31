@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent, deleteOrder } from '../controllers/orderController'
+import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent  } from '../controllers/orderController'
 
 
 let orderRouter = express
@@ -9,7 +9,6 @@ let orderRouter = express
                  .get('/order/:userID',/* selfOrAdmin, */ getOrderByUserID)
                  .post('/order', addOrder)
                  .put('/order/:id',/* checkAdmin, */ setOrderToSent)
-                 .delete('/order/:id',/* checkAdmin, */ deleteOrder)
 
 
 export default orderRouter;
