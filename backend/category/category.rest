@@ -10,8 +10,8 @@ POST http://localhost:3000/api/category
 Content-Type: application/json
 
 {
- "title": "Systemkameror",
- "description": "kameror"
+ "title": "Fujifilm",
+ "description": "Kamera av märket Fujifilm"
   }
 
 

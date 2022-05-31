@@ -33,7 +33,12 @@ export const ProductSchema = new mongoose.Schema<Product>({
   createdAt: { type: Date },
   updatedAt: { type: Date },
   stock: { type: Number },
-  specs: { type: [String] },
+  specs: [
+    {
+      spectitle: { type: String },
+      spec: { type: String },
+    },
+  ],
 });
 
 export const productModel = mongoose.model("product", ProductSchema);
