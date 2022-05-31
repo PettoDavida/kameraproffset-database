@@ -1,22 +1,47 @@
 
+### Get all orders
 GET http://localhost:3000/api/order
+
+###Gets a specific order
+
+GET http://localhost:3000/api/order/6292a03680abce85c4bc16af
+
 
 ### CREATE ORDER
 POST http://localhost:3000/api/order
 Content-Type: application/json
 
 {
-
+  "products": [{ 
+    "title": "Leica M-10R svart",
+    "price": 10,
+    "images": [
+      "6290d221651a5fc114d7ad9c"
+    ],
+    "longInfo": "bla bla bla",
+    "info": [
+      "Info1",
+      "Info2",
+      "Info3"
+    ],
+    "category": [
+      "628a970744f4a48145b62121"
+    ]
+  }],
   "deliveryAddress": {
-
+  "street": "Torkelsgatan 4A",
+  "zipcode": 41658,
+  "city": "Göteborg",
+  "firstName": "Maximilian",
+  "lastName": "Widman"
   },
-  "deliveryOption": {
-
-  },
-  "products": [{
-
-  }]
-
+  "deliveryMethod": {
+    "title": "Postnord",
+    "price": 79,
+    "info": "Hemleverans",
+    "expectedArrival": "2022-05-28T00:00:00.000Z",
+    "image": "URL"
+  }
 }
 
 
@@ -25,5 +50,40 @@ Content-Type: application/json
 
 PUT http://localhost:3000/api/order/62878f2ab155b83835486ad7
 Content-Type: application/json
+
+
+{
+  "userID": "628b647f7c47939723a339c0",
+  "products": [{
+    "title": "Leica M-10R vit",
+    "price": 89900,
+    "images": [
+      "6290d221651a5fc114d7ad9c"
+    ],
+    "longInfo": "bla bla bla",
+    "info": [
+      "Info1",
+      "Info2",
+      "Info3"
+    ],
+    "category": [
+      "628a970744f4a48145b62121"
+    ]
+  }],
+  "deliveryAddress": {
+  "street": "Torkelsgatan 4A",
+  "zipcode": 41658,
+  "city": "Göteborg",
+  "firstName": "Maximilian",
+  "lastName": "Widman"
+  },
+  "deliveryMethod": {
+    "title": "Postnord",
+    "price": 79,
+    "info": "Hemleverans",
+    "expectedArrival": "2022-05-28T00:00:00.000Z",
+    "image": "URL"
+  }
+}
 
 ###

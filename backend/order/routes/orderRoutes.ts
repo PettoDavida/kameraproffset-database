@@ -1,14 +1,15 @@
 import express from 'express';
-import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent, deleteOrder } from '../controllers/orderController'
+import { getAllOrders, getOrderByID, getOrderByUserID, addOrder, setOrderToSent  } from '../controllers/orderController'
 
 
 let orderRouter = express
                  .Router()
-                 .get('/order', getAllOrders)
-                 .get('/order/:id', getOrderByID)
-                 .get('/order/:userID', getOrderByUserID)
-                 .post('/order', addOrder, setOrderToSent)
-                 .delete('/order/:id', deleteOrder)
+                 .get('/order', /* checkAdmin, */ getAllOrders)
+                 .get('/order/:id',/* checkAdmin, */ getOrderByID)
+                 .get('/order/:userID',/* selfOrAdmin, */ getOrderByUserID)
+                 .post('/order', addOrder)
+                 .put('/order/:id',/* checkAdmin, */ setOrderToSent)
+
 
 
 export default orderRouter;
