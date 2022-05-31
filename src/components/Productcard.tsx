@@ -34,7 +34,7 @@ export default function ImgMediaCard(): JSX.Element {
     <div className="ProductContainer">
       {product.map((item: ProductBackend, i: number) => (
         <Card className="storeCardStyle" key={i}>
-          <Link to={item.title.replaceAll(" ", "-")}>
+          <Link to={item._id.toString()}>
             <CardActionArea>
               <div className="ImageContainer">
                 <CardMedia
@@ -82,7 +82,7 @@ export default function ImgMediaCard(): JSX.Element {
                 Lägg i kundvagn
               </Button>
 
-              <Link to={item.title.replaceAll(" ", "-")}>
+              <Link to={item._id.toString()}>
                 <Button variant="contained" color="primary" size="small">
                   Till produkten
                 </Button>
