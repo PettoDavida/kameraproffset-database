@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { deliveryModel } from "../models/deliveryModel";
+import { DeliveryModel } from "../models/deliveryModel";
 
 const getAllDeliveryMethods = async (
   req: Request,
@@ -7,7 +7,7 @@ const getAllDeliveryMethods = async (
   next: NextFunction
 ) => {
   try {
-    const allDeliveryMethods = await deliveryModel.find({});
+    const allDeliveryMethods = await DeliveryModel.find({});
     res.status(200).json(allDeliveryMethods);
   } catch (err) {
     res.status(404).json("No delivery methods found");
@@ -21,7 +21,7 @@ const addDeliveryMethod = async (
   next: NextFunction
 ) => {
   try {
-    const newDeliveryMethod = new deliveryModel(req.body);
+    const newDeliveryMethod = new DeliveryModel(req.body);
     await newDeliveryMethod.save();
     res.status(200).json(newDeliveryMethod);
   } catch (err) {
@@ -35,7 +35,7 @@ const editDeliveryMethod = async (
   next: NextFunction
 ) => {
   try {
-    const deliveryMethod = await deliveryModel.findByIdAndUpdate(
+    const deliveryMethod = await DeliveryModel.findByIdAndUpdate(
       req.params.id,
       req.body
     );
@@ -52,7 +52,7 @@ const deleteDeliveryMethod = async (
   next: NextFunction
 ) => {
   try {
-    const deliveryMethod = await deliveryModel.findByIdAndDelete(
+    const deliveryMethod = await DeliveryModel.findByIdAndDelete(
       req.params.id,
       req.body
     );
