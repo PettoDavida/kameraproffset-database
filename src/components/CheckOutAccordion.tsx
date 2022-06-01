@@ -32,6 +32,7 @@ import Shipping from "./Shipping";
 import SwishPayment from "./SwishPayment";
 import { ProductBackend, Delivery, getImageUrl } from "../utils/backend";
 import { isTemplateExpression } from "typescript";
+import { getLoginToken } from "../utils/token";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -74,6 +75,8 @@ export default function CheckOutAccordion() {
   const { cartItems } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
   const [deliveryIndex, setDeliveryIndex] = useState(0);
+
+  let loggedIn = getLoginToken();
 
   const totalCost = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity!,
@@ -363,13 +366,25 @@ export default function CheckOutAccordion() {
               <div>Moms: {totalCost * 0.25} kr</div>
             </div>
             <br />
-            <Button
-              onClick={confirm}
-              variant="contained"
-              sx={{ width: "100%" }}
-            >
-              Slutför köp
-            </Button>
+            {loggedIn != null ? (
+              <Button
+                onClick={confirm}
+                disabled={false}
+                variant="contained"
+                sx={{ width: "100%" }}
+              >
+                Slutför köp
+              </Button>
+            ) : (
+              <Button
+                onClick={confirm}
+                disabled={true}
+                variant="contained"
+                sx={{ width: "100%" }}
+              >
+                Slutför köp
+              </Button>
+            )}
           </Typography>
         </AccordionDetails>
       </Accordion>
