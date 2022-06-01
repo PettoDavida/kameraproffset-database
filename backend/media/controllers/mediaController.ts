@@ -4,6 +4,22 @@ import { bucket } from "../models/mediaModel";
 import { GridFSFile } from "mongodb";
 import { Types } from "mongoose";
 
+export const getAllMedia = async (req: Request, res: Response) => {
+  bucket.find().toArray((err, files) => {
+    if (!files || files.length === 0) {
+      return res.status(200).json({
+        success: false,
+        message: "No files available",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      files,
+    });
+  });
+};
+
 export const getMedia = async (req: Request, res: Response) => {
   const _id = new Types.ObjectId(req.params.id);
   const file = await bucket.find({ _id }).next();
