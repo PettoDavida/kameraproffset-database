@@ -21,10 +21,25 @@ export const getOrderByUserID = async (
   next: NextFunction
 ) => {
   try {
-    const ordersByUserID = await OrderModel.find({ userID: req.params.userID });
+    const ordersByUserID = await OrderModel.find({
+      userID: req.params.userID,
+    });
     res.status(200).json(ordersByUserID);
   } catch (err) {
     res.status(404).json("No order has this userID");
+    next(err);
+  }
+};
+export const getOrderByOrderID = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const ordersByOrderID = await OrderModel.findById(req.params.orderID);
+    res.status(200).json(ordersByOrderID);
+  } catch (err) {
+    res.status(404).json("No order has this ID");
     next(err);
   }
 };
