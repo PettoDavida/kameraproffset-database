@@ -76,14 +76,14 @@ export default function ProductTab(props: Props) {
         </Box>
         <TabPanel value={value} index={0}>
           <Typography>
-            {props.product?.longInfo != undefined
+            {props.product?.longInfo !== undefined
               ? props.product!.longInfo!
               : "Found no info"}
           </Typography>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <ul style={{ padding: "0" }}>
-            {props.product?.specs != undefined
+            {props.product?.specs !== undefined
               ? props.product.specs.map((item: Specs, i: number) => (
                   <li
                     style={{ display: "flex", justifyContent: "space-between" }}
