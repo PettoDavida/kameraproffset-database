@@ -3,7 +3,12 @@ import * as Yup from "yup";
 import { Button, FormControlLabel } from "@mui/material";
 import { TextField, Checkbox } from "formik-mui";
 import { useEffect, useState } from "react";
-import { CategoryBackend, ProductData, uploadImage } from "../../utils/backend";
+import {
+  CategoryBackend,
+  getCategoriesFromBackend,
+  ProductData,
+  uploadImage,
+} from "../../utils/backend";
 
 interface Props {
   close: () => void;
@@ -18,13 +23,6 @@ interface Props {
 //     .required("Produkten måste ha ett pris i kronor"),
 //   productAbout: Yup.string().required("Produkten måste ha en beskrivning"),
 // });
-
-export async function getCategoriesFromBackend() {
-  let headers: RequestInit = {
-    method: "GET",
-  };
-  return fetch("http://localhost:3000/api/category", headers);
-}
 
 export default function NewProductForm(props: Props) {
   const [categories, setCategories] = useState<CategoryBackend[]>([]);

@@ -151,3 +151,24 @@ export async function getRequestsFromBackend() {
 
   return fetch("http://localhost:3000/api/requests", headers);
 }
+
+export async function getProductsByCategory(id: String) {
+  let headers: RequestInit = {
+    method: "GET",
+  };
+  return fetch(`http://localhost:3000/api/products/categories/${id}`, headers);
+}
+
+export async function getCategoriesFromBackend() {
+  let headers: RequestInit = {
+    method: "GET",
+  };
+  return fetch("http://localhost:3000/api/category", headers);
+}
+
+export async function getProducts() {
+  let headers: RequestInit = {
+    method: "GET",
+  };
+  return fetch("http://localhost:3000/api/products/", headers);
+}

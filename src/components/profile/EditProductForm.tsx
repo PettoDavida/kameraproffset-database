@@ -3,14 +3,13 @@ import * as Yup from "yup";
 import { Button, FormControlLabel } from "@mui/material";
 import { TextField, Checkbox } from "formik-mui";
 import { useEffect, useState } from "react";
-import { getCategoriesFromBackend } from "./NewProductForm";
 import {
   CategoryBackend,
   ProductBackend,
   ProductData,
-  uploadImage,
   uploadMultipleImages,
   getImageUrl,
+  getCategoriesFromBackend,
 } from "../../utils/backend";
 
 interface Props {
