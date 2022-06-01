@@ -12,7 +12,7 @@ Content-Type: image/jpeg
 
 ###
 
-GET  http://localhost:3000/api/media/6295f7d833d4ce0c83cc83da
+GET  http://localhost:3000/api/media/6295ff0333d4ce0c83cc8400
 
 ###
 
