@@ -6,6 +6,7 @@ import {
   loginUser,
   deleteUser,
   updateUserEmail,
+  getUserByID,
 } from "../controllers/userController";
 import { verifyToken } from "../../jwt.utils";
 import { isAdmin, selfOrAdmin } from "../../middleware.util";
@@ -13,6 +14,7 @@ import { isAdmin, selfOrAdmin } from "../../middleware.util";
 let userRouter = express
   .Router()
   .get("/user", verifyToken, isAdmin, getAllUsers)
+  .get("/user/:id", verifyToken, selfOrAdmin, getUserByID)
   .post("/user", addUser)
   .post("/user/login", loginUser)
   .put("/user/password/:id", verifyToken, selfOrAdmin, updateUserPassword)
