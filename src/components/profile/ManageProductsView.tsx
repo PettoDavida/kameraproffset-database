@@ -21,6 +21,7 @@ import NewProductForm from "./NewProductForm";
 import { Close } from "@mui/icons-material";
 import EditProductForm from "./EditProductForm";
 import { ProductBackend } from "../../utils/backend";
+import { getLoginToken } from "../../utils/token";
 
 function ManageProductsView() {
   const [products, setProducts] = useState<ProductBackend[]>([]);
@@ -119,8 +120,12 @@ function ManageProductsView() {
                   color="error"
                   variant="contained"
                   onClick={() => {
+                    let token = getLoginToken();
                     let headers: RequestInit = {
                       method: "DELETE",
+                      headers: {
+                        Authorization: `BEARER ${token}`,
+                      },
                     };
                     fetch(
                       `http://localhost:3000/api/products/${item._id}`,
