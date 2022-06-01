@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Address, AddressSchema } from "../../common";
+import { Address, addressSchema } from "../../common";
 import { Delivery, deliverySchema } from "../../delivery/models/deliveryModel";
 import { Product, productSchema } from "../../product/models/productModels";
 
@@ -15,7 +15,7 @@ export interface Order {
 const orderSchema = new mongoose.Schema<Order>(
   {
     products: { type: [productSchema], required: true },
-    deliveryAddress: { type: AddressSchema, required: true },
+    deliveryAddress: { type: addressSchema, required: true },
     deliveryOption: { type: deliverySchema, required: true },
     sent: { type: Boolean, required: true, default: false },
   },
