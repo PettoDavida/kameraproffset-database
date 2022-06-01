@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import {
   CategoryBackend,
   getCategoriesFromBackend,
+  getImageUrl,
   ProductData,
   uploadImage,
 } from "../../utils/backend";
@@ -74,6 +75,7 @@ export default function NewProductForm(props: Props) {
     images: [],
     longInfo: "",
     infos: [""],
+    specs: [{ spectitle: "Lel", spec: "Wooh" }],
     categories: initCategories,
     stock: 0,
   };
@@ -98,6 +100,7 @@ export default function NewProductForm(props: Props) {
             longInfo: values.longInfo,
             info: values.infos,
             category: categoryIds,
+            specs: values.specs,
             stock: values.stock,
           };
 
@@ -182,17 +185,56 @@ export default function NewProductForm(props: Props) {
                 })
               }
             </FieldArray>
+            <FieldArray name="specs">
+              {() =>
+                values.specs.map((spec: string, i: number) => {
+                  return (
+                    <div key={i}>
+                      <Field
+                        component={TextField}
+                        multiline
+                        name={`specs.${i}.spectitle`}
+                        type={`specs.${i}.spectitle`}
+                        label="Spec Title"
+                        margin="dense"
+                      />
+                      <Field
+                        component={TextField}
+                        multiline
+                        name={`specs.${i}.spec`}
+                        type={`specs.${i}.spec`}
+                        label="Spec Info"
+                        margin="dense"
+                      />
+                    </div>
+                  );
+                })
+              }
+            </FieldArray>
             <FieldArray name="oldImages">
               {() =>
                 values.images.map((imageId: string, i: number) => {
                   return (
                     <div key={i}>
                       <img
-                        src={`http://localhost:3000/api/media/${imageId}`}
+                        src={getImageUrl(imageId)}
                         alt="productImage"
                         width="200px"
                       />
-                      <Button>Delete</Button>
+                      <Button
+                        onClick={() => {
+                          let index = values.images.indexOf(imageId);
+                          let images = values.images;
+                          images.splice(index, 1);
+
+                          setFieldValue("images", images);
+
+                          // TODO: Maybe some day, maybe not
+                          // removeImage(imageId);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   );
                 })
@@ -215,6 +257,24 @@ export default function NewProductForm(props: Props) {
               }}
             >
               Remove Info
+            </Button>
+            <Button
+              onClick={() => {
+                let specs = values.specs;
+                specs.push("");
+                setFieldValue("specs", specs);
+              }}
+            >
+              Add Spec
+            </Button>
+            <Button
+              onClick={() => {
+                let specs = values.specs;
+                specs.pop();
+                setFieldValue("specs", specs);
+              }}
+            >
+              Remove Spec
             </Button>
             <input
               accept="image/*"
