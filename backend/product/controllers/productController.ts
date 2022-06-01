@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { productModel } from "../models/productModels";
+import { ProductModel } from "../models/productModels";
 
 // Get all products
 
@@ -11,7 +11,7 @@ export const getAllProducts = async (
   next: NextFunction
 ) => {
   try {
-    const allProducts = await productModel.find({});
+    const allProducts = await ProductModel.find({});
     res.status(200).json(allProducts);
   } catch (err) {
     res.status(404).json("No products were found");
@@ -27,7 +27,7 @@ export const getProduct = async (
   next: NextFunction
 ) => {
   try {
-    const singleProduct = await productModel.findById(req.params.id);
+    const singleProduct = await ProductModel.findById(req.params.id);
     res.status(200).json(singleProduct);
   } catch (err) {
     res.status(404).json("ID was not found");
@@ -36,15 +36,14 @@ export const getProduct = async (
 };
 
 // Get products from a category
-
 export const getProductsByCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const productByCategory = await productModel.findById({
-      _id: ObjectId(req.params.id),
+    const productByCategory = await ProductModel.find({
+      category: ObjectId(req.params.id),
     });
     res.status(200).json(productByCategory);
   } catch (err) {
@@ -61,7 +60,7 @@ export const addProduct = async (
   next: NextFunction
 ) => {
   try {
-    const newProduct = new productModel(req.body);
+    const newProduct = new ProductModel(req.body);
     await newProduct.save();
     console.log(newProduct);
     res.status(200).json(newProduct);
@@ -79,7 +78,7 @@ export const editProduct = async (
   next: NextFunction
 ) => {
   try {
-    const editProduct = await productModel.findByIdAndUpdate(
+    const editProduct = await ProductModel.findByIdAndUpdate(
       req.params.id,
       req.body
     );
@@ -96,7 +95,7 @@ export const deleteProduct = async (
   next: NextFunction
 ) => {
   try {
-    const deleteProduct = await productModel.findByIdAndDelete(req.params.id);
+    const deleteProduct = await ProductModel.findByIdAndDelete(req.params.id);
     res.status(200).json(deleteProduct);
   } catch (err) {
     res.status(404).json("ID was not found");
