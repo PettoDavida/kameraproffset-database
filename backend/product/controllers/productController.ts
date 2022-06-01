@@ -36,15 +36,14 @@ export const getProduct = async (
 };
 
 // Get products from a category
-
 export const getProductsByCategory = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const productByCategory = await ProductModel.findById({
-      _id: ObjectId(req.params.id),
+    const productByCategory = await ProductModel.find({
+      category: ObjectId(req.params.id),
     });
     res.status(200).json(productByCategory);
   } catch (err) {
