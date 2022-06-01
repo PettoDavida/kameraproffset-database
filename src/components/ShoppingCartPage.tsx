@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import CartItem from "./CartItem";
 import "../CSS/ShoppingCart.css";
+import { getLoginToken } from "../utils/token";
 
 const theme = createTheme({
   palette: {
@@ -31,6 +32,8 @@ function ShoppingCartPage() {
     0
   );
 
+  let loggedIn = getLoginToken();
+
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -56,7 +59,7 @@ function ShoppingCartPage() {
 
                   <span>{totalCost}:-</span>
                   <div className="confirm-button">
-                    {cartItems.length > 0 ? (
+                    {cartItems.length > 0 && loggedIn != null ? (
                       <Link to="/checkOut">
                         <Button
                           disabled={false}

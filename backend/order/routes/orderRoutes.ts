@@ -1,7 +1,8 @@
 import express from "express";
+import { verifyToken } from "../../jwt.utils";
+import { isAdmin, selfOrAdmin } from "../../middleware.util";
 import {
   getAllOrders,
-  getOrderByID,
   getOrderByUserID,
   addOrder,
   setOrderToSent,
@@ -10,11 +11,10 @@ import {
 
 let orderRouter = express
   .Router()
-  .get("/order", getAllOrders)
-  .get("/order/:id", getOrderByID)
-  .get("/order/:userID", getOrderByUserID)
-  .post("/order", addOrder, setOrderToSent)
-  .delete("/order/:id", deleteOrder);
-
+  .get("/order", verifyToken, isAdmin, getAllOrders)
+  .get("/order/:userID", verifyToken, selfOrAdmin, getOrderByUserID)
+  .post("/order", verifyToken, addOrder)
+  .put("/order", verifyToken, isAdmin, setOrderToSent)
+  .delete("/order/:id", verifyToken, isAdmin, deleteOrder);
 
 export default orderRouter;

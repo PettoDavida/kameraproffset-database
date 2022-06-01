@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { getLoginToken } from "../../utils/token";
 import AdminChangePassword from "./AdminChangePassword";
 
 export interface User {
@@ -34,9 +35,14 @@ export default function AllUsersView() {
     setOpen(false);
   };
 
+  let token = getLoginToken();
+
   const getUsersFromBackend = async () => {
     let headers: RequestInit = {
       method: "GET",
+      headers: {
+        Authorization: `BEARER ${token}`,
+      },
     };
     fetch("http://localhost:3000/api/user", headers)
       .then((res: Response) => {

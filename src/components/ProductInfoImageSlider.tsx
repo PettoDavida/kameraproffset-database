@@ -32,12 +32,16 @@ const sliderTheme = createTheme({
 });
 
 interface Props {
-  product: ProductBackend;
+  product?: ProductBackend;
 }
 
 function ProductInfoImageSlider(props: Props) {
   const { product } = props;
-  const images = props.product.images;
+  let images: String[] = [];
+
+  if (props.product) {
+    images = props.product!.images!;
+  }
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -123,7 +127,7 @@ function ProductInfoImageSlider(props: Props) {
               pl: 2,
             }}
           >
-            <Typography>TODO</Typography>
+            <Typography>{props.product?.info[activeStep]}</Typography>
           </Paper>
         </Box>
       </div>

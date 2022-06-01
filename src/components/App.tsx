@@ -41,6 +41,8 @@ function App() {
                 element={<Confirmation />}
               />
 
+              <Route path="/:id" element={<ProductInfo />} />
+
               {/* {products.map((item, i: number) => (
                 <Route
                   key={i}

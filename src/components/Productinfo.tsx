@@ -29,7 +29,7 @@ const theme = createTheme({
 
 export default function ProductInfo() {
   const { products } = useContext(ProductContext);
-  const [activeProduct, setActiveProduct] = useState<ProductBackend[]>([]);
+  const [activeProduct, setActiveProduct] = useState<ProductBackend>();
   const { handleAddProduct } = useCart();
   const location = useLocation();
   const id = location.pathname;
@@ -55,20 +55,20 @@ export default function ProductInfo() {
   return (
     <ThemeProvider theme={theme}>
       <div className="product-info-container">
-        {/* <Link to="/">
+        <Link to="/">
           <ArrowBackIcon sx={{ fontSize: "2.2rem" }} className="back-arrow" />
         </Link>
-        {<ProductInfoImageSlider product={products} />}
+        {<ProductInfoImageSlider product={activeProduct!} />}
 
         <div className="right-product-container">
-          <h2 className="product-info-title">{activeProduct}</h2>
-          <ProductTab product={products} />
+          <h2 className="product-info-title">{activeProduct?.title}</h2>
+          <ProductTab product={activeProduct!} />
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p className="product-info-price">{activeProduct.title} :-</p>
+            <p className="product-info-price">{activeProduct?.price} :-</p>
             <Button
               style={{ height: "2rem", margin: "1rem 0" }}
-              onClick={() => handleAddProduct()}
+              // onClick={() => handleAddProduct()}
               variant="contained"
               size="small"
               color="secondary"
@@ -76,7 +76,7 @@ export default function ProductInfo() {
               Lägg i kundvagn
             </Button>
           </div>
-        </div> */}
+        </div>
       </div>
     </ThemeProvider>
   );

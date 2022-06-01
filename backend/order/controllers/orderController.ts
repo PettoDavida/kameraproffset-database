@@ -15,20 +15,6 @@ export const getAllOrders = async (
   }
 };
 
-export const getOrderByID = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const singleOrder = await OrderModel.findById(req.params.id);
-    res.status(200).json(singleOrder);
-  } catch (err) {
-    res.status(404).json("An order with that ID was not found");
-    next(err);
-  }
-};
-
 export const getOrderByUserID = async (
   req: Request,
   res: Response,
@@ -93,5 +79,4 @@ export const deleteOrder = async (
     res.status(404).json("ID was not found");
     next(err);
   }
-
 };
