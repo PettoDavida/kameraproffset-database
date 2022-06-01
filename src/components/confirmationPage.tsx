@@ -1,37 +1,53 @@
-import { useParams } from "react-router-dom";
-import { useUser } from "../contexts/confirmationContext";
+import { useEffect, useState } from "react";
 import "../CSS/confirmationPage.css";
+import {
+  getCurrentUser,
+  getOrderById,
+  getUserById,
+  UserBackend,
+} from "../utils/backend";
 
 function Confirmation() {
-  const { customerName } = useParams();
-  const { isLoading } = useUser();
+  const [user, setUser] = useState<UserBackend>();
+  let getURL = window.location.href;
 
-  let r = Math.round(Math.random() * 999999999999);
+  let decodedURL = decodeURI(getURL);
+  let orderId = decodedURL.split("/").pop();
+
+  const updateUser = async () => {
+    let res = await getOrderById(String(orderId));
+    let order = await res.json();
+    console.log(order);
+
+    res = await getUserById(order.userID);
+    let user = await res.json();
+    setUser(user);
+  };
+
+  useEffect(() => {
+    updateUser();
+  }, []);
 
   return (
     <div className="checkout">
-      {isLoading ? (
-        <span className="loading">laddar...</span>
-      ) : (
-        <div className="confirmation-container">
-          <div className="confirmation-card">
-            <div>
-              <img
-                id={"logo"}
-                src={require("../assets/img/logo.png")}
-                alt="logo"
-              />
-            </div>
-            <div>
-              <p>Tack för ditt köp</p>
-              <p>{customerName}</p>
+      <div className="confirmation-container">
+        <div className="confirmation-card">
+          <div>
+            <img
+              id={"logo"}
+              src={require("../assets/img/logo.png")}
+              alt="logo"
+            />
+          </div>
+          <div>
+            <p>Tack för ditt köp</p>
+            <p>{user !== undefined ? user.email : ""}</p>
 
-              <p>Ordernummer:</p>
-              <p>{r}</p>
-            </div>
+            <p>Ordernummer:</p>
+            <p>{orderId}</p>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
