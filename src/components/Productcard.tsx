@@ -11,9 +11,24 @@ import { useCart } from "../contexts/ShoppingCartContext";
 import ProductAccordion from "./ProductAccordion";
 import "../CSS/Productcard.css";
 import { getImageUrl, ProductBackend } from "../utils/backend";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ImgMediaCard(): JSX.Element {
   const { handleAddProduct } = useCart();
+  const notify = () => {
+    toast.success('Added 1 item to Basket', {
+      position: "bottom-right",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      progressClassName: "progressPurple",
+      className: "toastt"
+      });
+  }
   const [product, setProduct] = useState<ProductBackend[]>([]);
 
   const getProductFromDb = async () => {
@@ -34,6 +49,7 @@ export default function ImgMediaCard(): JSX.Element {
     let headers: RequestInit = {
       method: "GET",
     };
+
     fetch("http://localhost:3000/api/products/", headers)
       .then((res: Response) => res.json())
       .then((data) => {
@@ -87,8 +103,10 @@ export default function ImgMediaCard(): JSX.Element {
           </Link>
           <ProductAccordion info={item.longInfo.toString()} />
           <CardActions>
+            
             <div className="buttons">
               <Button
+              onClick={notify}
                 // onClick={() => handleAddProduct(item)}
                 variant="contained"
                 color="secondary"

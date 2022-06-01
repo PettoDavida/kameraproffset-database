@@ -6,3 +6,11 @@ body {
 * {
   text-decoration: none;
 }
+
+.progressPurple {
+  --toastify-color-progress-success: #DA344D;
+}
+
+.toastt {
+  margin-top: 1rem;
+}

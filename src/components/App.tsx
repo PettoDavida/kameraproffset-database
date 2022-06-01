@@ -14,6 +14,8 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Store from "./Store";
 import MyFunction from "./testingCondRend";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
         <ShoppingCartProvider>
           <ConfirmationProvider>
             <Header />
-
+            <ToastContainer />
             <Routes>
               <Route path="/" element={<Store />} />
               <Route
@@ -48,6 +50,7 @@ function App() {
                   element={<ProductInfo product={item} />}
                 />
               ))} */}
+              
             </Routes>
             <Footer />
           </ConfirmationProvider>
