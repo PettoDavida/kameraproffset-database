@@ -10,6 +10,7 @@ import {
   uploadMultipleImages,
   getImageUrl,
   getCategoriesFromBackend,
+  updateProduct,
 } from "../../utils/backend";
 
 interface Props {
@@ -36,17 +37,8 @@ export default function EditProductForm(props: Props) {
     const token = localStorage.getItem("loginToken");
     if (!token) return;
 
-    let headers: RequestInit = {
-      method: "PUT",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    };
-    fetch(`http://localhost:3000/api/products/${product._id}`, headers)
-      .then((res: Response) => {
+    updateProduct(product._id, data)
+      .then((res) => {
         if (res.status === 404) {
           return Promise.reject("Product dosen't not exist");
         }
@@ -97,6 +89,7 @@ export default function EditProductForm(props: Props) {
     images: product.images,
     longInfo: product.longInfo,
     infos: product.info,
+    specs: product.specs,
     categories: initCategories,
     stock: product.stock,
   };
@@ -121,6 +114,7 @@ export default function EditProductForm(props: Props) {
             longInfo: values.longInfo,
             info: values.infos,
             category: categoryIds,
+            specs: values.specs,
             stock: values.stock,
           };
 
@@ -205,6 +199,32 @@ export default function EditProductForm(props: Props) {
                 })
               }
             </FieldArray>
+            <FieldArray name="specs">
+              {() =>
+                values.specs.map((spec: string, i: number) => {
+                  return (
+                    <div key={i}>
+                      <Field
+                        component={TextField}
+                        multiline
+                        name={`specs.${i}.spectitle`}
+                        type={`specs.${i}.spectitle`}
+                        label="Spec Title"
+                        margin="dense"
+                      />
+                      <Field
+                        component={TextField}
+                        multiline
+                        name={`specs.${i}.spec`}
+                        type={`specs.${i}.spec`}
+                        label="Spec Info"
+                        margin="dense"
+                      />
+                    </div>
+                  );
+                })
+              }
+            </FieldArray>
             <FieldArray name="oldImages">
               {() =>
                 values.images.map((imageId: string, i: number) => {
@@ -215,7 +235,20 @@ export default function EditProductForm(props: Props) {
                         alt="productImage"
                         width="200px"
                       />
-                      <Button>Delete</Button>
+                      <Button
+                        onClick={() => {
+                          let index = values.images.indexOf(imageId);
+                          let images = values.images;
+                          images.splice(index, 1);
+
+                          setFieldValue("images", images);
+
+                          // TODO: Maybe some day, maybe not
+                          // removeImage(imageId);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </div>
                   );
                 })
@@ -238,6 +271,24 @@ export default function EditProductForm(props: Props) {
               }}
             >
               Remove Info
+            </Button>
+            <Button
+              onClick={() => {
+                let specs = values.specs;
+                specs.push("");
+                setFieldValue("specs", specs);
+              }}
+            >
+              Add Spec
+            </Button>
+            <Button
+              onClick={() => {
+                let specs = values.specs;
+                specs.pop();
+                setFieldValue("specs", specs);
+              }}
+            >
+              Remove Spec
             </Button>
             <input
               accept="image/*"
