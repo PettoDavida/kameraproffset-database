@@ -1,4 +1,6 @@
 GET http://localhost:3000/api/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGNkZDhlNmJhMGQ1NzRmYTk3ODE1ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NDA5MjkyNH0.kiPqksDxL7dpAYpqU8eyIeIoVuFLuFOfo0pd6K6upjQ
+
 
 ###
 
@@ -6,8 +8,8 @@ POST http://localhost:3000/api/user
 Content-Type: application/json
 
 {
-    "email": "",
-    "password": ""
+    "email": "admin",
+    "password": "admin"
 }
 
 ###
@@ -17,7 +19,7 @@ Content-Type: application/json
 
 {
     "email": "fobar@example.com",
-    "password": "test123"
+    "password": "123test"
 }
 
 ###
