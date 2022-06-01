@@ -8,6 +8,11 @@ const getAllUsers = async (req: Request, res: Response) => {
   res.json(users);
 };
 
+export const getUserByID = async (req: Request, res: Response) => {
+  let user = await UserModel.findById(req.params.id);
+  res.json(user);
+};
+
 export async function changePassword(id: string, newPassword: string) {
   let newSalt = crypto.randomBytes(16).toString("hex");
   let newHashPassword = crypto
