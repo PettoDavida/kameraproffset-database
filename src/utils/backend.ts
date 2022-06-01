@@ -1,4 +1,4 @@
-import { getLoginToken } from "./token";
+import { getLoginToken, getTokenData } from "./token";
 
 // Interface for product data from the backend
 export interface ProductBackend {
@@ -19,16 +19,15 @@ export interface Specs {
   spec: String;
 }
 
-export interface Delivery {
+export interface DeliveryBackend {
+  _id: String;
   title: String;
   price: number;
   info: String;
   expectedArrival: Date;
-  image: String;
-  _id: String;
 }
 export interface ShipperSelection {
-  shipper: Delivery;
+  shipper: DeliveryBackend;
   checked: boolean;
 }
 
@@ -40,6 +39,7 @@ export interface ProductData {
   longInfo: String;
   info: String[];
   category: String[];
+  specs: Specs[];
   stock?: number;
   quantity?: number;
 }
@@ -68,6 +68,37 @@ export interface RequestBackend {
 export interface RequestData {
   title: String;
   passwordRequest: Boolean;
+}
+
+export interface Address {
+  street: String;
+  zipcode: Number;
+  city: String;
+  firstName: String;
+  lastName: String;
+  phoneNumber: String;
+}
+
+export interface PaymentBackend {
+  _id: String;
+  title: String;
+  desc?: String;
+  info: String;
+  price: Number;
+}
+
+export interface UserBackend {
+  _id: String;
+  email: String;
+  isAdmin: Boolean;
+}
+
+export interface OrderBackend {
+  _id: String;
+  products: ProductBackend[];
+  deliveryAddress: Address;
+  deliveryOption: DeliveryBackend;
+  sent: Boolean;
 }
 
 // Image Utility
@@ -120,7 +151,7 @@ export async function approveRequest(requestId: String) {
   if (!token) return;
 
   let headers: RequestInit = {
-    method: "POST",
+    method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -177,4 +208,109 @@ export async function getProducts() {
     method: "GET",
   };
   return fetch("http://localhost:3000/api/products/", headers);
+}
+
+export async function updateProduct(id: String, data: ProductData) {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let headers: RequestInit = {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(`http://localhost:3000/api/products/${id}`, headers);
+}
+
+export async function createOrder(
+  products: ProductData[],
+  deliveryOption: DeliveryBackend,
+  deliveryAddress: Address
+) {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let tokenData = getTokenData(token);
+
+  let body = {
+    products,
+    userID: tokenData.id,
+    deliveryOption,
+    deliveryAddress,
+  };
+
+  let headers: RequestInit = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  };
+
+  return fetch(`http://localhost:3000/api/order`, headers);
+}
+
+export async function getPayments() {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let headers: RequestInit = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return fetch("http://localhost:3000/api/payment/", headers);
+}
+
+export async function getDeliveries() {
+  let headers: RequestInit = {
+    method: "GET",
+  };
+
+  return fetch("http://localhost:3000/api/delivery/", headers);
+}
+
+export async function getUserById(id: String) {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let headers: RequestInit = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return fetch(`http://localhost:3000/api/user/${id}`, headers);
+}
+
+export async function getCurrentUser() {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let tokenData = getTokenData(token);
+
+  return getUserById(tokenData.id);
+}
+
+export async function getOrderById(id: String) {
+  let token = getLoginToken();
+  if (!token) return Promise.reject("No login token");
+
+  let headers: RequestInit = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return fetch(`http://localhost:3000/api/order/${id}`, headers);
 }
