@@ -62,24 +62,30 @@ export default function ImgMediaCard(): JSX.Element {
 
   return (
     <div>
-      <div>
-        <ButtonGroup variant="contained" color="primary">
-          <Button className="textWhite" onClick={updateProducts}>
-            Alla kategorier
-          </Button>
-          {categories.map((item: CategoryBackend, i: number) => {
-            return (
-              <Button
-                key={i}
-                onClick={() => {
-                  updateProductsByCategory(item._id);
-                }}
-              >
-                {item.title}
-              </Button>
-            );
-          })}
-        </ButtonGroup>
+      <div className="categories">
+        <Button
+          size="small"
+          variant="contained"
+          color="primary"
+          onClick={updateProducts}
+        >
+          Alla kategorier
+        </Button>
+        {categories.map((item: CategoryBackend, i: number) => {
+          return (
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              key={i}
+              onClick={() => {
+                updateProductsByCategory(item._id);
+              }}
+            >
+              {item.title}
+            </Button>
+          );
+        })}
       </div>
 
       <div className="ProductContainer">
