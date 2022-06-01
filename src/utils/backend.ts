@@ -9,8 +9,14 @@ export interface ProductBackend {
   longInfo: String;
   info: String[];
   category: String[];
+  specs: Specs[];
   stock?: number;
   quantity?: number;
+}
+
+export interface Specs {
+  spectitle: String;
+  spec: String;
 }
 
 export interface Delivery {
