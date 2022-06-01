@@ -82,7 +82,7 @@ function ChangePassword() {
           }
           helperText={formik.touched.newPassword && formik.errors.newPassword}
         />
-        <Button variant="contained" type="submit">
+        <Button color="primary" variant="contained" type="submit">
           Byt Lösenord
         </Button>
       </form>
