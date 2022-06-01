@@ -1,7 +1,6 @@
 import express from "express";
 import {
   getAllUsers,
-  getUserByID,
   updateUserPassword,
   addUser,
   loginUser,
@@ -9,12 +8,11 @@ import {
   updateUserEmail,
 } from "../controllers/userController";
 import { verifyToken } from "../../jwt.utils";
-import { selfOrAdmin } from "../../middleware.util";
+import { isAdmin, selfOrAdmin } from "../../middleware.util";
 
 let userRouter = express
   .Router()
-  .get("/user", getAllUsers)
-  .get("/user/:id", getUserByID)
+  .get("/user", verifyToken, isAdmin, getAllUsers)
   .post("/user", addUser)
   .post("/user/login", loginUser)
   .put("/user/password/:id", verifyToken, selfOrAdmin, updateUserPassword)

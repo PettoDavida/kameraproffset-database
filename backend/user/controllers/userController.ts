@@ -8,11 +8,6 @@ const getAllUsers = async (req: Request, res: Response) => {
   res.json(users);
 };
 
-const getUserByID = async (req: Request, res: Response) => {
-  let user = await UserModel.findOne({ _id: req.params.id });
-  res.json(user);
-};
-
 export async function changePassword(id: string, newPassword: string) {
   let newSalt = crypto.randomBytes(16).toString("hex");
   let newHashPassword = crypto
@@ -168,7 +163,6 @@ const deleteUser = async (req: RequestWithUser, res: Response) => {
 
 export {
   getAllUsers,
-  getUserByID,
   updateUserPassword,
   updateUserEmail,
   addUser,
