@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
-import { Button, createTheme } from "@mui/material";
+import { Button, createTheme, Typography } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
@@ -70,9 +70,21 @@ function ShoppingCartPage() {
                         </Button>
                       </Link>
                     ) : (
-                      <Button disabled={true} variant="contained" size="small">
-                        Checka ut
-                      </Button>
+                      <div />
+                    )}
+                    {loggedIn === null ? (
+                      <p style={{ fontSize: "1rem" }}>
+                        Please{" "}
+                        <Link
+                          style={{ textDecoration: "underline" }}
+                          to="/LogIn"
+                        >
+                          login
+                        </Link>{" "}
+                        before you order
+                      </p>
+                    ) : (
+                      <div />
                     )}
                   </div>
                 </div>

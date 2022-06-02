@@ -24,15 +24,28 @@ import {
   PaySelection,
   PersonalData,
 } from "../interfaces/interfaces";
-import CardPayment from "./CardPayment";
+import { CardPayment, CardInfo } from "./CardPayment";
 import "../CSS/checkOutAccordion.css";
-import FakturaPayment from "./FakturaPayment";
 import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
-import SwishPayment from "./SwishPayment";
-import { ProductBackend, Delivery, getImageUrl } from "../utils/backend";
-import { isTemplateExpression } from "typescript";
-import { getLoginToken } from "../utils/token";
+import { SwishPayment, SwishInfo } from "./SwishPayment";
+import { FakturaPayment, FakturaInfo } from "./FakturaPayment";
+import {
+  ProductBackend,
+  getImageUrl,
+  getPayments,
+  PaymentBackend,
+  Address,
+  getDeliveries,
+  DeliveryBackend,
+  getCurrentUser,
+  UserBackend,
+  createOrder,
+} from "../utils/backend";
+import { getLoginToken, getTokenData } from "../utils/token";
+import { userInfo } from "os";
+import { CheckBox } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -70,12 +83,38 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
+enum PaymentType {
+  Empty = 0,
+  Kort,
+  Swish,
+  Faktura,
+}
+
+interface PaymentInfo {
+  type: PaymentType;
+
+  cardInfo?: CardInfo;
+  swishInfo?: SwishInfo;
+  fakturaInfo?: FakturaInfo;
+}
+
 export default function CheckOutAccordion() {
   const { confirm } = useUser();
   const { cartItems } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
-  const [deliveryIndex, setDeliveryIndex] = useState(0);
 
+  const [currentUser, setCurrentUser] = useState<UserBackend>();
+
+  const [userInfo, setUserInfo] = useState<Address>();
+  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo>();
+
+  const [payments, setPayments] = useState<PaymentBackend[]>([]);
+  const [deliveries, setDeliveries] = useState<DeliveryBackend[]>([]);
+
+  const [paymentIndex, setPaymentIndex] = useState<number>();
+  const [deliveryIndex, setDeliveryIndex] = useState<number>();
+
+  const navigate = useNavigate();
   let loggedIn = getLoginToken();
 
   const totalCost = cartItems.reduce(
@@ -88,51 +127,38 @@ export default function CheckOutAccordion() {
       setExpanded(newExpanded ? panel : false);
     };
 
-  const defaultPaymentState: PaySelection[] = mockedPay.map((paymethod) => ({
-    paymethod,
-    paychecked: false,
-  }));
-
-  const [checkboxesPay, setCheckboxesPay] =
-    React.useState<PaySelection[]>(defaultPaymentState);
-
-  const [personalInfo, setPersonalInfo] = useState<PersonalData>({
-    email: "",
-    name: "",
-    phone: "",
-    postnr: "",
-    street: "",
-  });
-
-  function sendPersonalData(personaldata: PersonalData) {
-    setPersonalInfo(personaldata);
-  }
-
-  const areAllFieldsFilled = () => {
-    if (
-      personalInfo.email?.length >= 5 &&
-      personalInfo.name?.length &&
-      personalInfo.phone.toString().length >= 7 &&
-      personalInfo.postnr?.toString().length === 5 &&
-      personalInfo.street?.length
-    ) {
-      return false;
-    } else return true;
+  const updatePayments = async () => {
+    let res = await getPayments();
+    let payments = await res.json();
+    setPayments(payments);
   };
 
-  const [deliveryFromDb, setDeliveryFromDb] = useState<Delivery[]>([]);
+  const updateDeliveries = async () => {
+    let res = await getDeliveries();
+    let deliveries = await res.json();
+    setDeliveries(deliveries);
+  };
 
-  const getDeliveryData = async () => {
-    await fetch("http://localhost:3000/api/delivery")
-      .then((res) => res.json())
-      .then((data) => {
-        setDeliveryFromDb(data);
-      });
+  const updateUser = async () => {
+    let res = await getCurrentUser();
+    let user = await res.json();
+    setCurrentUser(user);
   };
 
   useEffect(() => {
-    getDeliveryData();
+    updatePayments();
+    updateDeliveries();
+    updateUser();
   }, []);
+
+  const canConfirm = () => {
+    return (
+      userInfo !== undefined &&
+      paymentInfo !== undefined &&
+      paymentIndex !== undefined &&
+      deliveryIndex !== undefined
+    );
+  };
 
   return (
     <div className="checkoutPageContainer">
@@ -145,16 +171,10 @@ export default function CheckOutAccordion() {
           <Typography>Personuppgifter</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Shipping sendPersonalData={sendPersonalData} />
-          <Button
-            variant="contained"
-            disabled={Boolean(areAllFieldsFilled())}
-            onClick={() => setExpanded("panel2")}
-            size="medium"
-            sx={{ width: "100%" }}
-          >
-            Bekräfta
-          </Button>
+          <Shipping
+            submitUserInfo={(data) => setUserInfo(data)}
+            nextPanel={() => setExpanded("panel2")}
+          />
         </AccordionDetails>
       </Accordion>
 
@@ -168,54 +188,31 @@ export default function CheckOutAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={"div"} className="DeliveryForm">
-            {checkboxesPay.map((CheckBox) => (
-              <div key={CheckBox.paymethod.id}>
-                <FormGroup
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    padding: "1rem 0",
-                  }}
-                >
-                  <Checkbox
-                    onChange={() => {
-                      let checkboxPayListToUpdate = checkboxesPay;
-
-                      checkboxPayListToUpdate.forEach((tempCheckbox) => {
-                        tempCheckbox.paychecked = false;
-                      });
-
-                      const currentBoxIndex = mockedPay.findIndex(
-                        (item) => item.id === CheckBox.paymethod.id
-                      );
-
-                      checkboxPayListToUpdate[currentBoxIndex].paychecked =
-                        true;
-
-                      setCheckboxesPay([...checkboxPayListToUpdate]);
-                    }}
-                    checked={CheckBox.paychecked}
-                  />
-
-                  <div className="info" key={CheckBox.paymethod.id}>
+            <RadioGroup
+              onChange={(e, value) => {
+                let index = parseInt(value);
+                setPaymentIndex(index);
+              }}
+            >
+              {payments.map((payment: PaymentBackend, i: number) => (
+                <div key={i}>
+                  <Radio value={i} />
+                  <div className="info">
                     <div>
-                      <p>{CheckBox.paymethod.info}</p>
-                      <p>{CheckBox.paymethod.alt}</p>
-                      <p>Avgift{" " + CheckBox.paymethod.price}:-</p>
+                      <p>{payment.title}</p>
+                      <p>{payment.desc || ""}</p>
+                      <p>{payment.info || ""}</p>
+                      <p>Avgift{" " + payment.price}:-</p>
                     </div>
                   </div>
-                </FormGroup>
-              </div>
-            ))}
+                </div>
+              ))}
+            </RadioGroup>
           </Typography>
           <Button
             sx={{ width: "100%" }}
             variant="contained"
-            disabled={
-              checkboxesPay.find((item) => item.paychecked === true)
-                ? false
-                : true
-            }
+            disabled={paymentIndex === undefined}
             onClick={() => setExpanded("panel3")}
           >
             Bekräfta
@@ -233,23 +230,56 @@ export default function CheckOutAccordion() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography component={"div"}>
-            {checkboxesPay.find((item) => item.paychecked === true)?.paymethod
-              .title === "Kortbetalning" ? (
-              <CardPayment triggerNextAccordion={() => setExpanded("panel4")} />
-            ) : checkboxesPay.find((item) => item.paychecked === true)
-                ?.paymethod.title === "Swish" ? (
-              <SwishPayment
-                telnumber={personalInfo.phone}
-                triggerNextAccordion={() => setExpanded("panel4")}
-              />
-            ) : checkboxesPay.find((item) => item.paychecked === true)
-                ?.paymethod.title === "Faktura" ? (
-              <FakturaPayment
-                email={personalInfo.email}
-                triggerNextAccordion={() => setExpanded("panel4")}
-              />
+            {paymentIndex !== undefined ? (
+              payments[paymentIndex].title === "Faktura" ? (
+                <FakturaPayment
+                  email={currentUser !== undefined ? currentUser.email : ""}
+                  submitPaymentInfo={(info) => {
+                    setPaymentInfo({
+                      type: PaymentType.Faktura,
+                      fakturaInfo: info,
+                    });
+                  }}
+                  nextPanel={() => setExpanded("panel4")}
+                />
+              ) : (
+                <div />
+              )
             ) : (
-              <p>Ingen betalningsmetod vald</p>
+              <div />
+            )}
+            {paymentIndex !== undefined ? (
+              payments[paymentIndex].title === "Kortbetalning" ? (
+                <CardPayment
+                  submitPaymentInfo={(info) => {
+                    setPaymentInfo({ type: PaymentType.Kort, cardInfo: info });
+                  }}
+                  nextPanel={() => setExpanded("panel4")}
+                />
+              ) : (
+                <div />
+              )
+            ) : (
+              <div />
+            )}
+
+            {paymentIndex !== undefined ? (
+              payments[paymentIndex].title === "Swish" ? (
+                <SwishPayment
+                  phoneNumber={userInfo ? userInfo?.phoneNumber : ""}
+                  submitPaymentInfo={(info) => {
+                    setPaymentInfo({
+                      type: PaymentType.Swish,
+                      swishInfo: info,
+                    });
+                  }}
+                  nextPanel={() => setExpanded("panel4")}
+                />
+              ) : (
+                <div />
+              )
+            ) : (
+              <div />
             )}
           </Typography>
         </AccordionDetails>
@@ -276,7 +306,7 @@ export default function CheckOutAccordion() {
                 setDeliveryIndex(index);
               }}
             >
-              {deliveryFromDb.map((item, i) => (
+              {deliveries.map((item, i) => (
                 <FormControlLabel
                   key={i}
                   value={i}
@@ -298,7 +328,7 @@ export default function CheckOutAccordion() {
 
       <Accordion
         onChange={handleChange("panel5")}
-        expanded={expanded === "panel5"}
+        expanded={expanded === "panel5" && canConfirm()}
         sx={{ width: "100%" }}
       >
         <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
@@ -308,36 +338,32 @@ export default function CheckOutAccordion() {
           <Typography component={"div"}>
             <div className="person">
               <h3>Personuppgifter</h3>
-              <p>Telefon: {personalInfo.phone}</p>
-              <p>Email: {personalInfo.email}</p>
-              <p>Namn: {personalInfo.name}</p>
-              <p>Postnr: {personalInfo.postnr}</p>
-              <p>Adress: {personalInfo.street}</p>
+              <p>Telefon: {userInfo ? userInfo?.phoneNumber : ""}</p>
+              <p>Förnamn: {userInfo ? userInfo?.firstName : ""}</p>
+              <p>Efternamn: {userInfo ? userInfo?.lastName : ""}</p>
+              <p>Postnr: {userInfo ? userInfo?.zipcode : ""}</p>
+              <p>Adress: {userInfo ? userInfo?.street : ""}</p>
+              <p>Stad: {userInfo ? userInfo?.city : ""}</p>
               <div>
                 <hr />
                 <h3>Leveranssätt</h3>
-                {deliveryFromDb.length > 0
-                  ? deliveryFromDb[deliveryIndex].title
-                  : "loading..."}
+                {deliveries.length > 0
+                  ? deliveries[deliveryIndex || 0].title
+                  : ""}
                 <br />
-                {deliveryFromDb.length > 0
-                  ? deliveryFromDb[deliveryIndex].price + " :-"
-                  : "loading..."}
+                {deliveries.length > 0
+                  ? deliveries[deliveryIndex || 0].price + " :-"
+                  : ""}
                 <hr />
                 <h3>Betalning</h3>
                 <p>
-                  {
-                    checkboxesPay.find((item) => item.paychecked === true)
-                      ?.paymethod.title
-                  }{" "}
+                  {payments.length > 0 ? payments[paymentIndex || 0].title : ""}
                 </p>
                 <p>
-                  Avgift
-                  {" " +
-                    checkboxesPay.find((item) => item.paychecked === true)
-                      ?.paymethod.price}
-                  :-{" "}
-                </p>{" "}
+                  {payments.length > 0
+                    ? payments[paymentIndex || 0].price + " :-"
+                    : ""}
+                </p>
               </div>
               <hr />
               <div>
@@ -368,7 +394,27 @@ export default function CheckOutAccordion() {
             <br />
             {loggedIn != null ? (
               <Button
-                onClick={confirm}
+                onClick={() => {
+                  let removeStock = cartItems.map(
+                    (item: ProductBackend, i: Number) => {
+                      delete item.stock;
+                      return item;
+                    }
+                  );
+
+                  if (deliveryIndex !== undefined && userInfo !== undefined && paymentIndex !== undefined) {
+                    createOrder(
+                      removeStock,
+                      deliveries[deliveryIndex],
+                      userInfo,
+                      payments[paymentIndex]
+                    )
+                      .then((res) => res.json())
+                      .then((order) => {
+                        navigate(`/ConfirmationPage/${order._id}`);
+                      });
+                  }
+                }}
                 disabled={false}
                 variant="contained"
                 sx={{ width: "100%" }}
@@ -377,7 +423,6 @@ export default function CheckOutAccordion() {
               </Button>
             ) : (
               <Button
-                onClick={confirm}
                 disabled={true}
                 variant="contained"
                 sx={{ width: "100%" }}

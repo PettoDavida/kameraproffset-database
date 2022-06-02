@@ -1,0 +1,16 @@
+### Get all User Requests
+
+GET http://localhost:3000/api/payment
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGNkZDhlNmJhMGQ1NzRmYTk3ODE1ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NDExNTk2Mn0.UJJ15gQ5mvoahugcbxtvjA6k0jKq4I6oHi0Oh2O1BTo
+
+
+###
+POST http://localhost:3000/api/payment
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOGNkZDhlNmJhMGQ1NzRmYTk3ODE1ZiIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NDExNTk2Mn0.UJJ15gQ5mvoahugcbxtvjA6k0jKq4I6oHi0Oh2O1BTo
+
+{
+    "title": "Swish",
+    "info": "Direktbetalning med Swish",
+    "price": 0
+}

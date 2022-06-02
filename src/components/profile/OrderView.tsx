@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import "./CSS/OrderView.css";
 import { ProductBackend } from "../../utils/backend";
-import { getTokenData } from "../../utils/token";
+import { getLoginToken, getTokenData } from "../../utils/token";
 
 interface Address {
   street: String;
@@ -38,10 +38,10 @@ export default function OrderView() {
   const [orders, setOrders] = useState<Order[]>([]);
 
   const getOrdersFromBackend = async () => {
-    const token = localStorage.getItem("loginToken");
+    let token = getLoginToken();
     if (!token) return;
 
-    const tokenData = getTokenData(token);
+    let tokenData = getTokenData(token);
 
     let headers: RequestInit = {
       method: "GET",
@@ -65,20 +65,24 @@ export default function OrderView() {
 
   return (
     <div className="viewOwnOrders">
-      {orders.map((item: Order, i: number) => (
-        <Accordion key={i} sx={{ width: "100%" }}>
-          <AccordionSummary
-            expandIcon={<ExpandMore />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography>{item.userID}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>{item.products[0].title}</Typography>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+      {orders.length > 0 ? (
+        orders.map((item: Order, i: number) => (
+          <Accordion key={i} sx={{ width: "100%" }}>
+            <AccordionSummary
+              expandIcon={<ExpandMore />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>{item.userID}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>{item.products[0].title}</Typography>
+            </AccordionDetails>
+          </Accordion>
+        ))
+      ) : (
+        <Typography>You've got mail</Typography>
+      )}
     </div>
   );
 }

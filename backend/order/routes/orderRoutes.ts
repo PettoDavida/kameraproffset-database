@@ -7,12 +7,14 @@ import {
   addOrder,
   setOrderToSent,
   deleteOrder,
+  getOrderByOrderID,
 } from "../controllers/orderController";
 
 let orderRouter = express
   .Router()
   .get("/order", verifyToken, isAdmin, getAllOrders)
-  .get("/order/:userID", verifyToken, selfOrAdmin, getOrderByUserID)
+  .get("/order/user/:userID", verifyToken, selfOrAdmin, getOrderByUserID)
+  .get("/order/:orderID", verifyToken, selfOrAdmin, getOrderByOrderID)
   .post("/order", verifyToken, addOrder)
   .put("/order", verifyToken, isAdmin, setOrderToSent)
   .delete("/order/:id", verifyToken, isAdmin, deleteOrder);

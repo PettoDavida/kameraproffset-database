@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { ProductBackend } from "../../utils/backend";
+import { getLoginToken } from "../../utils/token";
 
 interface Address {
   street: String;
@@ -38,8 +39,12 @@ export default function AllOrdersView() {
   const [orders, setOrders] = useState<Order[]>([]);
 
   const getOrdersFromBackend = async () => {
+    let token = getLoginToken();
     let headers: RequestInit = {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     };
     fetch("http://localhost:3000/api/order", headers)
       .then((res: Response) => {

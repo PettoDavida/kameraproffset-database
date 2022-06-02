@@ -1,6 +1,8 @@
 ### Get all orders
 
 GET http://localhost:3000/api/order
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc3NDQyYWQ4MjkzZTFkNGY0MmNlMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NDEwODkwNn0.ULYS-jdqDWov_cKnHI6UZnCXE5jGzLkNW1vo2cFR4pU
+
 
 ###Gets a specific order
 
@@ -14,6 +16,7 @@ GET http://localhost:3000/api/order/user/628b647f7c47939723a339c0
 ### CREATE ORDER
 POST http://localhost:3000/api/order
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTc3NDQyYWQ4MjkzZTFkNGY0MmNlMyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NDEwODkwNn0.ULYS-jdqDWov_cKnHI6UZnCXE5jGzLkNW1vo2cFR4pU
 
 {
   "userID": "628b647f7c47939723a339c0",
@@ -38,9 +41,10 @@ Content-Type: application/json
   "zipcode": 41658,
   "city": "Göteborg",
   "firstName": "Maximilian",
-  "lastName": "Widman"
+  "lastName": "Widman",
+  "phoneNumber": "0763198705"
   },
-  "deliveryMethod": {
+  "deliveryOption": {
     "title": "Postnord",
     "price": 79,
     "info": "Hemleverans",
