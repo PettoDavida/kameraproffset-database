@@ -230,7 +230,8 @@ export async function updateProduct(id: String, data: ProductData) {
 export async function createOrder(
   products: ProductData[],
   deliveryOption: DeliveryBackend,
-  deliveryAddress: Address
+  deliveryAddress: Address,
+  paymentOption: PaymentBackend
 ) {
   let token = getLoginToken();
   if (!token) return Promise.reject("No login token");
@@ -242,6 +243,7 @@ export async function createOrder(
     userID: tokenData.id,
     deliveryOption,
     deliveryAddress,
+    paymentOption
   };
 
   let headers: RequestInit = {

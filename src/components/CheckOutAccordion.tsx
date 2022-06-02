@@ -402,11 +402,12 @@ export default function CheckOutAccordion() {
                     }
                   );
 
-                  if (deliveryIndex !== undefined && userInfo !== undefined) {
+                  if (deliveryIndex !== undefined && userInfo !== undefined && paymentIndex !== undefined) {
                     createOrder(
                       removeStock,
                       deliveries[deliveryIndex],
-                      userInfo
+                      userInfo,
+                      payments[paymentIndex]
                     )
                       .then((res) => res.json())
                       .then((order) => {
