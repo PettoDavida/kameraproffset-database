@@ -1,6 +1,11 @@
 import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { Button, FormControlLabel } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  FormControlLabel,
+  Typography,
+} from "@mui/material";
 import { TextField, Checkbox } from "formik-mui";
 import { useEffect, useState } from "react";
 import {
@@ -15,15 +20,17 @@ interface Props {
   close: () => void;
 }
 
-// const yupValidate = Yup.object().shape({
-//   productName: Yup.string().required("Produkten måste ha ett namn"),
-//   productImage: Yup.string().required("Produkten måste ha en bild i URL form"),
-//   productPrice: Yup.number()
-//     .min(1, "Produkten får inte kosta mindre än 0 kr")
-//     .max(9999, "Produkten får inte kosta mer än 9999 kr")
-//     .required("Produkten måste ha ett pris i kronor"),
-//   productAbout: Yup.string().required("Produkten måste ha en beskrivning"),
-// });
+const yupValidate = Yup.object().shape({
+  title: Yup.string().required("Produkten måste ha ett namn"),
+  price: Yup.number()
+    .min(1, "Produkten får inte kosta mindre än 0 kr")
+    .max(9999, "Produkten får inte kosta mer än 9999 kr")
+    .required("Produkten måste ha ett pris i kronor"),
+  longInfo: Yup.string().required("Produkten måste ha en beskrivning"),
+  stock: Yup.number().required(
+    "Produkten måste ha ett lager saldo för produkten"
+  ),
+});
 
 export default function NewProductForm(props: Props) {
   const [categories, setCategories] = useState<CategoryBackend[]>([]);
@@ -75,7 +82,7 @@ export default function NewProductForm(props: Props) {
     images: [],
     longInfo: "",
     infos: [""],
-    specs: [{ spectitle: "Lel", spec: "Wooh" }],
+    specs: [{ spectitle: "", spec: "" }],
     categories: initCategories,
     stock: 0,
   };
@@ -106,8 +113,7 @@ export default function NewProductForm(props: Props) {
 
           sendProductToBackend(product);
         }}
-
-        // validationSchema={yupValidate}
+        validationSchema={yupValidate}
       >
         {({ values, setFieldValue }) => (
           <Form>
@@ -115,14 +121,14 @@ export default function NewProductForm(props: Props) {
               component={TextField}
               name="title"
               type="title"
-              label="Title"
+              label="Titel"
               margin="dense"
             />
             <Field
               component={TextField}
               name="price"
               type="price"
-              label="Price"
+              label="Pris"
               margin="dense"
             />
 
@@ -131,7 +137,7 @@ export default function NewProductForm(props: Props) {
               multiline
               name="longInfo"
               type="longInfo"
-              label="longInfo"
+              label="Lång Info"
               margin="dense"
             />
             <Field
@@ -139,34 +145,40 @@ export default function NewProductForm(props: Props) {
               multiline
               name="stock"
               type="stock"
-              label="Stock"
+              label="Lager saldo"
               margin="dense"
             />
 
-            <FieldArray name="categories">
-              {() =>
-                categories.map((category: CategoryBackend, i: number) => {
-                  return (
-                    <FormControlLabel
-                      key={i}
-                      control={
-                        <Field
-                          component={Checkbox}
-                          type="checkbox"
-                          name={`categories.${i}`}
-                          margin="dense"
-                          checked={values.categories[i] || false}
-                          onChange={(e: any) => {
-                            setFieldValue(`categories.${i}`, e.target.checked);
-                          }}
-                        />
-                      }
-                      label={category.title}
-                    />
-                  );
-                })
-              }
-            </FieldArray>
+            <div>
+              <Typography>Kategorier</Typography>
+              <FieldArray name="categories">
+                {() =>
+                  categories.map((category: CategoryBackend, i: number) => {
+                    return (
+                      <FormControlLabel
+                        key={i}
+                        control={
+                          <Field
+                            component={Checkbox}
+                            type="checkbox"
+                            name={`categories.${i}`}
+                            margin="dense"
+                            checked={values.categories[i] || false}
+                            onChange={(e: any) => {
+                              setFieldValue(
+                                `categories.${i}`,
+                                e.target.checked
+                              );
+                            }}
+                          />
+                        }
+                        label={category.title}
+                      />
+                    );
+                  })
+                }
+              </FieldArray>
+            </div>
 
             <FieldArray name="infos">
               {() =>
@@ -178,7 +190,7 @@ export default function NewProductForm(props: Props) {
                       multiline
                       name={`infos.${i}`}
                       type={`infos.${i}`}
-                      label="Info"
+                      label={`Info ${i + 1}`}
                       margin="dense"
                     />
                   );
@@ -195,7 +207,7 @@ export default function NewProductForm(props: Props) {
                         multiline
                         name={`specs.${i}.spectitle`}
                         type={`specs.${i}.spectitle`}
-                        label="Spec Title"
+                        label={`Spec Titel ${i + 1}`}
                         margin="dense"
                       />
                       <Field
@@ -203,7 +215,7 @@ export default function NewProductForm(props: Props) {
                         multiline
                         name={`specs.${i}.spec`}
                         type={`specs.${i}.spec`}
-                        label="Spec Info"
+                        label={`Spec Info ${i + 1}`}
                         margin="dense"
                       />
                     </div>
@@ -216,6 +228,7 @@ export default function NewProductForm(props: Props) {
                 values.images.map((imageId: string, i: number) => {
                   return (
                     <div key={i}>
+                      <Typography>{`Bild ${i + 1}`}</Typography>
                       <img
                         src={getImageUrl(imageId)}
                         alt="productImage"
@@ -240,42 +253,6 @@ export default function NewProductForm(props: Props) {
                 })
               }
             </FieldArray>
-            <Button
-              onClick={() => {
-                let infos = values.infos;
-                infos.push("");
-                setFieldValue("infos", infos);
-              }}
-            >
-              Add Info
-            </Button>
-            <Button
-              onClick={() => {
-                let infos = values.infos;
-                infos.pop();
-                setFieldValue("infos", infos);
-              }}
-            >
-              Remove Info
-            </Button>
-            <Button
-              onClick={() => {
-                let specs = values.specs;
-                specs.push("");
-                setFieldValue("specs", specs);
-              }}
-            >
-              Add Spec
-            </Button>
-            <Button
-              onClick={() => {
-                let specs = values.specs;
-                specs.pop();
-                setFieldValue("specs", specs);
-              }}
-            >
-              Remove Spec
-            </Button>
             <input
               accept="image/*"
               style={{ display: "none" }}
@@ -310,10 +287,71 @@ export default function NewProductForm(props: Props) {
                   .catch((err) => console.log(err));
               }}
             />
+            <br />
+            <ButtonGroup>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  let infos = values.infos;
+                  infos.push("");
+                  setFieldValue("infos", infos);
+                }}
+              >
+                Add Info
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  let infos = values.infos;
+                  infos.pop();
+                  setFieldValue("infos", infos);
+                }}
+              >
+                Remove Info
+              </Button>
+            </ButtonGroup>
+            <br />
+            <br />
+            <ButtonGroup>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  let specs = values.specs;
+                  specs.push("");
+                  setFieldValue("specs", specs);
+                }}
+              >
+                Add Spec
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  let specs = values.specs;
+                  specs.pop();
+                  setFieldValue("specs", specs);
+                }}
+              >
+                Remove Spec
+              </Button>
+            </ButtonGroup>
+            <br />
+            <br />
             <label htmlFor="image-file-picker">
-              <Button component="span">Upload</Button>
+              <Button variant="outlined" component="span">
+                Upload
+              </Button>
             </label>
-            <Button type="submit">Submit</Button>
+            <br />
+            <br />
+            {values.images.length > 0 ? (
+              <Button disabled={false} variant="outlined" type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button disabled={true} variant="outlined" type="submit">
+                Submit
+              </Button>
+            )}
           </Form>
         )}
       </Formik>
