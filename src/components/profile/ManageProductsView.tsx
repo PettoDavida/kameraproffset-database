@@ -72,10 +72,10 @@ function ManageProductsView() {
               <Close />
             </Button>
           </DialogActions>
-          <DialogTitle>Create new product</DialogTitle>
+          <DialogTitle>Skapa produkt</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              If a field has * it's required
+              Info kopplas med bild på produkt sidan.
             </DialogContentText>
             <NewProductForm close={handleClose} />
           </DialogContent>
@@ -92,6 +92,7 @@ function ManageProductsView() {
               <Typography>{item.title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
+              <Typography>Lång Info</Typography>
               <Typography>{item.longInfo}</Typography>
               <ButtonGroup>
                 <Button
@@ -100,7 +101,7 @@ function ManageProductsView() {
                   size="large"
                   startIcon={<EditIcon />}
                 >
-                  Edit
+                  Ändra
                 </Button>
                 <Dialog open={isOpen(item._id)} onClose={handleClose}>
                   <DialogActions>
@@ -108,10 +109,10 @@ function ManageProductsView() {
                       <Close />
                     </Button>
                   </DialogActions>
-                  <DialogTitle>Edit product {item.title}</DialogTitle>
+                  <DialogTitle>Ändra produkt {item.title}</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      If a field has * it's required
+                      Info kopplas med bild på produkt sidan.
                     </DialogContentText>
                     <EditProductForm product={item} close={handleClose} />
                   </DialogContent>
