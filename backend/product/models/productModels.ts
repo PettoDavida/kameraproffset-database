@@ -33,6 +33,7 @@ export const productSchema = new mongoose.Schema<Product>({
   createdAt: { type: Date },
   updatedAt: { type: Date },
   stock: { type: Number },
+  quantity: { type: Number },
   specs: [
     {
       spectitle: { type: String },
