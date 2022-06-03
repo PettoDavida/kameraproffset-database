@@ -41,6 +41,7 @@ import {
   getCurrentUser,
   UserBackend,
   createOrder,
+  OrderBackend,
 } from "../utils/backend";
 import { getLoginToken, getTokenData } from "../utils/token";
 import { userInfo } from "os";
@@ -99,8 +100,7 @@ interface PaymentInfo {
 }
 
 export default function CheckOutAccordion() {
-  const { confirm } = useUser();
-  const { cartItems } = React.useContext(ShoppingCartContext);
+  const { cartItems, emptyCart } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
   const [currentUser, setCurrentUser] = useState<UserBackend>();
@@ -113,6 +113,8 @@ export default function CheckOutAccordion() {
 
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [deliveryIndex, setDeliveryIndex] = useState<number>();
+
+  const [creatingOrder, setCreatingOrder] = useState<boolean>(false);
 
   const navigate = useNavigate();
   let loggedIn = getLoginToken();
@@ -394,7 +396,8 @@ export default function CheckOutAccordion() {
             <br />
             {loggedIn != null ? (
               <Button
-                onClick={() => {
+                disabled={creatingOrder}
+                onClick={async () => {
                   let removeStock = cartItems.map(
                     (item: ProductBackend, i: Number) => {
                       delete item.stock;
@@ -402,20 +405,30 @@ export default function CheckOutAccordion() {
                     }
                   );
 
-                  if (deliveryIndex !== undefined && userInfo !== undefined && paymentIndex !== undefined) {
-                    createOrder(
+                  if (
+                    deliveryIndex !== undefined &&
+                    userInfo !== undefined &&
+                    paymentIndex !== undefined
+                  ) {
+                    setCreatingOrder(true);
+                    await createOrder(
                       removeStock,
                       deliveries[deliveryIndex],
                       userInfo,
                       payments[paymentIndex]
                     )
-                      .then((res) => res.json())
+                      .then((res) => {
+                        if (res.status === 403) {
+                          return Promise.reject("not enough products in stock");
+                        }
+                        return res.json();
+                      })
                       .then((order) => {
+                        emptyCart();
                         navigate(`/ConfirmationPage/${order._id}`);
                       });
                   }
                 }}
-                disabled={false}
                 variant="contained"
                 sx={{ width: "100%" }}
               >

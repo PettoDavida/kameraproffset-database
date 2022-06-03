@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { ProductModel } from "../product/productModels";
 import { OrderModel } from "./orderModels";
 
 export const getAllOrders = async (
@@ -52,9 +53,41 @@ export const addOrder = async (
   try {
     // Set user and prefferably products here on the server
     const newOrder = new OrderModel(req.body);
-    await newOrder.save();
-    console.log(newOrder);
-    res.status(200).json(newOrder);
+
+    // Check if you can fulfill order
+    let fulfilled = true;
+    for (let i = 0; i < newOrder.products.length; i++) {
+      const element = newOrder.products[i];
+      let product = await ProductModel.findById({ _id: element._id });
+      if (product.stock && element.quantity) {
+        if (product.stock < element.quantity) {
+          fulfilled = false;
+          break;
+        }
+      } else {
+        fulfilled = false;
+        break;
+      }
+    }
+
+    // Set new stock on products
+
+    if (fulfilled) {
+      for (let i = 0; i < newOrder.products.length; i++) {
+        const element = newOrder.products[i];
+        let product = await ProductModel.findById({ _id: element._id });
+        await ProductModel.findByIdAndUpdate(
+          { _id: element._id },
+          { $set: { stock: product.stock - element.quantity } }
+        );
+      }
+
+      await newOrder.save();
+      console.log(newOrder);
+      res.status(200).json(newOrder);
+    } else {
+      res.status(403).json({ message: "There arent enough products in stock" });
+    }
   } catch (err) {
     next(err);
   }
@@ -67,7 +100,7 @@ export const setOrderToSent = async (
 ) => {
   try {
     const orderSent = await OrderModel.findOneAndUpdate(
-      { sent: false },
+      { _id: req.params.id },
       { $set: { sent: true } },
       { new: true }
     );

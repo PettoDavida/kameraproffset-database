@@ -7,6 +7,7 @@ import {
   deleteUser,
   updateUserEmail,
   getUserByID,
+  makeUserAdmin,
 } from "./userController";
 import { verifyToken } from "../jwt.utils";
 import { isAdmin, selfOrAdmin } from "../middleware.util";
@@ -19,6 +20,7 @@ let userRouter = express
   .post("/user/login", loginUser)
   .put("/user/password/:id", verifyToken, selfOrAdmin, updateUserPassword)
   .put("/user/email/:id", verifyToken, updateUserEmail)
+  .put("/user/admin/:id", verifyToken, isAdmin, makeUserAdmin)
   .delete("/user/:id", verifyToken, selfOrAdmin, deleteUser);
 
 export default userRouter;

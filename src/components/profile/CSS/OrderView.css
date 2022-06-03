@@ -3,3 +3,8 @@
     flex-wrap: wrap;
     width: 100%;
 }
+
+.orderProducts{
+    display: flex;
+    flex-wrap: wrap;
+}

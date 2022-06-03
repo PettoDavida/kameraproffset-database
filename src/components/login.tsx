@@ -55,21 +55,40 @@ function LogInPage() {
       fetch("http://localhost:3000/api/user/login", headers)
         .then((res: Response) => {
           if (res.status === 403) {
-            return Promise.reject("Email or Password incorrect");
+            return Promise.reject({
+              type: 0,
+              message: "Email or password incorrect",
+            });
           } else if (res.status === 500) {
-            return Promise.reject("Internal server error");
+            return Promise.reject({
+              type: 1,
+              message: "Internal server error",
+            });
           } else if (res.status === 400) {
-            return Promise.reject("Email and Password required");
+            return Promise.reject({
+              type: 2,
+              message: "Email and Password required",
+            });
           }
-
           return res.json();
         })
         .then((data) => {
           localStorage.setItem("loginToken", data.token);
-          navigate("/");
+
+          navigate("/", { replace: true });
+          window.location.reload();
         })
         .catch((err) => {
-          console.log(err);
+          switch (err.type) {
+            case 0:
+              formik.setErrors({ email: err.message, password: err.message });
+              break;
+            case 1:
+              break;
+            case 2:
+              formik.setErrors({ email: err.message, password: err.message });
+              break;
+          }
         });
     },
   });

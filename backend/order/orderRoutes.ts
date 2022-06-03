@@ -16,7 +16,7 @@ let orderRouter = express
   .get("/order/user/:userID", verifyToken, selfOrAdmin, getOrderByUserID)
   .get("/order/:orderID", verifyToken, selfOrAdmin, getOrderByOrderID)
   .post("/order", verifyToken, addOrder)
-  .put("/order", verifyToken, isAdmin, setOrderToSent)
+  .put("/order/:id", verifyToken, isAdmin, setOrderToSent)
   .delete("/order/:id", verifyToken, isAdmin, deleteOrder);
 
 export default orderRouter;
