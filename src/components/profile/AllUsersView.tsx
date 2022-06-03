@@ -100,6 +100,34 @@ export default function AllUsersView() {
                   ""
                 ) : (
                   <Button
+                    color="info"
+                    variant="contained"
+                    onClick={() => {
+                      const token = localStorage.getItem("loginToken");
+                      if (!token) return;
+
+                      let headers: RequestInit = {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${token}`,
+                        },
+                      };
+                      fetch(
+                        `http://localhost:3000/api/user/admin/${item._id}`,
+                        headers
+                      ).then(() => {
+                        getUsersFromBackend();
+                      });
+                    }}
+                  >
+                    Make Admin
+                  </Button>
+                )}
+                {item.isAdmin ? (
+                  ""
+                ) : (
+                  <Button
                     color="error"
                     variant="contained"
                     onClick={() => {

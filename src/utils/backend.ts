@@ -94,11 +94,13 @@ export interface UserBackend {
 }
 
 export interface OrderBackend {
+  userID: String;
   _id: String;
   products: ProductBackend[];
   deliveryAddress: Address;
   deliveryOption: DeliveryBackend;
   sent: Boolean;
+  createdAt: Date;
 }
 
 // Image Utility

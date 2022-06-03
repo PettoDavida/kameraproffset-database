@@ -129,9 +129,11 @@ export default function ImgMediaCard(): JSX.Element {
                   </CardActionArea>
                 </Link>
                 <ProductAccordion info={item.longInfo.toString()} />
+                <Typography>Lager status: {item.stock}</Typography>
                 <CardActions>
                   <div className="buttons">
                     <Button
+                      disabled={item.stock! <= 0}
                       onClick={() => handleAddProduct(item)}
                       variant="contained"
                       color="secondary"

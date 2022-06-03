@@ -153,7 +153,14 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const logoutUser = async (req: Request, res: Response) => {};
+const makeUserAdmin = async (req: Request, res: Response) => {
+  let userId = req.params.id;
+  await UserModel.findByIdAndUpdate(userId, {
+    $set: { isAdmin: true },
+  });
+
+  res.status(200).json({ success: true });
+};
 
 const deleteUser = async (req: RequestWithUser, res: Response) => {
   let userToDelete = await UserModel.findOne({ _id: req.params.id });
@@ -172,6 +179,6 @@ export {
   updateUserEmail,
   addUser,
   loginUser,
-  logoutUser,
+  makeUserAdmin,
   deleteUser,
 };

@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, useContext, useEffect, useState } from "react";
 import { ProductBackend } from "../utils/backend";
 
 export interface ContextValue {
@@ -33,6 +33,7 @@ const ShoppingCartProvider: FC = (props) => {
     const productExists = cartItems.find((item) => item._id === product._id);
     // If the product already exist we won't add it to the array again,
     // we will just set its quantity to plus one
+
     if (productExists) {
       setCartItems(
         cartItems.map((item) =>
@@ -77,6 +78,33 @@ const ShoppingCartProvider: FC = (props) => {
     setAmountOfProducts(amountOfProducts - 1);
     setTotalPrice(totalPrice - product.price);
   }
+
+  const getCartFromLS = () => {
+    // TODO: Wooh
+    let localCart = localStorage.getItem("lsCart");
+    if (!localCart) return;
+
+    let data: ProductBackend[] = JSON.parse(localCart);
+
+    let totalPrice = 0;
+    let amount = 0;
+    for (let prod of data) {
+      totalPrice += prod.price * prod.quantity!;
+      amount += prod.quantity!;
+    }
+
+    setCartItems(data);
+    setAmountOfProducts(amount);
+    setTotalPrice(totalPrice);
+  };
+
+  useEffect(() => {
+    getCartFromLS();
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("lsCart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   return (
     <ShoppingCartContext.Provider
