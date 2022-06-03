@@ -67,7 +67,7 @@ export const setOrderToSent = async (
 ) => {
   try {
     const orderSent = await OrderModel.findOneAndUpdate(
-      { sent: false },
+      { _id: req.params.id },
       { $set: { sent: true } },
       { new: true }
     );
