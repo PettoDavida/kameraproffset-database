@@ -1,6 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, createTheme, ThemeProvider, Typography } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
 import "../CSS/Productinfo.css";
@@ -8,7 +8,6 @@ import { ProductBackend } from "../utils/backend";
 import ProductInfoImageSlider from "./ProductInfoImageSlider";
 import ProductTab from "./ProductTab";
 import { useLocation } from "react-router-dom";
-import { ProductContext } from "../contexts/ProductContext";
 
 const theme = createTheme({
   palette: {
@@ -32,6 +31,8 @@ export default function ProductInfo() {
   const location = useLocation();
   const id = location.pathname;
 
+  console.log(id);
+
   const specificProductById = async () => {
     let headers: RequestInit = {
       method: "GET",
@@ -49,33 +50,37 @@ export default function ProductInfo() {
 
   console.log(activeProduct);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <div className="product-info-container">
-        <Link to="/">
-          <ArrowBackIcon sx={{ fontSize: "2.2rem" }} className="back-arrow" />
-        </Link>
-        {<ProductInfoImageSlider product={activeProduct!} />}
+  const Info = () => {
+    return (
+      <ThemeProvider theme={theme}>
+        <div className="product-info-container">
+          <Link to="/">
+            <ArrowBackIcon sx={{ fontSize: "2.2rem" }} className="back-arrow" />
+          </Link>
+          {<ProductInfoImageSlider product={activeProduct!} />}
 
-        <div className="right-product-container">
-          <h2 className="product-info-title">{activeProduct?.title}</h2>
-          <ProductTab product={activeProduct!} />
-          <Typography>Lager status: {activeProduct!.stock}</Typography>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p className="product-info-price">{activeProduct?.price} :-</p>
-            <Button
-              disabled={activeProduct?.stock! <= 0}
-              style={{ height: "2rem", margin: "1rem 0" }}
-              onClick={() => handleAddProduct(activeProduct!)}
-              variant="contained"
-              size="small"
-              color="secondary"
-            >
-              Lägg i kundvagn
-            </Button>
+          <div className="right-product-container">
+            <h2 className="product-info-title">{activeProduct?.title}</h2>
+            <ProductTab product={activeProduct!} />
+            <Typography>Lager status: {activeProduct!.stock}</Typography>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <p className="product-info-price">{activeProduct?.price} :-</p>
+              <Button
+                disabled={activeProduct?.stock! <= 0}
+                style={{ height: "2rem", margin: "1rem 0" }}
+                onClick={() => handleAddProduct(activeProduct!)}
+                variant="contained"
+                size="small"
+                color="secondary"
+              >
+                Lägg i kundvagn
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-    </ThemeProvider>
-  );
+      </ThemeProvider>
+    );
+  };
+
+  return activeProduct !== undefined ? <Info /> : <div />;
 }
