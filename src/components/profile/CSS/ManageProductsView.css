@@ -1,0 +1,56 @@
+.wrapEvenly{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    flex-direction: column;
+
+  }
+
+  .info{
+      margin-top: 1rem;
+  }
+
+  .specs{
+    width: 50%;
+    margin-top: 1rem;
+
+  }
+
+  .stockAndPrice{
+      display: flex;
+      flex-wrap: wrap;
+
+  }
+  .stockAndPrice > p{
+    width: 10rem;
+    margin-top: 1rem;
+    
+}
+
+  @media (min-width: 450px) {
+      .wrapEvenly{
+          flex-direction: row;
+      }
+    .info{width: min-content;}
+  }
+  @media (min-width: 600px) {
+    .specs{
+        width: 33%;
+    }
+    .info{
+      width: 20%;
+    }
+    .stockAndPrice{
+        justify-content: end;
+    }
+    .stockAndPrice > p{
+        width: fit-content;
+        margin-right: 2rem;
+    }
+  }
+  @media (min-width: 900px) {
+      .specs{
+      width: fit-content;
+      }
+
+  }
