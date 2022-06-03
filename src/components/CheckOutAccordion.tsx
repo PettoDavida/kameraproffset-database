@@ -114,6 +114,8 @@ export default function CheckOutAccordion() {
   const [paymentIndex, setPaymentIndex] = useState<number>();
   const [deliveryIndex, setDeliveryIndex] = useState<number>();
 
+  const [creatingOrder, setCreatingOrder] = useState<boolean>(false);
+
   const navigate = useNavigate();
   let loggedIn = getLoginToken();
 
@@ -394,6 +396,7 @@ export default function CheckOutAccordion() {
             <br />
             {loggedIn != null ? (
               <Button
+                disabled={creatingOrder}
                 onClick={async () => {
                   let removeStock = cartItems.map(
                     (item: ProductBackend, i: Number) => {
@@ -403,6 +406,7 @@ export default function CheckOutAccordion() {
                   );
 
                   if (deliveryIndex !== undefined && userInfo !== undefined) {
+                    setCreatingOrder(true);
                     await createOrder(
                       removeStock,
                       deliveries[deliveryIndex],
@@ -420,7 +424,6 @@ export default function CheckOutAccordion() {
                       });
                   }
                 }}
-                disabled={false}
                 variant="contained"
                 sx={{ width: "100%" }}
               >
