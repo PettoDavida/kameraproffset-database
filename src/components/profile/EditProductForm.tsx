@@ -29,10 +29,20 @@ const yupValidate = Yup.object().shape({
     .min(1, "Produkten får inte kosta mindre än 0 kr")
     .max(9999, "Produkten får inte kosta mer än 9999 kr")
     .required("Produkten måste ha ett pris i kronor"),
+  stock: Yup.number()
+    .min(1, "Produkten måste ha ett lagersaldo högre än 0")
+    .required("Produkten måste ha ett lagersaldo"),
   longInfo: Yup.string().required("Produkten måste ha en beskrivning"),
-  stock: Yup.number().required(
-    "Produkten måste ha ett lager saldo för produkten"
-  ),
+  images: Yup.array(Yup.string())
+    .min(1, "Bild din motherfucker")
+    .required("Fuck off"),
+  infos: Yup.array(Yup.string()).min(1, "Test").required("Infos Fuck off"),
+  specs: Yup.array(
+    Yup.object().shape({
+      spectitle: Yup.string().required(),
+      spec: Yup.string().required(),
+    })
+  ).min(1, "Test"),
 });
 
 export default function EditProductForm(props: Props) {
@@ -112,6 +122,12 @@ export default function EditProductForm(props: Props) {
             if (values.categories[i]) {
               categoryIds.push(categories[i]._id);
             }
+          }
+
+          if (categoryIds.length <= 0) {
+            actions.setErrors({ categories: "Välj minst en kategori" });
+            actions.setSubmitting(false);
+            return;
           }
 
           let product: ProductData = {
