@@ -410,7 +410,8 @@ export default function CheckOutAccordion() {
                     await createOrder(
                       removeStock,
                       deliveries[deliveryIndex],
-                      userInfo
+                      userInfo,
+                      payments[paymentIndex]
                     )
                       .then((res) => {
                         if (res.status === 403) {

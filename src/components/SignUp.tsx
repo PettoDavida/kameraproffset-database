@@ -71,7 +71,7 @@ function SignUpPage() {
           return res.json();
         })
         .then(() => {
-          navigate("/");
+          navigate("/LogIn");
         })
         .catch((err) => {
           switch (err.type) {
