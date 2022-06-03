@@ -1,6 +1,7 @@
 import mongoose, { ObjectId } from "mongoose";
 
 export interface Product {
+  _id: ObjectId;
   title: string;
   price: Number;
   images: ObjectId[];

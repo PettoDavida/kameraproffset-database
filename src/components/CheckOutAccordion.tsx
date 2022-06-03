@@ -41,6 +41,7 @@ import {
   getCurrentUser,
   UserBackend,
   createOrder,
+  OrderBackend,
 } from "../utils/backend";
 import { getLoginToken, getTokenData } from "../utils/token";
 import { userInfo } from "os";
@@ -99,8 +100,7 @@ interface PaymentInfo {
 }
 
 export default function CheckOutAccordion() {
-  const { confirm } = useUser();
-  const { cartItems } = React.useContext(ShoppingCartContext);
+  const { cartItems, emptyCart } = React.useContext(ShoppingCartContext);
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
 
   const [currentUser, setCurrentUser] = useState<UserBackend>();
@@ -394,7 +394,7 @@ export default function CheckOutAccordion() {
             <br />
             {loggedIn != null ? (
               <Button
-                onClick={() => {
+                onClick={async () => {
                   let removeStock = cartItems.map(
                     (item: ProductBackend, i: Number) => {
                       delete item.stock;
@@ -403,13 +403,19 @@ export default function CheckOutAccordion() {
                   );
 
                   if (deliveryIndex !== undefined && userInfo !== undefined) {
-                    createOrder(
+                    await createOrder(
                       removeStock,
                       deliveries[deliveryIndex],
                       userInfo
                     )
-                      .then((res) => res.json())
+                      .then((res) => {
+                        if (res.status === 403) {
+                          return Promise.reject("not enough products in stock");
+                        }
+                        return res.json();
+                      })
                       .then((order) => {
+                        emptyCart();
                         navigate(`/ConfirmationPage/${order._id}`);
                       });
                   }
