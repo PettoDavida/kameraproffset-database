@@ -1,155 +1,92 @@
-import { Button, TextField } from "@mui/material";
-import React, { ChangeEvent, useState } from "react";
-import "../CSS/cardPayment.css";
+import { Button } from "@mui/material";
+import { Formik, Form, Field } from "formik";
+import { TextField } from "formik-mui";
+import * as Yup from "yup";
 
-interface Props {
-  triggerNextAccordion(): void;
+export interface CardInfo {
+  cardHolder: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvc: string;
 }
 
-export default function CardPayment(props: Props) {
-  const [number, setNumber] = useState("");
-  const [name, setName] = useState("");
-  const [expiry, setExpiry] = useState("");
-  const [cvc, setCvc] = useState("");
+interface Props {
+  submitPaymentInfo: (info: CardInfo) => void;
+  nextPanel: () => void;
+}
 
-  const areAllFieldsFilled = () => {
-    if (
-      name?.length &&
-      number?.toString().length === 16 &&
-      expiry?.toString().length === 4 &&
-      cvc?.toString().length === 3
-    ) {
-      return false;
-    } else return true;
-  };
+export function CardPayment(props: Props) {
+  const validationSchema = Yup.object().shape({
+    cardHolder: Yup.string().required("Förnamn är obligatoriskt"),
+    cardNumber: Yup.string()
+      .required("Kortnummer är obligatoriskt")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(16, "Kortnummret är inte giltigt")
+      .max(16, "Kortnummret är inte giltigt"),
+    expiryDate: Yup.string()
+      .required("Giltigt till är obligatoriskt")
+      .min(5, "Giltigt till ska vara i xx/xxxx eller xx/xx")
+      .max(7, "Giltigt till ska vara i xx/xxxx eller xx/xx"),
+    cvc: Yup.string()
+      .required("CVC är obligatoriskt")
+      .min(3, "CVC är inte giltigt")
+      .max(3, "CVC är inte giltigt"),
+  });
 
-  const initialErrors = {
-    name: false,
-    number: false,
-    expiry: false,
-    cvc: false,
-  };
-  const [errorInput, setErrorinput] = useState(initialErrors);
-
-  const handleChange = (
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (evt.target.name === "name") {
-      if (
-        !/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
-          evt.target.value
-        )
-      ) {
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: true,
-        });
-      } else {
-        setName(evt.target.value);
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: false,
-        });
-      }
-    }
-
-    if (evt.target.name === "number") {
-      if (!/^\d{16,16}$/gm.test(evt.target.value)) {
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: true,
-        });
-      } else {
-        setNumber(evt.target.value);
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: false,
-        });
-      }
-    }
-
-    if (evt.target.name === "cvc") {
-      if (!/^\d{3,3}$/gm.test(evt.target.value)) {
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: true,
-        });
-      } else {
-        setCvc(evt.target.value);
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: false,
-        });
-      }
-    }
-
-    if (evt.target.name === "expiry") {
-      if (!/^\d{4,4}$/gm.test(evt.target.value)) {
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: true,
-        });
-      } else {
-        setExpiry(evt.target.value);
-        setErrorinput({
-          ...errorInput,
-          [evt.target.name]: false,
-        });
-      }
-    }
+  const initialValues: CardInfo = {
+    cardHolder: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
   };
 
   return (
-    <div>
-      <div className="inputs">
-        <TextField
-          name="name"
-          id="outlined-name"
-          placeholder="Namn"
-          helperText={errorInput.name ? "Ange giltigt namn" : "Namn på kort"}
-          error={Boolean(errorInput.name)}
-          onChange={handleChange}
+    <Formik
+      initialValues={initialValues}
+      onSubmit={(info, actions) => {
+        props.submitPaymentInfo(info);
+        actions.setSubmitting(false);
+      }}
+      // validationSchema={validationSchema}
+    >
+      <Form>
+        <Field
+          component={TextField}
+          name="cardHolder"
+          type="text"
+          label="Fullt namn"
+          margin="dense"
         />
-        <TextField
-          name="number"
-          id="outlined-number"
+        <br />
+        <Field
+          component={TextField}
+          name="cardNumber"
+          type="tel"
           label="Kortnummer"
-          helperText={
-            errorInput.number ? "Ange giltigt kortnummer" : "Kortnummer"
-          }
-          error={Boolean(errorInput.number)}
-          onChange={handleChange}
+          margin="dense"
+        />
+        <br />
+        <Field
+          component={TextField}
+          name="expiryDate"
+          type="expiryDate"
+          label="Giltigt till"
+          margin="dense"
         />
 
-        <TextField
-          name="expiry"
-          placeholder="MM/YY"
-          helperText={
-            errorInput.expiry ? "Ange korrekt MM/YY utan '/'" : "Utgångsdatum"
-          }
-          error={Boolean(errorInput.expiry)}
-          onChange={handleChange}
-        />
-
-        <TextField
+        <br />
+        <Field
+          component={TextField}
           name="cvc"
-          placeholder="CVC"
-          helperText={errorInput.cvc ? "Ange giltig CVC" : "CVC"}
-          error={Boolean(errorInput.cvc)}
-          onChange={handleChange}
-          sx={{ width: "100%" }}
+          type="cvc"
+          label="CVC"
+          margin="dense"
         />
-      </div>
-      <Button
-        variant="contained"
-        onClick={() => props.triggerNextAccordion()}
-        disabled={Boolean(areAllFieldsFilled())}
-        size="medium"
-        color="primary"
-        sx={{ width: "100%" }}
-      >
-        Bekräfta
-      </Button>
-    </div>
+        <br />
+        <Button type="submit" onClick={() => props.nextPanel()}>
+          Bekräfta
+        </Button>
+      </Form>
+    </Formik>
   );
 }

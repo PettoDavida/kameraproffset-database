@@ -1,10 +1,11 @@
 import { ThemeProvider } from "@emotion/react";
-import { Button, createTheme } from "@mui/material";
+import { Button, createTheme, Typography } from "@mui/material";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
 import CartItem from "./CartItem";
 import "../CSS/ShoppingCart.css";
+import { getLoginToken } from "../utils/token";
 
 const theme = createTheme({
   palette: {
@@ -27,9 +28,11 @@ function ShoppingCartPage() {
   const { amountOfProducts } = useContext(ShoppingCartContext);
 
   const totalCost = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.price * item.quantity!,
     0
   );
+
+  let loggedIn = getLoginToken();
 
   return (
     <ThemeProvider theme={theme}>
@@ -56,7 +59,7 @@ function ShoppingCartPage() {
 
                   <span>{totalCost}:-</span>
                   <div className="confirm-button">
-                    {cartItems.length > 0 ? (
+                    {cartItems.length > 0 && loggedIn != null ? (
                       <Link to="/checkOut">
                         <Button
                           disabled={false}
@@ -67,9 +70,21 @@ function ShoppingCartPage() {
                         </Button>
                       </Link>
                     ) : (
-                      <Button disabled={true} variant="contained" size="small">
-                        Checka ut
-                      </Button>
+                      <div />
+                    )}
+                    {loggedIn === null ? (
+                      <p style={{ fontSize: "1rem" }}>
+                        Please{" "}
+                        <Link
+                          style={{ textDecoration: "underline" }}
+                          to="/LogIn"
+                        >
+                          login
+                        </Link>{" "}
+                        before you order
+                      </p>
+                    ) : (
+                      <div />
                     )}
                   </div>
                 </div>

@@ -8,10 +8,22 @@ const getAllUsers = async (req: Request, res: Response) => {
   res.json(users);
 };
 
-const getUserByID = async (req: Request, res: Response) => {
-  let user = await UserModel.findOne({ _id: req.params.id });
+export const getUserByID = async (req: Request, res: Response) => {
+  let user = await UserModel.findById(req.params.id);
   res.json(user);
 };
+
+export async function changePassword(id: string, newPassword: string) {
+  let newSalt = crypto.randomBytes(16).toString("hex");
+  let newHashPassword = crypto
+    .pbkdf2Sync(newPassword, newSalt, 1000, 64, "sha512")
+    .toString("hex");
+
+  await UserModel.updateOne(
+    { _id: id },
+    { $set: { hash: newHashPassword, salt: newSalt } }
+  );
+}
 
 const updateUserPassword = async (req: RequestWithUser, res: Response) => {
   if (!req.body.newPassword) {
@@ -20,15 +32,7 @@ const updateUserPassword = async (req: RequestWithUser, res: Response) => {
   }
 
   const updatePassword = async (newPassword: string) => {
-    let newSalt = crypto.randomBytes(16).toString("hex");
-    let newHashPassword = crypto
-      .pbkdf2Sync(newPassword, newSalt, 1000, 64, "sha512")
-      .toString("hex");
-
-    await UserModel.updateOne(
-      { _id: req.params.id },
-      { $set: { hash: newHashPassword, salt: newSalt } }
-    );
+    changePassword(req.params.id, newPassword);
     res.sendStatus(200);
   };
 
@@ -164,7 +168,6 @@ const deleteUser = async (req: RequestWithUser, res: Response) => {
 
 export {
   getAllUsers,
-  getUserByID,
   updateUserPassword,
   updateUserEmail,
   addUser,

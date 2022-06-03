@@ -49,7 +49,7 @@ export const mockedProducts: Product[] = [
       },
       {
         spectitle: "Objektivfattning",
-        spec: "Sony E",
+        spec: "Objektivfattning",
         id: 3,
       },
       {
@@ -424,53 +424,53 @@ export const mockedProducts: Product[] = [
   },
 ];
 
-export interface Delivery {
-  id: number;
-  title: string;
-  price: number;
-  info: string;
-  image: string;
-}
+// export interface Delivery {
+//   id: number;
+//   title: string;
+//   price: number;
+//   info: string;
+//   image: string;
+// }
 
-export interface ShipperSelection {
-  shipper: Delivery;
-  checked: boolean;
-}
+// export interface ShipperSelection {
+//   shipper: Delivery;
+//   checked: boolean;
+// }
 
-export const mockedShipping: Delivery[] = [
-  {
-    id: 20,
-    title: "Postnord",
-    price: 49,
-    info: "Leveranstid: 1-3 Dagar",
-    image:
-      "https://www.cigge.se/dokument/bibliotek/Image/Cigge%20Media%20blogg/postnord-stor-logo-blogg.jpg",
-  },
-  {
-    id: 21,
-    title: "Schenker",
-    price: 0,
-    info: "Leveranstid: 4-7 Dagar",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Logo_DB_Schenker.svg/2560px-Logo_DB_Schenker.svg.png",
-  },
-  {
-    id: 22,
-    title: "Dhl",
-    price: 55,
-    info: "Leveranstid: 2-4 Dagar",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/DHL_Logo.svg/2560px-DHL_Logo.svg.png",
-  },
-  {
-    id: 23,
-    title: "UPS",
-    price: 149,
-    info: "Hemleverans: 1-2 dagar",
-    image:
-      "https://cutewallpaper.org/24/ups-logo-png/ups-logo-logos-de-marcas.png",
-  },
-];
+// export const mockedShipping: Delivery[] = [
+//   {
+//     id: 20,
+//     title: "Postnord",
+//     price: 49,
+//     info: "Leveranstid: 1-3 Dagar",
+//     image:
+//       "https://www.cigge.se/dokument/bibliotek/Image/Cigge%20Media%20blogg/postnord-stor-logo-blogg.jpg",
+//   },
+//   {
+//     id: 21,
+//     title: "Schenker",
+//     price: 0,
+//     info: "Leveranstid: 4-7 Dagar",
+//     image:
+//       "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Logo_DB_Schenker.svg/2560px-Logo_DB_Schenker.svg.png",
+//   },
+//   {
+//     id: 22,
+//     title: "Dhl",
+//     price: 55,
+//     info: "Leveranstid: 2-4 Dagar",
+//     image:
+//       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/DHL_Logo.svg/2560px-DHL_Logo.svg.png",
+//   },
+//   {
+//     id: 23,
+//     title: "UPS",
+//     price: 149,
+//     info: "Hemleverans: 1-2 dagar",
+//     image:
+//       "https://cutewallpaper.org/24/ups-logo-png/ups-logo-logos-de-marcas.png",
+//   },
+// ];
 
 export interface payment {
   id: number;

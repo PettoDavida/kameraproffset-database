@@ -3,43 +3,85 @@ GET http://localhost:3000/api/products
 ###
 
 # Get a single product
-GET http://localhost:3000/api/products/:id
+GET http://localhost:3000/api/products/628ce29b7cf6edafccd9c90e
 ###
 
 
-GET http://localhost:3000/api/products/categories/628a970744f4a48145b62121
+GET http://localhost:3000/api/products/categories/6295da674b38a7cc8b657354
 ###
 
 POST http://localhost:3000/api/products
 Content-Type: application/json
 
 {
-    "title": "Kamera",
-    "price": 24950,
-    "images": "[image_url]",
-    "longInfo": "bla bla bla",
-    "info": ["Info1", "Info2", "Info3"],
-    "category": "628a970744f4a48145b62121",
-    "createdAt": "{{$localDatetime iso8601}}",
-    "updatedAt": "{{$localDatetime iso8601}}",
-    "quantity": 1,
-    "stock": 1
+    "title": "Canon EOS R5",
+    "price": 49990,
+    "images": ["6295fe5833d4ce0c83cc83f8", "6295feae33d4ce0c83cc83fc", "6295feb433d4ce0c83cc83fe"],
+    "longInfo": "Med en 45mp-sensor, 20 bilder per sekund och en intern 8K RAW filminspelning är denna kamera början på nästa generation av professionella kameror. Framtiden är här för spegellös teknologi och den stavas Canon EOS R5.",
+    "info": ["Högupplöst 45mp-sensor för otroligt skarpa bilder", "Filma internt i 8K RAW med 30fps för superb videokvalitet", "5-axlig bildstabilisering och upp till 8 stegs bildstabilisering med Canon RF-optik för långa slutartider handhållet" ],
+    "category": ["6295da674b38a7cc8b657354", "6295db074b38a7cc8b657360"],
+    "stock": 10,
+    "specs": [ 
+        {
+        "spectitle": "Upplösning",
+        "spec": "45 Megapixel"
+        },
+        {
+        "spectitle": "Bildsensorstorlek",
+        "spec": "Fullformat (24x36)" 
+        },
+        {
+        "spectitle": "Objektivfattning",
+        "spec": "Canon RF" 
+        },
+        {
+        "spectitle": "Sensortyp",
+        "spec": "CMOS" 
+        },
+        {
+        "spectitle": "Vikt",
+        "spec": "650 g" 
+        }
+      ]
 }
+
 ###
 
 PUT http://localhost:3000/api/products/628b6da1f274ce912d496c40
 Content-Type: application/json
 
 {
-    "user": "Erik",
-    "title": "Kamera",
-    "price": 20000,
-    "images": "[image_url]",
-    "longInfo": "bla bla bla",
-    "info": ["Info1", "Info2", "Info3"],
-    "category": "[Digital Kamera]",
-    "createdAt": "{{$localDatetime iso8601}}",
-    "updatedAt": "{{$localDatetime iso8601}}",
-    "quantity": 1,
-    "stock": 1
+    "title": "Fujifilm X-T3 Body black",
+    "price": 11990,
+    "images": ["629139551c1d0d8e2e6fa44d", "629139601c1d0d8e2e6fa44f", "6291396c1c1d0d8e2e6fa451"],
+    "longInfo": "X-T3 är en snabb kamera med riktigt hög seriebildtagning, bra autofokus och 4K video. De lättåtkomliga reglagen och dubbla kortplatserna gör kameran till smidig kamera för viktiga jobb.",
+    "info": ["Bakbelyst 26mp X-Trans bildsensor", "Hög seriebildtagning och pre-shot. Upp till 30 fps med elektronisk slutare", "Ögon-AF tillsammans med AF-C gör det lätt att fotografera porträtt"],
+    "category": ["6295db164b38a7cc8b657362", "6295da674b38a7cc8b657354"],
+    "stock": 4,
+    "specs": [ 
+        {
+        "spectitle": "Upplösning",
+        "spec": "26 Megapixel"
+        },
+        {
+        "spectitle": "Bildsensorstorlek",
+        "spec": "APS-C" 
+        },
+        {
+        "spectitle": "Objektivfattning",
+        "spec": "Fuji X" 
+        },
+        {
+        "spectitle": "Sensortyp",
+        "spec": "CMOS X-Trans Bakbelyst" 
+        },
+        {
+        "spectitle": "Vikt",
+        "spec": "536 g" 
+        }
+      ]
 }
+
+###
+
+DELETE http://localhost:3000/api/products/6290d259651a5fc114d7ad9f

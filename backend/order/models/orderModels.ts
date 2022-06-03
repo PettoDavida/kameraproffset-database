@@ -1,35 +1,38 @@
-import mongoose from 'mongoose'
-import { Address, AddressSchema } from '../../common'
-import { Delivery, DeliverySchema } from '../../delivery/models/deliveryModel'
-import { Product, ProductSchema } from '../../product/models/productModels'
+import mongoose, { ObjectId } from "mongoose";
+import { Address, addressSchema } from "../../common";
+import { Delivery, deliverySchema } from "../../delivery/models/deliveryModel";
+import { Payment, paymentSchema } from "../../payment/paymentModels";
+import { Product, productSchema } from "../../product/models/productModels";
 
 export interface Order {
-    products: Product[]
-    deliveryAddress: Address
-    deliveryOption: Delivery
-    sent: Boolean
-    createdAt: Date;
-    /** VIRTUAL */ totalPrice: number;
+  products: Product[];
+  deliveryAddress: Address;
+  deliveryOption: Delivery;
+  userID: ObjectId;
+  paymentOption: Payment
+  sent: Boolean;
+  createdAt: Date;
+  /** VIRTUAL */ totalPrice: number;
 }
 
-const OrderSchema = new mongoose.Schema<Order>(
-    {
-        products: { type: [ProductSchema], required: true },
-        deliveryAddress: { type: AddressSchema, required: true },
-        deliveryOption: { type: DeliverySchema, required: true },
-        sent: { type: Boolean, required: true, default: false },
-    },
-    {
-        timestamps: { createdAt: true, updatedAt: false },
-        toJSON: { virtuals: true },
-        toObject: { virtuals: true }
-    }
-)
+const orderSchema = new mongoose.Schema<Order>(
+  {
+    products: { type: [productSchema], required: true },
+    deliveryAddress: { type: addressSchema, required: true },
+    deliveryOption: { type: deliverySchema, required: true },
+    paymentOption: { type: paymentSchema, required: true },
+    userID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    sent: { type: Boolean, required: true, default: false },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
-OrderSchema.virtual('totalPrice').get(function() {
-    return 0;
+orderSchema.virtual("totalPrice").get(function () {
+  return 0;
 });
 
-
-
-export const OrderModel = mongoose.model('order', OrderSchema)
+export const OrderModel = mongoose.model("order", orderSchema);

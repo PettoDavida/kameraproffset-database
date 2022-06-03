@@ -1,16 +1,15 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button, createTheme, ThemeProvider } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../contexts/ShoppingCartContext";
-import { Product } from "../interfaces/interfaces";
 import "../CSS/Productinfo.css";
-
+import { ProductBackend } from "../utils/backend";
 import ProductInfoImageSlider from "./ProductInfoImageSlider";
 import ProductTab from "./ProductTab";
-
-interface Props {
-  product: Product;
-}
+import { useLocation } from "react-router-dom";
+import { PropsFor } from "@mui/system";
+import { ProductContext } from "../contexts/ProductContext";
 
 const theme = createTheme({
   palette: {
@@ -28,10 +27,30 @@ const theme = createTheme({
   },
 });
 
-function ProductInfo(props: Props) {
-  // const { activeProduct } = useContext(ActiveProductContext);
-  const { product } = props;
+export default function ProductInfo() {
+  const { products } = useContext(ProductContext);
+  const [activeProduct, setActiveProduct] = useState<ProductBackend>();
   const { handleAddProduct } = useCart();
+  const location = useLocation();
+  const id = location.pathname;
+  console.log(id);
+
+  const specificProductById = async () => {
+    let headers: RequestInit = {
+      method: "GET",
+    };
+    fetch(`http://localhost:3000/api/products${id}`, headers)
+      .then((res) => res.json())
+      .then((data) => {
+        setActiveProduct(data);
+      });
+  };
+
+  useEffect(() => {
+    specificProductById();
+  }, []);
+
+  console.log(activeProduct);
 
   return (
     <ThemeProvider theme={theme}>
@@ -39,18 +58,17 @@ function ProductInfo(props: Props) {
         <Link to="/">
           <ArrowBackIcon sx={{ fontSize: "2.2rem" }} className="back-arrow" />
         </Link>
+        {<ProductInfoImageSlider product={activeProduct!} />}
 
-        <ProductInfoImageSlider product={product} />
-
-        <div className="right-product-container" key={product.id}>
-          <h2 className="product-info-title">{product.title}</h2>
-          <ProductTab product={product} />
+        <div className="right-product-container">
+          <h2 className="product-info-title">{activeProduct?.title}</h2>
+          <ProductTab product={activeProduct!} />
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <p className="product-info-price">{product.price} :-</p>
+            <p className="product-info-price">{activeProduct?.price} :-</p>
             <Button
               style={{ height: "2rem", margin: "1rem 0" }}
-              onClick={() => handleAddProduct(product)}
+              // onClick={() => handleAddProduct()}
               variant="contained"
               size="small"
               color="secondary"
@@ -63,5 +81,3 @@ function ProductInfo(props: Props) {
     </ThemeProvider>
   );
 }
-
-export default ProductInfo;

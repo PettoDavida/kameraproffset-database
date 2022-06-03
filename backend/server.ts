@@ -1,11 +1,14 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 
 import userRouter from "./user/routes/userRoutes";
 import deliveryRouter from "./delivery/routes/deliveryRoutes";
 import orderRouter from "./order/routes/orderRoutes";
 import productRouter from "./product/routes/productRoutes";
+import requestRouter from "./requests/requestsRoutes";
+import paymentRouter from "./payment/paymentRoutes";
 import { categoryRouter } from "./category/routes/categoryRoutes";
 import { mediaRouter } from "./media/routes/mediaRouter";
 
@@ -14,6 +17,7 @@ dotenv.config({ path: __dirname + "/.env" });
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 function err(message: string) {
@@ -43,6 +47,8 @@ app.use("/api", deliveryRouter);
 app.use("/api", orderRouter);
 app.use("/api", productRouter);
 app.use("/api", categoryRouter);
+app.use("/api", requestRouter);
+app.use("/api", paymentRouter);
 app.use("/api", mediaRouter);
 
 app.listen(port, () => {

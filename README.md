@@ -60,7 +60,7 @@ MongoDB atlas länk. Skickas med på itslearning
 
 ## Adrian Rydin [**Github**](https://github.com/AdrianRydin)
 
-## Kawan Majeed [**Github**](https://github.com/kawium)
+## Kawan Majeed [**Github**](https://github.com/Kawium)
 
 ---
 

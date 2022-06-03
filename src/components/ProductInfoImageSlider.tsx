@@ -8,8 +8,8 @@ import { useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
-import { Product } from "../interfaces/interfaces";
 import "../CSS/imgslider.css";
+import { getImageUrl, ProductBackend } from "../utils/backend";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -32,28 +32,16 @@ const sliderTheme = createTheme({
 });
 
 interface Props {
-  product: Product;
+  product?: ProductBackend;
 }
 
 function ProductInfoImageSlider(props: Props) {
   const { product } = props;
-  const images = [
-    {
-      label: product.info1,
-      id: 1,
-      imgPath: product.image,
-    },
-    {
-      label: product.info2,
-      id: 2,
-      imgPath: product.image2,
-    },
-    {
-      label: product.info3,
-      id: 3,
-      imgPath: product.image3,
-    },
-  ];
+  let images: String[] = [];
+
+  if (props.product) {
+    images = props.product!.images!;
+  }
 
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -81,14 +69,14 @@ function ProductInfoImageSlider(props: Props) {
             onChangeIndex={handleStepChange}
             enableMouseEvents
           >
-            {images.map((step, index) => (
-              <div key={step.id}>
-                {Math.abs(activeStep - index) <= 2 ? (
+            {images.map((imageId, i) => (
+              <div key={i}>
+                {Math.abs(activeStep - i) <= 2 ? (
                   <Box
                     className="img"
                     component="img"
-                    src={step.imgPath}
-                    alt={step.label}
+                    src={getImageUrl(imageId)}
+                    alt="image"
                   />
                 ) : null}
               </div>
@@ -139,7 +127,7 @@ function ProductInfoImageSlider(props: Props) {
               pl: 2,
             }}
           >
-            <Typography>{images[activeStep].label}</Typography>
+            <Typography>{props.product?.info[activeStep]}</Typography>
           </Paper>
         </Box>
       </div>
