@@ -68,50 +68,58 @@ MongoDB atlas länk. Skickas med på itslearning
 
 ---
 
-Alla sidor skall vara responsiva. (G)
+- [x] Alla sidor skall vara responsiva. (G)
 
-•Arbetet ska implementeras med en React frontend och en Express backend. (G)
+- [x] Arbetet ska implementeras med en React frontend och en Express backend. (G)
 
-•Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet(G)
+- [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet(G)
 
-•Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
+- [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 
-•All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
+- [x] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
 
-•Man ska kunna logga in som administratör i systemet (G)
+- [x] Man ska kunna logga in som administratör i systemet (G)
 
-•Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG)
+- [x] Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG)
 
-•En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG)
+Detta görs genom att skicka en ansökan på admin delen av profil sidan
 
-•Inga Lösenord får sparas i klartext i databasen (G)
+- [x] En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG)
 
-•En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
+Istället för att begära admin från inlogg eller skapning av konto så får man skicka en ansökan på admin delen av profil sidan så en admin kan tillåta eller neka ens ansökan till att bli admin
 
-•Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G)
+- [x] Inga Lösenord får sparas i klartext i databasen (G)
 
-•Administratörer ska kunna se en lista på alla gjorda beställningar (G)
+- [x] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
 
-•Administratörer ska kunna markera beställningar som skickade (VG)
+- [x] Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G)
 
-•Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
+Detta görs när man redigerar en produkt
 
-•Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
+- [x] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
 
-•Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
+- [x] Administratörer ska kunna markera beställningar som skickade (VG)
 
-•En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
+- [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 
-•När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
+- [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
 
-•Besökare ska kunna välja ett av flera fraktalternativ (G)
+- [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
 
-•Tillgängliga fraktalternativ ska vara hämtade från databasen (G)
+- [x] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
 
-•Administratörer ska kunna redigera vilka kategorier en produkt tillhör (VG)
+- [x] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
 
-•Administratörer ska kunna lägga till och ta bort produkter (VG)
+- [x] Besökare ska kunna välja ett av flera fraktalternativ (G)
 
-•Backendapplikationen måste ha en fungerande global felhantering (VG)
+- [x] Tillgängliga fraktalternativ ska vara hämtade från databasen (G)
 
-•Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
+- [x] Administratörer ska kunna redigera vilka kategorier en produkt tillhör (VG)
+
+- [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
+
+- [ ] Backendapplikationen måste ha en fungerande global felhantering (VG)
+
+- [x] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
+
+Detta implementeras på sådant sätt att man inte kan komma till sista accordion där man skapar beställningen om man inte följt alla steg i checkout processen
