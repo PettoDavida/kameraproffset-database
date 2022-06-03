@@ -405,7 +405,11 @@ export default function CheckOutAccordion() {
                     }
                   );
 
-                  if (deliveryIndex !== undefined && userInfo !== undefined) {
+                  if (
+                    deliveryIndex !== undefined &&
+                    userInfo !== undefined &&
+                    paymentIndex !== undefined
+                  ) {
                     setCreatingOrder(true);
                     await createOrder(
                       removeStock,
