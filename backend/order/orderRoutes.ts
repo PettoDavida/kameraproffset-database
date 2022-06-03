@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin, selfOrAdmin } from "../../middleware.util";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin, selfOrAdmin } from "../middleware.util";
 import {
   getAllOrders,
   getOrderByUserID,
@@ -8,7 +8,7 @@ import {
   setOrderToSent,
   deleteOrder,
   getOrderByOrderID,
-} from "../controllers/orderController";
+} from "./orderController";
 
 let orderRouter = express
   .Router()

@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { RequestWithUser } from "../jwt.utils";
 import { requestModel } from "./requestsModels";
 import Crypto from "crypto";
-import { UserModel } from "../user/models/userModels";
-import { changePassword } from "../user/controllers/userController";
+import { UserModel } from "../user/userModels";
+import { changePassword } from "../user/userController";
 
 export const getAllRequests = async (
   req: Request,

@@ -1,15 +1,15 @@
 import mongoose, { ObjectId } from "mongoose";
-import { Address, addressSchema } from "../../common";
-import { Delivery, deliverySchema } from "../../delivery/models/deliveryModel";
-import { Payment, paymentSchema } from "../../payment/paymentModels";
-import { Product, productSchema } from "../../product/models/productModels";
+import { Address, addressSchema } from "../common";
+import { Delivery, deliverySchema } from "../delivery/deliveryModel";
+import { Payment, paymentSchema } from "../payment/paymentModels";
+import { Product, productSchema } from "../product/productModels";
 
 export interface Order {
   products: Product[];
   deliveryAddress: Address;
   deliveryOption: Delivery;
   userID: ObjectId;
-  paymentOption: Payment
+  paymentOption: Payment;
   sent: Boolean;
   createdAt: Date;
   /** VIRTUAL */ totalPrice: number;

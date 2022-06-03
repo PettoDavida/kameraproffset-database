@@ -3,14 +3,14 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import userRouter from "./user/routes/userRoutes";
-import deliveryRouter from "./delivery/routes/deliveryRoutes";
-import orderRouter from "./order/routes/orderRoutes";
-import productRouter from "./product/routes/productRoutes";
+import userRouter from "./user/userRoutes";
+import deliveryRouter from "./delivery/deliveryRoutes";
+import orderRouter from "./order/orderRoutes";
+import productRouter from "./product/productRoutes";
 import requestRouter from "./requests/requestsRoutes";
 import paymentRouter from "./payment/paymentRoutes";
-import { categoryRouter } from "./category/routes/categoryRoutes";
-import { mediaRouter } from "./media/routes/mediaRouter";
+import { categoryRouter } from "./category/categoryRoutes";
+import { mediaRouter } from "./media/mediaRouter";
 
 dotenv.config({ path: __dirname + "/.env" });
 

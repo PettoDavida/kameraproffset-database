@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { DeliveryModel } from "../models/deliveryModel";
+import { DeliveryModel } from "./deliveryModel";
 
 const getAllDeliveryMethods = async (
   req: Request,

@@ -1,6 +1,6 @@
 import express from "express";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin } from "../../middleware.util";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin } from "../middleware.util";
 
 import {
   addProduct,
@@ -9,7 +9,7 @@ import {
   getProduct,
   getProductsByCategory,
   deleteProduct,
-} from "../controllers/productController";
+} from "./productController";
 
 export const productRouter = express
   .Router()

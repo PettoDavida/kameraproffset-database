@@ -7,9 +7,9 @@ import {
   deleteUser,
   updateUserEmail,
   getUserByID,
-} from "../controllers/userController";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin, selfOrAdmin } from "../../middleware.util";
+} from "./userController";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin, selfOrAdmin } from "../middleware.util";
 
 let userRouter = express
   .Router()

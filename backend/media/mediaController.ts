@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Readable } from "stream";
-import { bucket } from "../models/mediaModel";
+import { bucket } from "./mediaModel";
 import { GridFSFile } from "mongodb";
 import { Types } from "mongoose";
 

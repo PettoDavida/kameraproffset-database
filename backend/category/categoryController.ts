@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { categoryModel } from "../models/categoryModel";
+import { categoryModel } from "./categoryModel";
 
 const getAllCategories = async (
   req: Request,

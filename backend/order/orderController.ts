@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { OrderModel } from "../models/orderModels";
+import { OrderModel } from "./orderModels";
 
 export const getAllOrders = async (
   req: Request,

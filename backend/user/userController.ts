@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "../models/userModels";
+import { UserModel } from "./userModels";
 import * as crypto from "crypto";
-import { generateToken, RequestWithUser } from "../../jwt.utils";
+import { generateToken, RequestWithUser } from "../jwt.utils";
 
 const getAllUsers = async (req: Request, res: Response) => {
   let users = await UserModel.find();

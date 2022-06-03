@@ -1,12 +1,12 @@
 import express from "express";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin } from "../../middleware.util";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin } from "../middleware.util";
 import {
   getAllDeliveryMethods,
   addDeliveryMethod,
   editDeliveryMethod,
   deleteDeliveryMethod,
-} from "../controllers/deliveryController";
+} from "./deliveryController";
 
 let deliveryRouter = express
   .Router()

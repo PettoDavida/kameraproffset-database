@@ -1,13 +1,13 @@
 import express from "express";
 import multer from "multer";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin } from "../../middleware.util";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin } from "../middleware.util";
 import {
   getMedia,
   addMedia,
   deleteMedia,
   getAllMedia,
-} from "../controllers/mediaController";
+} from "./mediaController";
 
 const upload = multer();
 

@@ -1,13 +1,13 @@
 import express from "express";
-import { verifyToken } from "../../jwt.utils";
-import { isAdmin } from "../../middleware.util";
+import { verifyToken } from "../jwt.utils";
+import { isAdmin } from "../middleware.util";
 import {
   getAllCategories,
   getSingleCategory,
   createCategory,
   editCategory,
   deleteCategory,
-} from "../controller/categoryController";
+} from "./categoryController";
 
 export const categoryRouter = express
   .Router()

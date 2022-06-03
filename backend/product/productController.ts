@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ProductModel } from "../models/productModels";
+import { ProductModel } from "./productModels";
 
 // Get all products
 
