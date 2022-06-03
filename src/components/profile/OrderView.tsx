@@ -7,12 +7,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import "./CSS/OrderView.css";
-import {
-  Address,
-  getImageUrl,
-  OrderBackend,
-  ProductBackend,
-} from "../../utils/backend";
+import { getImageUrl, OrderBackend, ProductBackend } from "../../utils/backend";
 import { getLoginToken, getTokenData } from "../../utils/token";
 import { DateTime } from "luxon";
 

@@ -3,10 +3,8 @@ import {
   Button,
   Card,
   CardActions,
-  Checkbox,
   FormControl,
   FormControlLabel,
-  FormGroup,
   Radio,
   RadioGroup,
   Typography,
@@ -19,14 +17,8 @@ import MuiAccordionSummary, {
 import { styled } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import { ShoppingCartContext } from "../contexts/ShoppingCartContext";
-import {
-  mockedPay,
-  PaySelection,
-  PersonalData,
-} from "../interfaces/interfaces";
 import { CardPayment, CardInfo } from "./CardPayment";
 import "../CSS/checkOutAccordion.css";
-import { useUser } from "../contexts/confirmationContext";
 import Shipping from "./Shipping";
 import { SwishPayment, SwishInfo } from "./SwishPayment";
 import { FakturaPayment, FakturaInfo } from "./FakturaPayment";
@@ -41,11 +33,8 @@ import {
   getCurrentUser,
   UserBackend,
   createOrder,
-  OrderBackend,
 } from "../utils/backend";
-import { getLoginToken, getTokenData } from "../utils/token";
-import { userInfo } from "os";
-import { CheckBox } from "@mui/icons-material";
+import { getLoginToken } from "../utils/token";
 import { useNavigate } from "react-router-dom";
 
 const Accordion = styled((props: AccordionProps) => (

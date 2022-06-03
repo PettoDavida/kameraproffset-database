@@ -47,7 +47,7 @@ export function CardPayment(props: Props) {
         props.submitPaymentInfo(info);
         actions.setSubmitting(false);
       }}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
     >
       <Form>
         <Field

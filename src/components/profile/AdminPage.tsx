@@ -6,45 +6,10 @@ import AllUsersView from "./AllUsersView";
 import ManageProductsView from "./ManageProductsView";
 import UserRequestsView from "./UserRequestsView";
 import { Button, Menu } from "@mui/material";
-import {
-  ReactNode,
-  useState,
-  useEffect,
-  SyntheticEvent,
-  MouseEvent,
-} from "react";
+import { useState, useEffect, SyntheticEvent, MouseEvent } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./CSS/AdminAndProfile.css";
-
-interface TabPanelProps {
-  children?: ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      style={{ width: "100%" }}
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import { connectTabPanel, TabPanel } from "../../utils/componentFunction";
 
 export default function AdminPage() {
   const [value, setValue] = useState(0);
@@ -77,10 +42,10 @@ export default function AdminPage() {
       {isDesktop ? (
         <Box sx={{ borderRight: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} orientation="vertical">
-            <Tab label="Manage Products" {...a11yProps(0)} />
-            <Tab label="All Orders" {...a11yProps(1)} />
-            <Tab label="All Users" {...a11yProps(2)} />
-            <Tab label="User Requests" {...a11yProps(3)} />
+            <Tab label="Manage Products" {...connectTabPanel(0)} />
+            <Tab label="All Orders" {...connectTabPanel(1)} />
+            <Tab label="All Users" {...connectTabPanel(2)} />
+            <Tab label="User Requests" {...connectTabPanel(3)} />
           </Tabs>
         </Box>
       ) : (
@@ -104,10 +69,10 @@ export default function AdminPage() {
             }}
           >
             <Tabs value={value} onChange={handleChange} orientation="vertical">
-              <Tab label="Manage Products" {...a11yProps(0)} />
-              <Tab label="All Orders" {...a11yProps(1)} />
-              <Tab label="All Users" {...a11yProps(2)} />
-              <Tab label="User Requests" {...a11yProps(3)} />
+              <Tab label="Manage Products" {...connectTabPanel(0)} />
+              <Tab label="All Orders" {...connectTabPanel(1)} />
+              <Tab label="All Users" {...connectTabPanel(2)} />
+              <Tab label="User Requests" {...connectTabPanel(3)} />
             </Tabs>
           </Menu>
         </div>

@@ -5,44 +5,9 @@ import OrderView from "./OrderView";
 import ManageAccountView from "./ManageAccountView";
 import { Button, Menu } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {
-  ReactNode,
-  useState,
-  useEffect,
-  SyntheticEvent,
-  MouseEvent,
-} from "react";
+import { useState, useEffect, SyntheticEvent, MouseEvent } from "react";
 import "./CSS/AdminAndProfile.css";
-
-interface TabPanelProps {
-  children?: ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      style={{ width: "100%" }}
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import { connectTabPanel, TabPanel } from "../../utils/componentFunction";
 
 export default function ProfilePage() {
   const [value, setValue] = useState(0);
@@ -75,8 +40,8 @@ export default function ProfilePage() {
       {isDesktop ? (
         <Box sx={{ borderRight: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} orientation="vertical">
-            <Tab label="Orders" {...a11yProps(0)} />
-            <Tab label="Manage" {...a11yProps(1)} />
+            <Tab label="Orders" {...connectTabPanel(0)} />
+            <Tab label="Manage" {...connectTabPanel(1)} />
           </Tabs>
         </Box>
       ) : (
@@ -100,8 +65,8 @@ export default function ProfilePage() {
             }}
           >
             <Tabs value={value} onChange={handleChange} orientation="vertical">
-              <Tab label="Orders" {...a11yProps(0)} />
-              <Tab label="Manage" {...a11yProps(1)} />
+              <Tab label="Orders" {...connectTabPanel(0)} />
+              <Tab label="Manage" {...connectTabPanel(1)} />
             </Tabs>
           </Menu>
         </div>

@@ -5,11 +5,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { ProductBackend, Specs } from "../utils/backend";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import { connectTabPanel, TabPanel } from "../utils/componentFunction";
 
 const Theme = createTheme({
   palette: {
@@ -26,29 +22,6 @@ const Theme = createTheme({
     },
   },
 });
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
 
 interface Props {
   product?: ProductBackend;
@@ -70,8 +43,8 @@ export default function ProductTab(props: Props) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Produktinfo" {...a11yProps(0)} />
-            <Tab label="Specs" {...a11yProps(1)} />
+            <Tab label="Produktinfo" {...connectTabPanel(0)} />
+            <Tab label="Specs" {...connectTabPanel(1)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
